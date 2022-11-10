@@ -1,0 +1,21 @@
+# feishu logger configuration
+feishu:
+  app_id: ''
+  app_secret: ''
+  encrypt_key: ''
+  verification_token: ''
+
+# system configuration
+system:
+  port: :8888
+
+# zap logger configuration
+zap:
+  level: 'info'
+  format: 'console'
+  prefix: '[guide]'
+  director: 'log'
+  show-line: true
+  encode-level: 'LowercaseColorLevelEncoder'
+  stacktrace-key: 'stacktrace'
+  log-in-console: true

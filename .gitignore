@@ -1,9 +1,11 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 # Binaries for programs and plugins
 *.exe
 *.exe~
 *.dll
 *.so
 *.dylib
+*.db
 
 # Test binary, built with `go test -c`
 *.test
