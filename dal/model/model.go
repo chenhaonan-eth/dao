@@ -1,4 +1,5 @@
-// 定义的数据模型
+// 定义的数据模型，使用dorm gen可生成model的CURD
+// 已定义好执行脚本 generate_gorm_gen_code.sh
 package model
 
 import "time"

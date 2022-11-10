@@ -8,6 +8,7 @@ feishu:
 # system configuration
 system:
   port: :8888
+  dsn: "guide_sqlite.db"
 
 # zap logger configuration
 zap:

@@ -8,6 +8,7 @@ type Config struct {
 
 type System struct {
 	Port string `mapstructure:"port" json:"port" yaml:"port"`
+	Dsn  string `mapstructure:"dsn" json:"dsn" yaml:"dsn"`
 }
 type Feishu struct {
 	AppID             string `mapstructure:"app_id" json:"app_id" yaml:"app_id"`
