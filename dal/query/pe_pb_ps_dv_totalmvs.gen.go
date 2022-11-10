@@ -20,8 +20,7 @@ import (
 
 func newPePbPsDvTotalmv(db *gorm.DB, opts ...gen.DOOption) pePbPsDvTotalmv {
 	_pePbPsDvTotalmv := pePbPsDvTotalmv{}
-	
-	db.AutoMigrate(model.PePbPsDvTotalmv{})
+
 	_pePbPsDvTotalmv.pePbPsDvTotalmvDo.UseDB(db, opts...)
 	_pePbPsDvTotalmv.pePbPsDvTotalmvDo.UseModel(&model.PePbPsDvTotalmv{})
 

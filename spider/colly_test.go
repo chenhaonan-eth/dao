@@ -11,7 +11,7 @@ import (
 func TestCollylegulegu(t *testing.T) {
 	dal.DB = dal.ConnectDB("guide_sqlite.db").Debug()
 	query.SetDefault(dal.DB)
-	Collylegulegu()
+	CollyleguleguPePSPb()
 }
 
 func TestProcess(t *testing.T) {

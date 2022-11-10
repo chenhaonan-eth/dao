@@ -8,6 +8,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/chenhaonan-eth/dao/core"
 	"github.com/chenhaonan-eth/dao/dal/model"
 	"github.com/chenhaonan-eth/dao/dal/query"
 	"github.com/chenhaonan-eth/dao/economic"
@@ -16,13 +17,16 @@ import (
 	"github.com/gocolly/colly/extensions"
 	"github.com/robertkrimen/otto"
 	"github.com/tidwall/gjson"
+	"go.uber.org/zap"
 )
 
-var client = resty.New()
-var q = query.Q
+var (
+	client = resty.New()
+	q      = query.Q
+)
 
 // 获取所有股票市盈率|市净率|股息率|市销率|总市值
-func Collylegulegu() {
+func CollyleguleguPePSPb() {
 	t := q.PePbPsDvTotalmv
 	do := t.WithContext(context.Background())
 
@@ -114,4 +118,21 @@ func getToken() (string, error) {
 		return "", err
 	}
 	return strings.ToLower(token.String()), nil
+}
+
+// 爬取 M0 M1 M2存储
+func CollyMacroChinaMoneySupply() error {
+	t := q.MacroChinaMoneySupplyModel
+	do := t.WithContext(context.Background())
+	v, err := economic.MacroChinaMoneySupply()
+	if err != nil {
+		core.G_LOG.Error("find Colly Macro China Money Supply err", zap.Any("err", err))
+		return err
+	}
+	err = do.CreateInBatches(v, 5000)
+	if err != nil {
+		core.G_LOG.Info("find CollyMacroChinaMoneySupply err", zap.Any("err", err))
+		return err
+	}
+	return nil
 }

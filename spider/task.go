@@ -6,7 +6,7 @@ import (
 	cron "github.com/robfig/cron/v3"
 )
 
-func Spider() {
+func StartTask() {
 	crontab := cron.New()
 	task := func() {
 		fmt.Println("hello world")
@@ -17,5 +17,4 @@ func Spider() {
 	crontab.Start()
 	// 定时任务是另起协程执行的,这里使用 select 简答阻塞.实际开发中需要
 	// 根据实际情况进行控制
-	select {}
 }

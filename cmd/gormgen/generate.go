@@ -21,7 +21,7 @@ func init() {
 	opArgsMap["BondZhUsRateModel"] = &model.BondZhUsRateModel{}
 	opArgsMap["SH300PEModel"] = &model.SH300PEModel{}
 	opArgsMap["PePbPsDvTotalmv"] = &model.PePbPsDvTotalmv{}
-
+	opArgsMap["MacroChinaMoneySupplyModel"] = &model.MacroChinaMoneySupplyModel{}
 }
 
 func main() {
