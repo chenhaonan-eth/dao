@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/chenhaonan-eth/guide-sisyphean/dal"
-	"github.com/chenhaonan-eth/guide-sisyphean/dal/query"
+	"github.com/chenhaonan-eth/dao/dal"
+	"github.com/chenhaonan-eth/dao/dal/query"
 )
 
 func TestCollylegulegu(t *testing.T) {

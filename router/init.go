@@ -3,8 +3,8 @@ package router
 import (
 	"net/http"
 
-	"github.com/chenhaonan-eth/guide-sisyphean/core"
-	"github.com/chenhaonan-eth/guide-sisyphean/router/api"
+	"github.com/chenhaonan-eth/dao/core"
+	"github.com/chenhaonan-eth/dao/router/api"
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
 )

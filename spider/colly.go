@@ -8,9 +8,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/chenhaonan-eth/guide-sisyphean/dal/model"
-	"github.com/chenhaonan-eth/guide-sisyphean/dal/query"
-	"github.com/chenhaonan-eth/guide-sisyphean/economic"
+	"github.com/chenhaonan-eth/dao/dal/model"
+	"github.com/chenhaonan-eth/dao/dal/query"
+	"github.com/chenhaonan-eth/dao/economic"
 	"github.com/go-resty/resty/v2"
 	"github.com/gocolly/colly"
 	"github.com/gocolly/colly/extensions"

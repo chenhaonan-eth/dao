@@ -1,4 +1,4 @@
-module github.com/chenhaonan-eth/guide-sisyphean
+module github.com/chenhaonan-eth/dao
 
 go 1.16
 

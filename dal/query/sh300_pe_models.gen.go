@@ -7,7 +7,7 @@ package query
 import (
 	"context"
 
-	"github.com/chenhaonan-eth/guide-sisyphean/dal/model"
+	"github.com/chenhaonan-eth/dao/dal/model"
 	"gorm.io/gorm"
 	"gorm.io/gorm/clause"
 	"gorm.io/gorm/schema"

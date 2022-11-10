@@ -4,7 +4,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/chenhaonan-eth/guide-sisyphean/dal/model"
+	"github.com/chenhaonan-eth/dao/dal/model"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gen"
 	"gorm.io/gorm"

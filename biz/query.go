@@ -5,8 +5,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/chenhaonan-eth/guide-sisyphean/dal/model"
-	"github.com/chenhaonan-eth/guide-sisyphean/dal/query"
+	"github.com/chenhaonan-eth/dao/dal/query"
 )
 
 var q = query.Q
@@ -14,10 +13,6 @@ var q = query.Q
 func Query(ctx context.Context) {
 	t := q.BondZhUsRateModel
 	do := t.WithContext(context.Background())
-	b := model.BondZhUsRateModel{Data: "2022-02-01", CN2Years: 213123, CN5Years: 142341, CN10Years: 15215, CN30Years: 325125, CN10_2Years: 21342, US2Years: 21355, US5Years: 66, US10Years: 345, US30Years: 34, US10_2Years: 324}
-
-	err := do.Create(&b)
-	catchError("Create", err)
 
 	data, err := do.Take()
 	catchError("Take", err)

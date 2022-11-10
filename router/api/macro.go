@@ -2,9 +2,9 @@
 package api
 
 import (
-	"github.com/chenhaonan-eth/guide-sisyphean/core"
-	"github.com/chenhaonan-eth/guide-sisyphean/economic"
-	"github.com/chenhaonan-eth/guide-sisyphean/utils.go"
+	"github.com/chenhaonan-eth/dao/core"
+	"github.com/chenhaonan-eth/dao/economic"
+	"github.com/chenhaonan-eth/dao/utils.go"
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
 )
