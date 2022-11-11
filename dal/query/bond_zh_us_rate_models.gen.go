@@ -26,7 +26,7 @@ func newBondZhUsRateModel(db *gorm.DB, opts ...gen.DOOption) bondZhUsRateModel {
 
 	tableName := _bondZhUsRateModel.bondZhUsRateModelDo.TableName()
 	_bondZhUsRateModel.ALL = field.NewAsterisk(tableName)
-	_bondZhUsRateModel.Data = field.NewString(tableName, "data")
+	_bondZhUsRateModel.Date = field.NewString(tableName, "date")
 	_bondZhUsRateModel.CN2Years = field.NewFloat64(tableName, "cn2_years")
 	_bondZhUsRateModel.CN5Years = field.NewFloat64(tableName, "cn5_years")
 	_bondZhUsRateModel.CN10Years = field.NewFloat64(tableName, "cn10_years")
@@ -47,7 +47,7 @@ type bondZhUsRateModel struct {
 	bondZhUsRateModelDo bondZhUsRateModelDo
 
 	ALL         field.Asterisk
-	Data        field.String
+	Date        field.String
 	CN2Years    field.Float64
 	CN5Years    field.Float64
 	CN10Years   field.Float64
@@ -74,7 +74,7 @@ func (b bondZhUsRateModel) As(alias string) *bondZhUsRateModel {
 
 func (b *bondZhUsRateModel) updateTableName(table string) *bondZhUsRateModel {
 	b.ALL = field.NewAsterisk(table)
-	b.Data = field.NewString(table, "data")
+	b.Date = field.NewString(table, "date")
 	b.CN2Years = field.NewFloat64(table, "cn2_years")
 	b.CN5Years = field.NewFloat64(table, "cn5_years")
 	b.CN10Years = field.NewFloat64(table, "cn10_years")
@@ -110,7 +110,7 @@ func (b *bondZhUsRateModel) GetFieldByName(fieldName string) (field.OrderExpr, b
 
 func (b *bondZhUsRateModel) fillFieldMap() {
 	b.fieldMap = make(map[string]field.Expr, 11)
-	b.fieldMap["data"] = b.Data
+	b.fieldMap["date"] = b.Date
 	b.fieldMap["cn2_years"] = b.CN2Years
 	b.fieldMap["cn5_years"] = b.CN5Years
 	b.fieldMap["cn10_years"] = b.CN10Years

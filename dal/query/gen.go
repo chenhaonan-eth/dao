@@ -19,6 +19,7 @@ var (
 	Q                          = new(Query)
 	BondZhUsRateModel          *bondZhUsRateModel
 	MacroChinaMoneySupplyModel *macroChinaMoneySupplyModel
+	MacroPMIModel              *macroPMIModel
 	PePbPsDvTotalmv            *pePbPsDvTotalmv
 	SH300PEModel               *sH300PEModel
 )
@@ -27,6 +28,7 @@ func SetDefault(db *gorm.DB, opts ...gen.DOOption) {
 	*Q = *Use(db, opts...)
 	BondZhUsRateModel = &Q.BondZhUsRateModel
 	MacroChinaMoneySupplyModel = &Q.MacroChinaMoneySupplyModel
+	MacroPMIModel = &Q.MacroPMIModel
 	PePbPsDvTotalmv = &Q.PePbPsDvTotalmv
 	SH300PEModel = &Q.SH300PEModel
 }
@@ -36,6 +38,7 @@ func Use(db *gorm.DB, opts ...gen.DOOption) *Query {
 		db:                         db,
 		BondZhUsRateModel:          newBondZhUsRateModel(db, opts...),
 		MacroChinaMoneySupplyModel: newMacroChinaMoneySupplyModel(db, opts...),
+		MacroPMIModel:              newMacroPMIModel(db, opts...),
 		PePbPsDvTotalmv:            newPePbPsDvTotalmv(db, opts...),
 		SH300PEModel:               newSH300PEModel(db, opts...),
 	}
@@ -46,6 +49,7 @@ type Query struct {
 
 	BondZhUsRateModel          bondZhUsRateModel
 	MacroChinaMoneySupplyModel macroChinaMoneySupplyModel
+	MacroPMIModel              macroPMIModel
 	PePbPsDvTotalmv            pePbPsDvTotalmv
 	SH300PEModel               sH300PEModel
 }
@@ -57,6 +61,7 @@ func (q *Query) clone(db *gorm.DB) *Query {
 		db:                         db,
 		BondZhUsRateModel:          q.BondZhUsRateModel.clone(db),
 		MacroChinaMoneySupplyModel: q.MacroChinaMoneySupplyModel.clone(db),
+		MacroPMIModel:              q.MacroPMIModel.clone(db),
 		PePbPsDvTotalmv:            q.PePbPsDvTotalmv.clone(db),
 		SH300PEModel:               q.SH300PEModel.clone(db),
 	}
@@ -75,6 +80,7 @@ func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 		db:                         db,
 		BondZhUsRateModel:          q.BondZhUsRateModel.replaceDB(db),
 		MacroChinaMoneySupplyModel: q.MacroChinaMoneySupplyModel.replaceDB(db),
+		MacroPMIModel:              q.MacroPMIModel.replaceDB(db),
 		PePbPsDvTotalmv:            q.PePbPsDvTotalmv.replaceDB(db),
 		SH300PEModel:               q.SH300PEModel.replaceDB(db),
 	}
@@ -83,6 +89,7 @@ func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 type queryCtx struct {
 	BondZhUsRateModel          *bondZhUsRateModelDo
 	MacroChinaMoneySupplyModel *macroChinaMoneySupplyModelDo
+	MacroPMIModel              *macroPMIModelDo
 	PePbPsDvTotalmv            *pePbPsDvTotalmvDo
 	SH300PEModel               *sH300PEModelDo
 }
@@ -91,6 +98,7 @@ func (q *Query) WithContext(ctx context.Context) *queryCtx {
 	return &queryCtx{
 		BondZhUsRateModel:          q.BondZhUsRateModel.WithContext(ctx),
 		MacroChinaMoneySupplyModel: q.MacroChinaMoneySupplyModel.WithContext(ctx),
+		MacroPMIModel:              q.MacroPMIModel.WithContext(ctx),
 		PePbPsDvTotalmv:            q.PePbPsDvTotalmv.WithContext(ctx),
 		SH300PEModel:               q.SH300PEModel.WithContext(ctx),
 	}

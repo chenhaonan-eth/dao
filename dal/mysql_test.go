@@ -9,9 +9,9 @@ import (
 
 func TestCreateTable(t *testing.T) {
 	dal.DB = ConnectDB("guide_sqlite.db").Debug()
-	if err := dal.DB.Migrator().CreateTable(&model.PePbPsDvTotalmv{}); err != nil {
-		t.Error(err)
-	}
+	// if err := dal.DB.Migrator().CreateTable(&model.PePbPsDvTotalmv{}); err != nil {
+	// 	t.Error(err)
+	// }
 }
 
 func TestAutoMigrate(t *testing.T) {

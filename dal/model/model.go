@@ -31,7 +31,7 @@ type MacroChinaMoneySupplyModel struct {
 }
 
 type MacroChinaConsumerGoodsRetailMode struct {
-	Data                        string
+	Date                        string
 	TotalRetailSales            string // 社会消费品零售总额(亿元)
 	YearOnYear                  string // 同比增长
 	YearOverYear                string // 环比增长
@@ -41,7 +41,7 @@ type MacroChinaConsumerGoodsRetailMode struct {
 
 // 中美国债模型
 type BondZhUsRateModel struct {
-	Data        string  `json:"SOLAR_DATE"`
+	Date        string  `json:"SOLAR_DATE"`
 	CN2Years    float64 `json:"EMM00588704"` //中国国债收益率2年
 	CN5Years    float64 `json:"EMM00166462"` //中国国债收益率5年
 	CN10Years   float64 `json:"EMM00166466"` //中国国债收益率10年
@@ -56,7 +56,7 @@ type BondZhUsRateModel struct {
 
 //沪深300市盈率
 type SH300PEModel struct {
-	Data        float64 `json:"date"`        // 时间
+	Date        float64 `json:"date"`        // 时间
 	MiddleLyrPe float64 `json:"middleLyrPe"` //沪深300静态市盈率中位数
 	LyrPe       float64 `json:"lyrPe"`       //沪深300静态市盈率等权平均
 	AddLyrPe    float64 `json:"addLyrPe"`    //沪深300静态市盈率
@@ -67,7 +67,7 @@ type SH300PEModel struct {
 
 // 全A 市盈率|市净率|股息率|市销率|总市值
 type PePbPsDvTotalmv struct {
-	Data     string `json:"date"`     // 时间
+	Date     string `json:"date"`     // 时间
 	Pe       string `json:"pe"`       // 市盈率
 	PeTtm    string `json:"pe_ttm"`   // 市盈率TTM
 	Pb       string `json:"pb"`       // 市净率
@@ -78,4 +78,10 @@ type PePbPsDvTotalmv struct {
 	Total_mv string `json:"total_mv"` // 总市值 万为单位
 	Name     string `json:"name"`     // 名字
 	Symbol   string `json:"symbol"`   // 股票代码
+}
+
+type MacroPMIModel struct {
+	Date    string `json:"date" gorm:"index"`
+	Country string `json:"country"`
+	Pmi     string `json:"pmi"`
 }

@@ -10,4 +10,5 @@ func init() {
 	OpArgsMap["sH300_pe_models"] = &SH300PEModel{}
 	OpArgsMap["PePbPsDvTotalmv"] = &PePbPsDvTotalmv{}
 	OpArgsMap["MacroChinaMoneySupplyModel"] = &MacroChinaMoneySupplyModel{}
+	OpArgsMap["MacroPMIModel"] = &MacroPMIModel{}
 }

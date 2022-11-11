@@ -23,12 +23,12 @@ func EquityBbondYieldSpreads() (map[string]float64, error) {
 		return maplist, err
 	}
 	for _, p := range pe {
-		t := time.Unix(int64(p.Data/1000), 0)
+		t := time.Unix(int64(p.Date/1000), 0)
 		maplist[t.Format("2006-01-02")] = p.AddTtmPe / 100
 	}
 	// 对齐时间
 	for _, b := range band {
-		t := strings.Split(b.Data, " ")[0]
+		t := strings.Split(b.Date, " ")[0]
 		_, ok := maplist[t]
 		if ok {
 			pe := maplist[t]

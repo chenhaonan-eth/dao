@@ -8,7 +8,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/chenhaonan-eth/dao/core"
+	// "github.com/chenhaonan-eth/dao/core"
+
 	"github.com/chenhaonan-eth/dao/dal/model"
 	"github.com/chenhaonan-eth/dao/dal/query"
 	"github.com/chenhaonan-eth/dao/economic"
@@ -17,7 +18,6 @@ import (
 	"github.com/gocolly/colly/extensions"
 	"github.com/robertkrimen/otto"
 	"github.com/tidwall/gjson"
-	"go.uber.org/zap"
 )
 
 var (
@@ -126,13 +126,33 @@ func CollyMacroChinaMoneySupply() error {
 	do := t.WithContext(context.Background())
 	v, err := economic.MacroChinaMoneySupply()
 	if err != nil {
-		core.G_LOG.Error("find Colly Macro China Money Supply err", zap.Any("err", err))
+		// core.G_LOG.Error("find Colly Macro China Money Supply err", zap.Any("err", err))
 		return err
 	}
 	err = do.CreateInBatches(v, 5000)
 	if err != nil {
-		core.G_LOG.Info("find CollyMacroChinaMoneySupply err", zap.Any("err", err))
+		// core.G_LOG.Info("find CollyMacroChinaMoneySupply err", zap.Any("err", err))
 		return err
+	}
+	return nil
+}
+
+// pmi 存储
+func CollyPMI() error {
+	t := q.MacroPMIModel
+	do := t.WithContext(context.Background())
+	v, err := economic.MacroChinaPmiYearly()
+	if err != nil {
+		// core.G_LOG.Error("store Macro China Pmi Yearly err", zap.Any("err", err))
+		return err
+	}
+	for k, v := range v {
+		pmi := &model.MacroPMIModel{}
+		pmi.Date = k
+		pmi.Pmi = v
+		pmi.Country = "cn"
+		do.Create(pmi)
+		fmt.Println(k, v)
 	}
 	return nil
 }

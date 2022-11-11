@@ -26,7 +26,7 @@ func newPePbPsDvTotalmv(db *gorm.DB, opts ...gen.DOOption) pePbPsDvTotalmv {
 
 	tableName := _pePbPsDvTotalmv.pePbPsDvTotalmvDo.TableName()
 	_pePbPsDvTotalmv.ALL = field.NewAsterisk(tableName)
-	_pePbPsDvTotalmv.Data = field.NewString(tableName, "data")
+	_pePbPsDvTotalmv.Date = field.NewString(tableName, "date")
 	_pePbPsDvTotalmv.Pe = field.NewString(tableName, "pe")
 	_pePbPsDvTotalmv.PeTtm = field.NewString(tableName, "pe_ttm")
 	_pePbPsDvTotalmv.Pb = field.NewString(tableName, "pb")
@@ -47,7 +47,7 @@ type pePbPsDvTotalmv struct {
 	pePbPsDvTotalmvDo pePbPsDvTotalmvDo
 
 	ALL      field.Asterisk
-	Data     field.String
+	Date     field.String
 	Pe       field.String
 	PeTtm    field.String
 	Pb       field.String
@@ -74,7 +74,7 @@ func (p pePbPsDvTotalmv) As(alias string) *pePbPsDvTotalmv {
 
 func (p *pePbPsDvTotalmv) updateTableName(table string) *pePbPsDvTotalmv {
 	p.ALL = field.NewAsterisk(table)
-	p.Data = field.NewString(table, "data")
+	p.Date = field.NewString(table, "date")
 	p.Pe = field.NewString(table, "pe")
 	p.PeTtm = field.NewString(table, "pe_ttm")
 	p.Pb = field.NewString(table, "pb")
@@ -110,7 +110,7 @@ func (p *pePbPsDvTotalmv) GetFieldByName(fieldName string) (field.OrderExpr, boo
 
 func (p *pePbPsDvTotalmv) fillFieldMap() {
 	p.fieldMap = make(map[string]field.Expr, 11)
-	p.fieldMap["data"] = p.Data
+	p.fieldMap["date"] = p.Date
 	p.fieldMap["pe"] = p.Pe
 	p.fieldMap["pe_ttm"] = p.PeTtm
 	p.fieldMap["pb"] = p.Pb

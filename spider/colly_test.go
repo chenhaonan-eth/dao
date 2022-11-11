@@ -5,6 +5,7 @@ import (
 	"testing"
 
 	"github.com/chenhaonan-eth/dao/dal"
+	"github.com/chenhaonan-eth/dao/dal/model"
 	"github.com/chenhaonan-eth/dao/dal/query"
 )
 
@@ -21,5 +22,15 @@ func TestProcess(t *testing.T) {
 	}
 	for _, v := range r {
 		fmt.Printf("%+v", *v)
+	}
+}
+
+func TestCollyPMI(t *testing.T) {
+	dal.DB = dal.ConnectDB("guide_sqlite.db").Debug()
+	query.SetDefault(dal.DB)
+	dal.DB.AutoMigrate(&model.MacroPMIModel{})
+	err := CollyPMI()
+	if err != nil {
+		t.Error(err)
 	}
 }
