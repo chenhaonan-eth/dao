@@ -120,7 +120,7 @@ func getToken() (string, error) {
 	return strings.ToLower(token.String()), nil
 }
 
-// 爬取 M0 M1 M2存储
+// 获取 M0 M1 M2存储
 func CollyMacroChinaMoneySupply() error {
 	t := q.MacroChinaMoneySupplyModel
 	do := t.WithContext(context.Background())

@@ -13,16 +13,7 @@ import (
 var (
 	genOutPath string = "../../dal/query"
 	splDsn     string = "../../guide_sqlite.db"
-	opArgsMap         = make(map[string]interface{})
 )
-
-// 注册所有数据库
-func init() {
-	opArgsMap["BondZhUsRateModel"] = &model.BondZhUsRateModel{}
-	opArgsMap["SH300PEModel"] = &model.SH300PEModel{}
-	opArgsMap["PePbPsDvTotalmv"] = &model.PePbPsDvTotalmv{}
-	opArgsMap["MacroChinaMoneySupplyModel"] = &model.MacroChinaMoneySupplyModel{}
-}
 
 func main() {
 	g := gen.NewGenerator(gen.Config{
@@ -36,9 +27,9 @@ func main() {
 	}
 	g.UseDB(db)
 
-	for _, tabledb := range opArgsMap {
+	for _, tabledb := range model.OpArgsMap {
 		// init db table
-		db.AutoMigrate(tabledb)
+		// db.AutoMigrate(tabledb)
 
 		// generate from struct in project
 		g.ApplyBasic(tabledb)
