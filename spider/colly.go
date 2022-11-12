@@ -122,7 +122,7 @@ func getToken() (string, error) {
 
 // 获取 M0 M1 M2存储
 func CollyMacroChinaMoneySupply() error {
-	t := q.MacroChinaMoneySupplyModel
+	t := q.MacroChinaMoneySupply
 	do := t.WithContext(context.Background())
 	v, err := economic.MacroChinaMoneySupply()
 	if err != nil {
@@ -139,7 +139,7 @@ func CollyMacroChinaMoneySupply() error {
 
 // pmi 存储
 func CollyPMI() error {
-	t := q.MacroPMIModel
+	t := q.MacroPMI
 	do := t.WithContext(context.Background())
 	v, err := economic.MacroChinaPmiYearly()
 	if err != nil {
@@ -147,12 +147,41 @@ func CollyPMI() error {
 		return err
 	}
 	for k, v := range v {
-		pmi := &model.MacroPMIModel{}
+		pmi := &model.MacroPMI{}
 		pmi.Date = k
 		pmi.Pmi = v
 		pmi.Country = "cn"
 		do.Create(pmi)
-		fmt.Println(k, v)
+	}
+	return nil
+}
+
+// 社会融资总额
+func CollyTotalSocialFinancing() error {
+	t := q.MacroChinaShrzgm
+	do := t.WithContext(context.Background())
+	m, err := economic.MacroChinaShrzgm()
+	if err != nil {
+		return err
+	}
+	do.CreateInBatches(m, 5000)
+	return nil
+}
+
+// GDP
+func CollyGDP() error {
+	t := q.MacroGDP
+	do := t.WithContext(context.Background())
+	v, err := economic.MacroChinaGdpYearly()
+	if err != nil {
+		return err
+	}
+	for k, v := range v {
+		gdp := &model.MacroGDP{}
+		gdp.Date = k
+		gdp.Gdp = v
+		gdp.Country = "cn"
+		do.Create(gdp)
 	}
 	return nil
 }

@@ -324,8 +324,8 @@ function E(n, e, t, r, o, f, i) {
 /*商务数据中心-国内贸易-社会融资规模增量统计
   http://data.mofcom.gov.cn/gnmy/shrzgm.shtml
 */
-func MacroChinaShrzgm() ([]model.MacroChinaShrzgmModel, error) {
-	var m = []model.MacroChinaShrzgmModel{}
+func MacroChinaShrzgm() ([]*model.MacroChinaShrzgm, error) {
+	var m = []*model.MacroChinaShrzgm{}
 	url := "http://data.mofcom.gov.cn/datamofcom/front/gnmy/shrzgmQuery"
 	_, err := Client.R().SetResult(&m).Post(url)
 	if err != nil {
@@ -346,8 +346,8 @@ func MacroChinaShrzgm() ([]model.MacroChinaShrzgmModel, error) {
 
 	http://data.eastmoney.com/cjsj/hbgyl.html
 */
-func MacroChinaMoneySupply() ([]*model.MacroChinaMoneySupplyModel, error) {
-	var data []*model.MacroChinaMoneySupplyModel
+func MacroChinaMoneySupply() ([]*model.MacroChinaMoneySupply, error) {
+	var data []*model.MacroChinaMoneySupply
 	resp, err := Client.R().
 		SetQueryParams(map[string]string{
 			"type": "GJZB",
@@ -368,7 +368,7 @@ func MacroChinaMoneySupply() ([]*model.MacroChinaMoneySupplyModel, error) {
 	}
 	for _, s := range MacroChinaMoneySupplyModelStrings {
 		fields := strings.Split(s, ",")
-		m := model.MacroChinaMoneySupplyModel{}
+		m := model.MacroChinaMoneySupply{}
 		ivalue := reflect.ValueOf(&m).Elem()
 		for i := 1; i < ivalue.NumField(); i++ {
 			elem := ivalue.Field(i)
@@ -399,8 +399,8 @@ func MacroChinaPmiYearly() (data map[string]string, err error) {
    新浪财经-中国宏观经济数据-社会消费品零售总额
    http://data.eastmoney.com/cjsj/xfp.html
 */
-func MacroChinaConsumerGoodsRetail() ([]model.MacroChinaConsumerGoodsRetailMode, error) {
-	data := []model.MacroChinaConsumerGoodsRetailMode{}
+func MacroChinaConsumerGoodsRetail() ([]model.MacroChinaConsumerGoodsRetail, error) {
+	data := []model.MacroChinaConsumerGoodsRetail{}
 	url := "http://datainterface.eastmoney.com/EM_DataCenter/JS.aspx"
 	rep, err := Client.R().
 		SetQueryParams(map[string]string{
@@ -422,7 +422,7 @@ func MacroChinaConsumerGoodsRetail() ([]model.MacroChinaConsumerGoodsRetailMode,
 	var modestrings []string
 	json.Unmarshal(bydata, &modestrings)
 	for _, v := range modestrings {
-		m := model.MacroChinaConsumerGoodsRetailMode{}
+		m := model.MacroChinaConsumerGoodsRetail{}
 		str := strings.Split(v, ",")
 		ivalue := reflect.ValueOf(&m).Elem()
 		for i, s := range str {
@@ -553,8 +553,8 @@ func StockAPe() (map[string]interface{}, error) {
 
 // 沪深300 市盈率
 //https://legulegu.com/stockdata/hs300-ttm-lyr
-func SH300PE() ([]model.SH300PEModel, error) {
-	result := []model.SH300PEModel{}
+func SH300PE() ([]model.SH300PE, error) {
+	result := []model.SH300PE{}
 	vm := otto.New()
 	vm.Run(SCRIPT)
 	t := time.Now().Format("2006-01-02")
@@ -581,8 +581,8 @@ func SH300PE() ([]model.SH300PEModel, error) {
 // 东方财富网-数据中心-经济数据-中美国债收益率
 //http://data.eastmoney.com/cjsj/zmgzsyl.html
 //[{2022-10-27 00:00:00 0 2.4636 2.6953 3.1142 0 0 0 0 0 0},...]
-func BondZhUsRate() ([]model.BondZhUsRateModel, error) {
-	result := []model.BondZhUsRateModel{}
+func BondZhUsRate() ([]model.BondZhUsRate, error) {
+	result := []model.BondZhUsRate{}
 	resp, err := Client.R().
 		SetQueryParams(map[string]string{
 			"type":    "RPTA_WEB_TREASURYYIELD",
@@ -605,7 +605,7 @@ func BondZhUsRate() ([]model.BondZhUsRateModel, error) {
 	json.Unmarshal([]byte(v.String()), &result)
 	total_page := gjson.GetBytes(b, "result.pages").Int()
 	for i := 2; i < int(total_page); i++ {
-		r := []model.BondZhUsRateModel{}
+		r := []model.BondZhUsRate{}
 		resp, err := Client.R().
 			SetQueryParams(map[string]string{
 				"type":    "RPTA_WEB_TREASURYYIELD",

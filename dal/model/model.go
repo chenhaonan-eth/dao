@@ -5,7 +5,7 @@ package model
 import "time"
 
 // 中国社会融资规模数据对象
-type MacroChinaShrzgmModel struct {
+type MacroChinaShrzgm struct {
 	Date        string  `json:"date"`        //时间
 	Ndbab       float32 `json:"ndbab"`       //其中-未贴现银行承兑汇票
 	Entrustloan float32 `json:"entrustloan"` //其中-委托贷款
@@ -17,7 +17,7 @@ type MacroChinaShrzgmModel struct {
 	Trustloan   float32 `json:"trustloan"`   //其中-信托贷款
 }
 
-type MacroChinaMoneySupplyModel struct {
+type MacroChinaMoneySupply struct {
 	Date           time.Time //月份
 	M2             float64   //货币和准货币(M2)数量(亿元)
 	M2YearOnYear   float64   //货币和准货币(M2)同比增长
@@ -30,7 +30,7 @@ type MacroChinaMoneySupplyModel struct {
 	M0YearOverYear float64   //流通中的现金(M0)环比增长
 }
 
-type MacroChinaConsumerGoodsRetailMode struct {
+type MacroChinaConsumerGoodsRetail struct {
 	Date                        string
 	TotalRetailSales            string // 社会消费品零售总额(亿元)
 	YearOnYear                  string // 同比增长
@@ -40,7 +40,7 @@ type MacroChinaConsumerGoodsRetailMode struct {
 }
 
 // 中美国债模型
-type BondZhUsRateModel struct {
+type BondZhUsRate struct {
 	Date        string  `json:"SOLAR_DATE"`
 	CN2Years    float64 `json:"EMM00588704"` //中国国债收益率2年
 	CN5Years    float64 `json:"EMM00166462"` //中国国债收益率5年
@@ -55,7 +55,7 @@ type BondZhUsRateModel struct {
 }
 
 //沪深300市盈率
-type SH300PEModel struct {
+type SH300PE struct {
 	Date        float64 `json:"date"`        // 时间
 	MiddleLyrPe float64 `json:"middleLyrPe"` //沪深300静态市盈率中位数
 	LyrPe       float64 `json:"lyrPe"`       //沪深300静态市盈率等权平均
@@ -80,8 +80,16 @@ type PePbPsDvTotalmv struct {
 	Symbol   string `json:"symbol"`   // 股票代码
 }
 
-type MacroPMIModel struct {
+// PMI
+type MacroPMI struct {
 	Date    string `json:"date" gorm:"index"`
 	Country string `json:"country"`
 	Pmi     string `json:"pmi"`
+}
+
+//GDP
+type MacroGDP struct {
+	Date    string `json:"date" gorm:"index"`
+	Country string `json:"country"`
+	Gdp     string `json:"gdp"`
 }

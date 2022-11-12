@@ -6,9 +6,11 @@ var (
 
 // 注册所有数据库
 func init() {
-	OpArgsMap["bond_zh_us_rate_models"] = &BondZhUsRateModel{}
-	OpArgsMap["sH300_pe_models"] = &SH300PEModel{}
+	OpArgsMap["BondZhUsRate"] = &BondZhUsRate{}
+	OpArgsMap["SH300PE"] = &SH300PE{}
 	OpArgsMap["PePbPsDvTotalmv"] = &PePbPsDvTotalmv{}
-	OpArgsMap["MacroChinaMoneySupplyModel"] = &MacroChinaMoneySupplyModel{}
-	OpArgsMap["MacroPMIModel"] = &MacroPMIModel{}
+	OpArgsMap["MacroChinaMoneySupply"] = &MacroChinaMoneySupply{}
+	OpArgsMap["MacroPMI"] = &MacroPMI{}
+	OpArgsMap["MacroChinaShrzgm"] = &MacroChinaShrzgm{}
+	OpArgsMap["MacroGDP"] = &MacroGDP{}
 }
