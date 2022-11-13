@@ -54,3 +54,28 @@ func TestCollyGDP(t *testing.T) {
 		t.Error(err)
 	}
 }
+
+func TestCollyMacroChinaConsumerGoodsRetail(t *testing.T) {
+	dal.DB = dal.ConnectDB("guide_sqlite.db").Debug()
+	query.SetDefault(dal.DB)
+	dal.DB.AutoMigrate(&model.MacroChinaConsumerGoodsRetail{})
+	if err := CollyMacroChinaConsumerGoodsRetail(); err != nil {
+		t.Error(err)
+	}
+}
+func TestCollyMacroCpi(t *testing.T) {
+	dal.DB = dal.ConnectDB("guide_sqlite.db").Debug()
+	query.SetDefault(dal.DB)
+	dal.DB.AutoMigrate(&model.MacroCpi{})
+	if err := CollyMacroChinaCpi(); err != nil {
+		t.Error(err)
+	}
+}
+func TestCollyMacroChinaPpi(t *testing.T) {
+	dal.DB = dal.ConnectDB("guide_sqlite.db").Debug()
+	query.SetDefault(dal.DB)
+	dal.DB.AutoMigrate(&model.MacroPpi{})
+	if err := CollyMacroPpi(); err != nil {
+		t.Error(err)
+	}
+}

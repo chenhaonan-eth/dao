@@ -31,7 +31,7 @@ type MacroChinaMoneySupply struct {
 }
 
 type MacroChinaConsumerGoodsRetail struct {
-	Date                        string
+	Date                        string `gorm:"index"`
 	TotalRetailSales            string // 社会消费品零售总额(亿元)
 	YearOnYear                  string // 同比增长
 	YearOverYear                string // 环比增长
@@ -92,4 +92,18 @@ type MacroGDP struct {
 	Date    string `json:"date" gorm:"index"`
 	Country string `json:"country"`
 	Gdp     string `json:"gdp"`
+}
+
+// cpi
+type MacroCpi struct {
+	Date    string `json:"date" gorm:"index"`
+	Country string `json:"country"`
+	Cpi     string `json:"cpi"`
+}
+
+// ppi
+type MacroPpi struct {
+	Date    string `json:"date" gorm:"index"`
+	Country string `json:"country"`
+	Ppi     string `json:"Ppi"`
 }

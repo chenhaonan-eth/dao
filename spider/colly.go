@@ -185,3 +185,51 @@ func CollyGDP() error {
 	}
 	return nil
 }
+
+// 社会消费品零售总额
+func CollyMacroChinaConsumerGoodsRetail() error {
+	v, err := economic.MacroChinaConsumerGoodsRetail()
+	if err != nil {
+		return err
+	}
+	t := q.MacroChinaConsumerGoodsRetail
+	do := t.WithContext(context.Background())
+	do.CreateInBatches(v, 5000)
+	return nil
+}
+
+// cpi
+func CollyMacroChinaCpi() error {
+	v, err := economic.MacroChinaCpiYearly()
+	if err != nil {
+		return err
+	}
+	t := q.MacroCpi
+	do := t.WithContext(context.Background())
+	for k, v := range v {
+		cpi := &model.MacroCpi{}
+		cpi.Date = k
+		cpi.Cpi = v
+		cpi.Country = "cn"
+		do.Create(cpi)
+	}
+	return nil
+}
+
+// ppi
+func CollyMacroPpi() error {
+	v, err := economic.MacroChinaPpiYearly()
+	if err != nil {
+		return err
+	}
+	t := q.MacroPpi
+	do := t.WithContext(context.Background())
+	for k, v := range v {
+		ppi := &model.MacroPpi{}
+		ppi.Date = k
+		ppi.Ppi = v
+		ppi.Country = "cn"
+		do.Create(ppi)
+	}
+	return nil
+}

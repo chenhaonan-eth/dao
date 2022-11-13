@@ -13,4 +13,7 @@ func init() {
 	OpArgsMap["MacroPMI"] = &MacroPMI{}
 	OpArgsMap["MacroChinaShrzgm"] = &MacroChinaShrzgm{}
 	OpArgsMap["MacroGDP"] = &MacroGDP{}
+	OpArgsMap["MacroChinaConsumerGoodsRetail"] = &MacroChinaConsumerGoodsRetail{}
+	OpArgsMap["MacroCpi"] = &MacroCpi{}
+	OpArgsMap["MacroPpi"] = &MacroPpi{}
 }

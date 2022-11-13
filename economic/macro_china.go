@@ -399,8 +399,8 @@ func MacroChinaPmiYearly() (data map[string]string, err error) {
    新浪财经-中国宏观经济数据-社会消费品零售总额
    http://data.eastmoney.com/cjsj/xfp.html
 */
-func MacroChinaConsumerGoodsRetail() ([]model.MacroChinaConsumerGoodsRetail, error) {
-	data := []model.MacroChinaConsumerGoodsRetail{}
+func MacroChinaConsumerGoodsRetail() ([]*model.MacroChinaConsumerGoodsRetail, error) {
+	data := []*model.MacroChinaConsumerGoodsRetail{}
 	url := "http://datainterface.eastmoney.com/EM_DataCenter/JS.aspx"
 	rep, err := Client.R().
 		SetQueryParams(map[string]string{
@@ -429,7 +429,7 @@ func MacroChinaConsumerGoodsRetail() ([]model.MacroChinaConsumerGoodsRetail, err
 			elem := ivalue.Field(i)
 			elem.SetString(s)
 		}
-		data = append(data, m)
+		data = append(data, &m)
 	}
 	return data, nil
 }
