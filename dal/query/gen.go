@@ -18,6 +18,7 @@ import (
 var (
 	Q                             = new(Query)
 	BondZhUsRate                  *bondZhUsRate
+	FturesFoewign                 *fturesFoewign
 	MacroChinaConsumerGoodsRetail *macroChinaConsumerGoodsRetail
 	MacroChinaMoneySupply         *macroChinaMoneySupply
 	MacroChinaShrzgm              *macroChinaShrzgm
@@ -32,6 +33,7 @@ var (
 func SetDefault(db *gorm.DB, opts ...gen.DOOption) {
 	*Q = *Use(db, opts...)
 	BondZhUsRate = &Q.BondZhUsRate
+	FturesFoewign = &Q.FturesFoewign
 	MacroChinaConsumerGoodsRetail = &Q.MacroChinaConsumerGoodsRetail
 	MacroChinaMoneySupply = &Q.MacroChinaMoneySupply
 	MacroChinaShrzgm = &Q.MacroChinaShrzgm
@@ -47,6 +49,7 @@ func Use(db *gorm.DB, opts ...gen.DOOption) *Query {
 	return &Query{
 		db:                            db,
 		BondZhUsRate:                  newBondZhUsRate(db, opts...),
+		FturesFoewign:                 newFturesFoewign(db, opts...),
 		MacroChinaConsumerGoodsRetail: newMacroChinaConsumerGoodsRetail(db, opts...),
 		MacroChinaMoneySupply:         newMacroChinaMoneySupply(db, opts...),
 		MacroChinaShrzgm:              newMacroChinaShrzgm(db, opts...),
@@ -63,6 +66,7 @@ type Query struct {
 	db *gorm.DB
 
 	BondZhUsRate                  bondZhUsRate
+	FturesFoewign                 fturesFoewign
 	MacroChinaConsumerGoodsRetail macroChinaConsumerGoodsRetail
 	MacroChinaMoneySupply         macroChinaMoneySupply
 	MacroChinaShrzgm              macroChinaShrzgm
@@ -80,6 +84,7 @@ func (q *Query) clone(db *gorm.DB) *Query {
 	return &Query{
 		db:                            db,
 		BondZhUsRate:                  q.BondZhUsRate.clone(db),
+		FturesFoewign:                 q.FturesFoewign.clone(db),
 		MacroChinaConsumerGoodsRetail: q.MacroChinaConsumerGoodsRetail.clone(db),
 		MacroChinaMoneySupply:         q.MacroChinaMoneySupply.clone(db),
 		MacroChinaShrzgm:              q.MacroChinaShrzgm.clone(db),
@@ -104,6 +109,7 @@ func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 	return &Query{
 		db:                            db,
 		BondZhUsRate:                  q.BondZhUsRate.replaceDB(db),
+		FturesFoewign:                 q.FturesFoewign.replaceDB(db),
 		MacroChinaConsumerGoodsRetail: q.MacroChinaConsumerGoodsRetail.replaceDB(db),
 		MacroChinaMoneySupply:         q.MacroChinaMoneySupply.replaceDB(db),
 		MacroChinaShrzgm:              q.MacroChinaShrzgm.replaceDB(db),
@@ -118,6 +124,7 @@ func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 
 type queryCtx struct {
 	BondZhUsRate                  *bondZhUsRateDo
+	FturesFoewign                 *fturesFoewignDo
 	MacroChinaConsumerGoodsRetail *macroChinaConsumerGoodsRetailDo
 	MacroChinaMoneySupply         *macroChinaMoneySupplyDo
 	MacroChinaShrzgm              *macroChinaShrzgmDo
@@ -132,6 +139,7 @@ type queryCtx struct {
 func (q *Query) WithContext(ctx context.Context) *queryCtx {
 	return &queryCtx{
 		BondZhUsRate:                  q.BondZhUsRate.WithContext(ctx),
+		FturesFoewign:                 q.FturesFoewign.WithContext(ctx),
 		MacroChinaConsumerGoodsRetail: q.MacroChinaConsumerGoodsRetail.WithContext(ctx),
 		MacroChinaMoneySupply:         q.MacroChinaMoneySupply.WithContext(ctx),
 		MacroChinaShrzgm:              q.MacroChinaShrzgm.WithContext(ctx),

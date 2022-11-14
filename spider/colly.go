@@ -233,3 +233,6 @@ func CollyMacroPpi() error {
 	}
 	return nil
 }
+
+// 新浪财经 伦铜
+// https://vip.stock.finance.sina.com.cn/q//view/vFutures_History.php?page=1&breed=CAD&start=2010-10-01&end=2022-11-14&jys=LME&pz=CAD&hy=&type=global&name=

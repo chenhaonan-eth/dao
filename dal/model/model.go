@@ -2,7 +2,10 @@
 // 已定义好执行脚本 generate_gorm_gen_code.sh
 package model
 
-import "time"
+import (
+	"fmt"
+	"time"
+)
 
 // 中国社会融资规模数据对象
 type MacroChinaShrzgm struct {
@@ -106,4 +109,18 @@ type MacroPpi struct {
 	Date    string `json:"date" gorm:"index"`
 	Country string `json:"country"`
 	Ppi     string `json:"Ppi"`
+}
+
+//外盘期货交易
+type FturesFoewign struct {
+	Date   string `json:"date"`   //交易日
+	Open   string `json:"open"`   //开盘价
+	High   string `json:"high"`   //最高价
+	Low    string `json:"low"`    //最低价
+	Close  string `json:"close"`  //收盘价
+	Volume string `json:"volume"` //成交量
+}
+
+func (f *FturesFoewign) String() string {
+	return fmt.Sprintf("{date: %v, open: %v, high: %v,low: %v, close: %v, volume: %v}", f.Date, f.Open, f.High, f.Low, f.Close, f.Volume)
 }
