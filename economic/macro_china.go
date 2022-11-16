@@ -323,6 +323,7 @@ function E(n, e, t, r, o, f, i) {
 
 /*商务数据中心-国内贸易-社会融资规模增量统计
   http://data.mofcom.gov.cn/gnmy/shrzgm.shtml
+  https://www.chinabond.com.cn/Info/20007290 社会融资规模存量各构成指标的定义及统计方法
 */
 func MacroChinaShrzgm() ([]*model.MacroChinaShrzgm, error) {
 	var m = []*model.MacroChinaShrzgm{}

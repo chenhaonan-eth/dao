@@ -11,7 +11,7 @@ import (
 var q = query.Q
 
 func Query(ctx context.Context) {
-	t := q.BondZhUsRateModel
+	t := q.BondZhUsRate
 	do := t.WithContext(context.Background())
 
 	data, err := do.Take()

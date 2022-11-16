@@ -7,6 +7,8 @@ require (
 	github.com/PuerkitoBio/goquery v1.8.0 // indirect
 	github.com/antchfx/htmlquery v1.2.5 // indirect
 	github.com/antchfx/xmlquery v1.3.12 // indirect
+	github.com/chromedp/cdproto v0.0.0-20221114202156-f470c7c7306e // indirect
+	github.com/chromedp/chromedp v0.8.6 // indirect
 	github.com/fsnotify/fsnotify v1.5.4
 	github.com/gin-gonic/gin v1.8.1
 	github.com/go-resty/resty/v2 v2.7.0
@@ -21,6 +23,7 @@ require (
 	github.com/temoto/robotstxt v1.1.2 // indirect
 	github.com/tidwall/gjson v1.14.3
 	go.uber.org/zap v1.23.0
+	golang.org/x/sys v0.2.0 // indirect
 	gopkg.in/natefinch/lumberjack.v2 v2.0.0 // indirect
 	gorm.io/driver/mysql v1.4.0
 	gorm.io/driver/sqlite v1.4.3

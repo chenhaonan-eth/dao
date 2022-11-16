@@ -79,3 +79,7 @@ func TestCollyMacroChinaPpi(t *testing.T) {
 		t.Error(err)
 	}
 }
+
+func TestCollySocialFinancingStock(t *testing.T) {
+	CollySocialFinancingStock()
+}

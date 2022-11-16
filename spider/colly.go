@@ -10,9 +10,11 @@ import (
 
 	// "github.com/chenhaonan-eth/dao/core"
 
+	"github.com/PuerkitoBio/goquery"
 	"github.com/chenhaonan-eth/dao/dal/model"
 	"github.com/chenhaonan-eth/dao/dal/query"
 	"github.com/chenhaonan-eth/dao/economic"
+	"github.com/chromedp/chromedp"
 	"github.com/go-resty/resty/v2"
 	"github.com/gocolly/colly"
 	"github.com/gocolly/colly/extensions"
@@ -51,7 +53,7 @@ func CollyleguleguPePSPb() {
 
 		link := e.Attr("href")
 		// Print link
-		fmt.Printf("Link found: %q -> %s\n", e.Text, link)
+		log.Printf("Link found: %q -> %s\n", e.Text, link)
 		r, err := Process(e.Text, link)
 		if err == nil {
 			do.CreateInBatches(r, 5000)
@@ -60,12 +62,12 @@ func CollyleguleguPePSPb() {
 
 	// Before making a request print "Visiting ..."
 	c.OnRequest(func(r *colly.Request) {
-		fmt.Println("Visiting", r.URL.String())
+		log.Println("Visiting", r.URL.String())
 	})
 
 	// Set error handler
 	c.OnError(func(r *colly.Response, err error) {
-		fmt.Println("Request URL:", r.Request.URL, "failed with response:", r, "\nError:", err)
+		log.Println("Request URL:", r.Request.URL, "failed with response:", r, "\nError:", err)
 	})
 
 	// Start scraping on https://legulegu.com/stocklist
@@ -234,5 +236,83 @@ func CollyMacroPpi() error {
 	return nil
 }
 
-// 新浪财经 伦铜
-// https://vip.stock.finance.sina.com.cn/q//view/vFutures_History.php?page=1&breed=CAD&start=2010-10-01&end=2022-11-14&jys=LME&pz=CAD&hy=&type=global&name=
+// 社会融资存量
+func CollySocialFinancingStock() {
+	urlmap, err := getSocialFinancingStockUrlMap()
+	if err != nil {
+		log.Println(err)
+	}
+	for k, v := range urlmap {
+		log.Printf("%s -> %t\n", k, v)
+	}
+}
+
+// 获取社会融资url map
+func getSocialFinancingStockUrlMap() (map[string]bool, error) {
+	htmlContent := ""
+	urlMap := make(map[string]bool, 11)
+	url := `http://www.pbc.gov.cn/diaochatongjisi/116219/116319/index.html`
+	err := GetHttpHtmlContent(getSocialFinancingStockHTML(url, &htmlContent))
+	if err != nil {
+		log.Fatal(err)
+		return urlMap, err
+	}
+	// dom选择器
+	dom, err := goquery.NewDocumentFromReader(strings.NewReader(htmlContent))
+	if err != nil {
+		log.Fatal(err)
+		return urlMap, err
+	}
+
+	dom.Find(`.guidlevel02_style2`).Each(func(i int, s *goquery.Selection) {
+		href, e := s.Attr("href")
+		if e {
+			content := strings.TrimSpace(s.Text())
+			if content == "社会融资规模" {
+				href = strings.TrimSpace(href)
+				urlMap[href] = false
+			}
+		}
+	})
+	return urlMap, nil
+}
+
+// 动态加载js
+func GetHttpHtmlContent(tasks chromedp.Tasks) error {
+	options := []chromedp.ExecAllocatorOption{
+		chromedp.Flag("blink-settings", "imagesEnabled=false"),
+	}
+	//初始化参数，先传一个空的数据
+	options = append(chromedp.DefaultExecAllocatorOptions[:], options...)
+
+	c, _ := chromedp.NewExecAllocator(context.Background(), options...)
+
+	// create context
+	chromeCtx, cancel := chromedp.NewContext(c, chromedp.WithLogf(log.Printf))
+	defer cancel()
+
+	// 执行一个空task, 用提前创建Chrome实例
+	chromedp.Run(chromeCtx, make([]chromedp.Action, 0, 1)...)
+
+	//创建一个上下文，超时时间为20s
+	timeoutCtx, cancel := context.WithTimeout(chromeCtx, 20*time.Second)
+	defer cancel()
+
+	// var htmlContent string
+	err := chromedp.Run(timeoutCtx, tasks)
+	if err != nil {
+		log.Fatalf("Run err : %v\n", err)
+		return err
+	}
+	return nil
+}
+
+// 获取社融数据html
+func getSocialFinancingStockHTML(url string, htmlContent *string) chromedp.Tasks {
+	return chromedp.Tasks{
+		chromedp.Navigate(url),
+		chromedp.WaitVisible(`#l_con`),
+		chromedp.OuterHTML(`.qhkuang2 > tbody`, htmlContent, chromedp.ByQuery),
+		chromedp.Stop(),
+	}
+}
