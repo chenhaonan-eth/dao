@@ -14,7 +14,7 @@ import (
 // go:generate go mod tidy
 // go:generate go mod download
 
-//TODO: 启动时候检查配置文件是否正确
+// TODO: 启动时候检查配置文件是否正确
 func main() {
 
 	// 创建本地数据库

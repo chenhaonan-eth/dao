@@ -14,6 +14,7 @@ import (
 	"github.com/chenhaonan-eth/dao/dal/model"
 	"github.com/chenhaonan-eth/dao/dal/query"
 	"github.com/chenhaonan-eth/dao/economic"
+	"github.com/chenhaonan-eth/dao/utils.go"
 	"github.com/chromedp/chromedp"
 	"github.com/go-resty/resty/v2"
 	"github.com/gocolly/colly"
@@ -238,48 +239,83 @@ func CollyMacroPpi() error {
 
 // 社会融资存量
 func CollySocialFinancingStock() {
-	urlmap, err := getSocialFinancingStockUrlMap()
-	if err != nil {
-		log.Println(err)
-	}
-	for k, v := range urlmap {
-		log.Printf("%s -> %t\n", k, v)
-	}
+	// var htmlContent string
+	// urlSli, err := getSocialFinancingStockUrlMap()
+	// if err != nil {
+	// 	log.Println(err)
+	// }
+	// for i, v := range urlSli {
+	// 	fmt.Printf("%d -> %s\n", i, v)
+	// 	url := `http://www.pbc.gov.cn` + v
+	// 	err = GetHttpHtmlContent(getSocialFinancingStockHTML(url, `tbody`, `tbody`, &htmlContent))
+	// 	if err != nil {
+	// 		log.Fatal(err)
+	// 	}
+	// 	utils.WirteText(htmlContent, "./"+v+".txt")
+	// 	processedSocialFinancingStockTable(htmlContent)
+	// }
+	// v := "/diaochatongjisi/resource/cms/2022/11/2022111517022275021.htm"
+	// url := `http://www.pbc.gov.cn` + v
+	// err := GetHttpHtmlContent(getSocialFinancingStockHTML(url, `tbody`, `table`, &htmlContent))
+	// if err != nil {
+	// 	log.Fatal(err)
+	// }
+	// utils.WirteText(htmlContent, "./out.txt")
+	processedSocialFinancingStockTable("")
 }
 
 // 获取社会融资url map
-func getSocialFinancingStockUrlMap() (map[string]bool, error) {
+func getSocialFinancingStockUrlMap() ([]string, error) {
 	htmlContent := ""
-	urlMap := make(map[string]bool, 11)
+	urlSli := make([]string, 0)
 	url := `http://www.pbc.gov.cn/diaochatongjisi/116219/116319/index.html`
-	err := GetHttpHtmlContent(getSocialFinancingStockHTML(url, &htmlContent))
+	err := GetHttpHtmlContent(getSocialFinancingStockHTML(url, `#l_con`, `.qhkuang2 > tbody`, &htmlContent))
 	if err != nil {
 		log.Fatal(err)
-		return urlMap, err
+		return urlSli, err
 	}
 	// dom选择器
 	dom, err := goquery.NewDocumentFromReader(strings.NewReader(htmlContent))
 	if err != nil {
 		log.Fatal(err)
-		return urlMap, err
+		return urlSli, err
 	}
-
 	dom.Find(`.guidlevel02_style2`).Each(func(i int, s *goquery.Selection) {
+		var html string
 		href, e := s.Attr("href")
 		if e {
 			content := strings.TrimSpace(s.Text())
 			if content == "社会融资规模" {
 				href = strings.TrimSpace(href)
-				urlMap[href] = false
+				// 进一步获取 所有talbe 的url
+				url := `http://www.pbc.gov.cn` + href
+				err := GetHttpHtmlContent(getSocialFinancingStockHTML(url, `tbody`, `.border_nr > tbody`, &html))
+				if err != nil {
+					log.Fatal(err)
+				}
+				dom, err = goquery.NewDocumentFromReader(strings.NewReader(html))
+				if err != nil {
+					log.Fatal(err)
+				}
+				dom.Find("table:nth-child(2) a").Each(func(i int, s *goquery.Selection) {
+					content := strings.TrimSpace(s.Text())
+					href, e := s.Attr("href")
+					if e && content == "htm" {
+						if h := strings.TrimSpace(href); h != "" {
+							urlSli = append(urlSli, h)
+						}
+					}
+				})
 			}
 		}
 	})
-	return urlMap, nil
+	return urlSli, nil
 }
 
 // 动态加载js
 func GetHttpHtmlContent(tasks chromedp.Tasks) error {
 	options := []chromedp.ExecAllocatorOption{
+		chromedp.Flag("headless", true),
 		chromedp.Flag("blink-settings", "imagesEnabled=false"),
 	}
 	//初始化参数，先传一个空的数据
@@ -308,11 +344,62 @@ func GetHttpHtmlContent(tasks chromedp.Tasks) error {
 }
 
 // 获取社融数据html
-func getSocialFinancingStockHTML(url string, htmlContent *string) chromedp.Tasks {
+func getSocialFinancingStockHTML(url, waitVisible, sel string, htmlContent *string) chromedp.Tasks {
 	return chromedp.Tasks{
 		chromedp.Navigate(url),
-		chromedp.WaitVisible(`#l_con`),
-		chromedp.OuterHTML(`.qhkuang2 > tbody`, htmlContent, chromedp.ByQuery),
+		chromedp.WaitVisible(waitVisible),
+		chromedp.OuterHTML(sel, htmlContent, chromedp.ByQuery),
 		chromedp.Stop(),
 	}
+}
+
+// 处理 社会融资规模存量 HTML table
+func processedSocialFinancingStockTable(htmlDom string) {
+	// 提取社会融资规模存量
+	htmlDom, err := utils.ReaderText("./out.txt")
+	if err != nil {
+		log.Fatal(err)
+	}
+	dom, err := goquery.NewDocumentFromReader(strings.NewReader(htmlDom))
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	dataList := make([][]string, 0)
+	// 获取日期
+	list := make([]string, 0)
+	dom.Find("tbody > tr:nth-child(5) td").Each(func(i int, s *goquery.Selection) {
+		if i == 0 {
+			return
+		}
+		log.Println(s.Text())
+		list = append(list, s.Text())
+	})
+	dataList = append(dataList, list)
+
+	// 如果是19年数据特殊处理
+	time := list[0]
+	if strings.HasPrefix(time, "2019") {
+		// TODO
+	} else if strings.HasPrefix(time, "2019") {
+		// TODO
+	} else {
+		// 22、21、20年 9~19 td
+		// 19年需要特殊处理
+		// 18、17、16年 9~16 td
+		for i := 9; i < 20; i++ {
+			list := make([]string, 0)
+			dom.Find(fmt.Sprintf("tbody > tr:nth-child(%d) td", i)).Each(func(i int, s *goquery.Selection) {
+				if i == 0 {
+					return
+				}
+				// fmt.Println("--->" + s.Text() + "<---")
+				if s.Text() != "　" {
+					list = append(list, s.Text())
+				}
+			})
+			dataList = append(dataList, list)
+		}
+	}
+	log.Println("数据列表:", dataList)
 }

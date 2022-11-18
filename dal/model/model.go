@@ -9,15 +9,28 @@ import (
 
 // 中国社会融资规模数据对象
 type MacroChinaShrzgm struct {
-	Date        string  `json:"date"`        //时间
-	Ndbab       float32 `json:"ndbab"`       //其中-未贴现银行承兑汇票
-	Entrustloan float32 `json:"entrustloan"` //其中-委托贷款
-	Forcloan    float32 `json:"forcloan"`    //其中-委托贷款外币(折合人民币)
-	Rmblaon     float32 `json:"rmblaon"`     //其中-人民币贷款
-	Bibae       float32 `json:"bibae"`       //其中-企业债券
-	Tiosfs      float32 `json:"tiosfs"`      //社会融资规模增量(亿元)
-	Sfinfe      float32 `json:"sfinfe"`      //其中-非金融企业境内股票融资
-	Trustloan   float32 `json:"trustloan"`   //其中-信托贷款
+	Date                            string `json:"date"`                    //时间
+	Tyep                            string `json:"tyep"`                    // Flow or Stock 总量或存量
+	Ndbab                           string `json:"ndbab"`                   //其中-未贴现银行承兑汇票
+	Entrustloan                     string `json:"entrustloan"`             //其中-委托贷款
+	Forcloan                        string `json:"forcloan"`                //其中-委托贷款外币(折合人民币)
+	Rmblaon                         string `json:"rmblaon"`                 //其中-人民币贷款
+	Bibae                           string `json:"bibae"`                   //其中-企业债券
+	Tiosfs                          string `json:"tiosfs"`                  //社会融资规模增量(亿元)/存量
+	Sfinfe                          string `json:"sfinfe"`                  //其中-非金融企业境内股票融资
+	Trustloan                       string `json:"trustloan"`               //其中-信托贷款
+	AssetBackedSecurities           string `json:"asset_backed_securities"` //存款类金融机构资产支持证券
+	LoansWrittenOff                 string `json:"loans_written_off"`       //贷款核销
+	NdbabGrowthRate                 string `json:"ndbabgrowthrate"`         //增速（%）
+	EntrustloanGrowthRate           string `json:"entrustloangrowthrate"`
+	ForcloanGrowthRate              string `json:"forcloangrowthrate"`
+	RmblaonGrowthRate               string `json:"rmblaongrowthrate"`
+	BibaeGrowthRate                 string `json:"bibaegrowthrate"`
+	TiosfsGrowthRate                string `json:"tiosfsgrowthrate"`
+	SfinfeGrowthRate                string `json:"sfinfegrowthrate"`
+	TrustloanGrowthRate             string `json:"trustloangrowthrate"`
+	AssetBackedSecuritiesGrowthRate string `json:"asset_backed_securitiesgrowthrate"`
+	LoansWrittenOffGrowthRate       string `json:"loans_written_offgrowthrate"`
 }
 
 type MacroChinaMoneySupply struct {
@@ -57,7 +70,7 @@ type BondZhUsRate struct {
 	US10_2Years float64 `json:"EMG01339436"` //美国国债收益率10年-2年
 }
 
-//沪深300市盈率
+// 沪深300市盈率
 type SH300PE struct {
 	Date        float64 `json:"date"`        // 时间
 	MiddleLyrPe float64 `json:"middleLyrPe"` //沪深300静态市盈率中位数
@@ -90,7 +103,7 @@ type MacroPMI struct {
 	Pmi     string `json:"pmi"`
 }
 
-//GDP
+// GDP
 type MacroGDP struct {
 	Date    string `json:"date" gorm:"index"`
 	Country string `json:"country"`
@@ -111,7 +124,7 @@ type MacroPpi struct {
 	Ppi     string `json:"Ppi"`
 }
 
-//外盘期货交易
+// 外盘期货交易
 type FturesFoewign struct {
 	Date   string `json:"date"`   //交易日
 	Open   string `json:"open"`   //开盘价
