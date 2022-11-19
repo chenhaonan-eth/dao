@@ -8,6 +8,7 @@ import (
 )
 
 // 中国社会融资规模数据对象
+// 单位：万亿元人民币
 type MacroChinaShrzgm struct {
 	Date                            string `json:"date"`                    //时间
 	Tyep                            string `json:"tyep"`                    // Flow or Stock 总量或存量
@@ -21,6 +22,7 @@ type MacroChinaShrzgm struct {
 	Trustloan                       string `json:"trustloan"`               //其中-信托贷款
 	AssetBackedSecurities           string `json:"asset_backed_securities"` //存款类金融机构资产支持证券
 	LoansWrittenOff                 string `json:"loans_written_off"`       //贷款核销
+	GovernmentBonds                 string `json:"government_bonds"`        //政府债券
 	NdbabGrowthRate                 string `json:"ndbabgrowthrate"`         //增速（%）
 	EntrustloanGrowthRate           string `json:"entrustloangrowthrate"`
 	ForcloanGrowthRate              string `json:"forcloangrowthrate"`
@@ -31,6 +33,13 @@ type MacroChinaShrzgm struct {
 	TrustloanGrowthRate             string `json:"trustloangrowthrate"`
 	AssetBackedSecuritiesGrowthRate string `json:"asset_backed_securitiesgrowthrate"`
 	LoansWrittenOffGrowthRate       string `json:"loans_written_offgrowthrate"`
+	GovernmentBondsGrowthRate       string `json:"government_bondsgrowthrate"`
+}
+
+func (m *MacroChinaShrzgm) String() string {
+	return fmt.Sprintf(
+		"{date: %v, tyep: %v, ndbab: %v,forcloan: %v, rmblaon: %v, bibae: %v,tiosfs: %v, sfinfe: %v, trustloan: %v,asset_backed_securities: %v, loans_written_off: %v, ndbabgrowthrate: %v,entrustloangrowthrate: %v, forcloangrowthrate: %v, rmblaongrowthrate: %v,bibaegrowthrate: %v,tiosfsgrowthrate: %v, sfinfegrowthrate: %v, trustloangrowthrate: %v,asset_backed_securitiesgrowthrate: %v,loans_written_offgrowthrate: %v,government_bonds: %v,government_bondsgrowthrate:%v}",
+		m.Date, m.Tyep, m.Ndbab, m.Forcloan, m.Rmblaon, m.Bibae, m.Tiosfs, m.Sfinfe, m.Trustloan, m.AssetBackedSecurities, m.LoansWrittenOff, m.NdbabGrowthRate, m.EntrustloanGrowthRate, m.ForcloanGrowthRate, m.RmblaonGrowthRate, m.BibaeGrowthRate, m.TiosfsGrowthRate, m.SfinfeGrowthRate, m.TrustloanGrowthRate, m.AssetBackedSecuritiesGrowthRate, m.LoansWrittenOffGrowthRate, m.GovernmentBonds, m.GovernmentBondsGrowthRate)
 }
 
 type MacroChinaMoneySupply struct {

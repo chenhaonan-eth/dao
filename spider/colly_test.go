@@ -81,5 +81,9 @@ func TestCollyMacroChinaPpi(t *testing.T) {
 }
 
 func TestCollySocialFinancingStock(t *testing.T) {
-	CollySocialFinancingStock()
+	v, err := CollySocialFinancingStock()
+	if err != nil {
+		t.Error(err)
+	}
+	t.Logf("%+v", v)
 }

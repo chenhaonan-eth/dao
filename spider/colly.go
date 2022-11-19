@@ -14,7 +14,6 @@ import (
 	"github.com/chenhaonan-eth/dao/dal/model"
 	"github.com/chenhaonan-eth/dao/dal/query"
 	"github.com/chenhaonan-eth/dao/economic"
-	"github.com/chenhaonan-eth/dao/utils.go"
 	"github.com/chromedp/chromedp"
 	"github.com/go-resty/resty/v2"
 	"github.com/gocolly/colly"
@@ -238,30 +237,28 @@ func CollyMacroPpi() error {
 }
 
 // 社会融资存量
-func CollySocialFinancingStock() {
-	// var htmlContent string
-	// urlSli, err := getSocialFinancingStockUrlMap()
-	// if err != nil {
-	// 	log.Println(err)
-	// }
-	// for i, v := range urlSli {
-	// 	fmt.Printf("%d -> %s\n", i, v)
-	// 	url := `http://www.pbc.gov.cn` + v
-	// 	err = GetHttpHtmlContent(getSocialFinancingStockHTML(url, `tbody`, `tbody`, &htmlContent))
-	// 	if err != nil {
-	// 		log.Fatal(err)
-	// 	}
-	// 	utils.WirteText(htmlContent, "./"+v+".txt")
-	// 	processedSocialFinancingStockTable(htmlContent)
-	// }
-	// v := "/diaochatongjisi/resource/cms/2022/11/2022111517022275021.htm"
-	// url := `http://www.pbc.gov.cn` + v
-	// err := GetHttpHtmlContent(getSocialFinancingStockHTML(url, `tbody`, `table`, &htmlContent))
-	// if err != nil {
-	// 	log.Fatal(err)
-	// }
-	// utils.WirteText(htmlContent, "./out.txt")
-	processedSocialFinancingStockTable("")
+func CollySocialFinancingStock() ([]*model.MacroChinaShrzgm, error) {
+	var htmlContent string
+	macroChinaShrzgmList := []*model.MacroChinaShrzgm{}
+	urlSli, err := getSocialFinancingStockUrlMap()
+	if err != nil {
+		log.Println(err)
+	}
+	for i, v := range urlSli {
+		fmt.Printf("%d -> %s\n", i, v)
+		url := `http://www.pbc.gov.cn` + v
+		err = GetHttpHtmlContent(getSocialFinancingStockHTML(url, `tbody`, `table`, &htmlContent))
+		if err != nil {
+			log.Fatal(err)
+		}
+		datalist, err := processedSocialFinancingStockTable(htmlContent)
+		if err != nil {
+			log.Fatal(err)
+			return datalist, err
+		}
+		macroChinaShrzgmList = append(macroChinaShrzgmList, datalist...)
+	}
+	return macroChinaShrzgmList, nil
 }
 
 // 获取社会融资url map
@@ -331,7 +328,7 @@ func GetHttpHtmlContent(tasks chromedp.Tasks) error {
 	chromedp.Run(chromeCtx, make([]chromedp.Action, 0, 1)...)
 
 	//创建一个上下文，超时时间为20s
-	timeoutCtx, cancel := context.WithTimeout(chromeCtx, 20*time.Second)
+	timeoutCtx, cancel := context.WithTimeout(chromeCtx, 40*time.Second)
 	defer cancel()
 
 	// var htmlContent string
@@ -343,7 +340,7 @@ func GetHttpHtmlContent(tasks chromedp.Tasks) error {
 	return nil
 }
 
-// 获取社融数据html
+// 获取html
 func getSocialFinancingStockHTML(url, waitVisible, sel string, htmlContent *string) chromedp.Tasks {
 	return chromedp.Tasks{
 		chromedp.Navigate(url),
@@ -354,39 +351,99 @@ func getSocialFinancingStockHTML(url, waitVisible, sel string, htmlContent *stri
 }
 
 // 处理 社会融资规模存量 HTML table
-func processedSocialFinancingStockTable(htmlDom string) {
-	// 提取社会融资规模存量
-	htmlDom, err := utils.ReaderText("./out.txt")
-	if err != nil {
-		log.Fatal(err)
-	}
+// return 二维数组
+func processedSocialFinancingStockTable(htmlDom string) ([]*model.MacroChinaShrzgm, error) {
+	dataList := make([][]string, 0)
+	macroChinaShrzgmList := []*model.MacroChinaShrzgm{}
 	dom, err := goquery.NewDocumentFromReader(strings.NewReader(htmlDom))
 	if err != nil {
 		log.Fatal(err)
+		return macroChinaShrzgmList, err
 	}
 
-	dataList := make([][]string, 0)
 	// 获取日期
 	list := make([]string, 0)
 	dom.Find("tbody > tr:nth-child(5) td").Each(func(i int, s *goquery.Selection) {
 		if i == 0 {
 			return
 		}
-		log.Println(s.Text())
-		list = append(list, s.Text())
+		str := strings.TrimSpace(s.Text())
+		if s.Text() != "　" && len(str) != 0 {
+			list = append(list, str)
+		}
 	})
 	dataList = append(dataList, list)
-
-	// 如果是19年数据特殊处理
-	time := list[0]
-	if strings.HasPrefix(time, "2019") {
-		// TODO
-	} else if strings.HasPrefix(time, "2019") {
-		// TODO
+	log.Println(list[0])
+	time := strings.Split(list[0], ".")
+	// 22、21、20年 9~19 td
+	// 19年需要特殊处理
+	// 18年多了一项地方政府专项债券
+	// 17、16年 9~16 td
+	// 15年时间需要特殊处理
+	if time[0] == "2018" {
+		for i := 9; i < 18; i++ {
+			list := make([]string, 0)
+			dom.Find(fmt.Sprintf("tbody > tr:nth-child(%d) td", i)).Each(func(i int, s *goquery.Selection) {
+				if i == 0 {
+					return
+				}
+				str := strings.TrimSpace(s.Text())
+				if s.Text() != "　" && len(str) != 0 {
+					list = append(list, str)
+				}
+			})
+			dataList = append(dataList, list)
+		}
+		socialFinancingStockConvertToObject1(&macroChinaShrzgmList, dataList, true)
+	} else if time[0] == "2015" {
+		dataList[0] = []string{"2015.3", "2015.6", "2015.9", "2015.12"}
+		for i := 9; i < 17; i++ {
+			list := make([]string, 0)
+			dom.Find(fmt.Sprintf("tbody > tr:nth-child(%d) td", i)).Each(func(i int, s *goquery.Selection) {
+				if i == 0 {
+					return
+				}
+				str := strings.TrimSpace(s.Text())
+				if s.Text() != "　" && len(str) != 0 {
+					list = append(list, str)
+				}
+			})
+			dataList = append(dataList, list)
+		}
+		socialFinancingStockConvertToObject1(&macroChinaShrzgmList, dataList, false)
+	} else if time[0] == "2017" || time[0] == "2016" {
+		for i := 9; i < 17; i++ {
+			list := make([]string, 0)
+			dom.Find(fmt.Sprintf("tbody > tr:nth-child(%d) td", i)).Each(func(i int, s *goquery.Selection) {
+				if i == 0 {
+					return
+				}
+				str := strings.TrimSpace(s.Text())
+				if s.Text() != "　" && len(str) != 0 {
+					list = append(list, str)
+				}
+			})
+			dataList = append(dataList, list)
+		}
+		// 转换为对象
+		socialFinancingStockConvertToObject1(&macroChinaShrzgmList, dataList, false)
+	} else if time[0] == "2019" {
+		for i := 9; i < 30; i += 2 {
+			list := make([]string, 0)
+			dom.Find(fmt.Sprintf("tbody > tr:nth-child(%d) td", i)).Each(func(i int, s *goquery.Selection) {
+				if i == 0 {
+					return
+				}
+				str := strings.TrimSpace(s.Text())
+				if s.Text() != "　" && len(str) != 0 {
+					list = append(list, str)
+				}
+			})
+			dataList = append(dataList, list)
+		}
+		// 转换为对象
+		socialFinancingStockConvertToObject(&macroChinaShrzgmList, dataList)
 	} else {
-		// 22、21、20年 9~19 td
-		// 19年需要特殊处理
-		// 18、17、16年 9~16 td
 		for i := 9; i < 20; i++ {
 			list := make([]string, 0)
 			dom.Find(fmt.Sprintf("tbody > tr:nth-child(%d) td", i)).Each(func(i int, s *goquery.Selection) {
@@ -400,6 +457,76 @@ func processedSocialFinancingStockTable(htmlDom string) {
 			})
 			dataList = append(dataList, list)
 		}
+		// 转换为对象
+		socialFinancingStockConvertToObject(&macroChinaShrzgmList, dataList)
 	}
-	log.Println("数据列表:", dataList)
+	return macroChinaShrzgmList, err
+}
+
+// 将表格转换为对象
+func socialFinancingStockConvertToObject(macroChinaShrzgmList *[]*model.MacroChinaShrzgm, dataList [][]string) {
+	// slice需要扩容的情况下，需要传入slice
+	count := len(dataList[1]) / 2
+	for i := 0; i < len(dataList[0]); i++ {
+		if i == count {
+			return
+		}
+		data := &model.MacroChinaShrzgm{
+			Tyep:                            "Stock",
+			Date:                            dataList[0][i],
+			Tiosfs:                          dataList[1][i*2],
+			TiosfsGrowthRate:                dataList[1][i*2+1],
+			Rmblaon:                         dataList[2][i*2],
+			RmblaonGrowthRate:               dataList[2][i*2+1],
+			Forcloan:                        dataList[3][i*2],
+			ForcloanGrowthRate:              dataList[3][i*2+1],
+			Entrustloan:                     dataList[4][i*2],
+			EntrustloanGrowthRate:           dataList[4][i*2+1],
+			Trustloan:                       dataList[5][i*2],
+			TrustloanGrowthRate:             dataList[5][i*2+1],
+			Ndbab:                           dataList[6][i*2],
+			NdbabGrowthRate:                 dataList[6][i*2+1],
+			Bibae:                           dataList[7][i*2],
+			BibaeGrowthRate:                 dataList[7][i*2+1],
+			GovernmentBonds:                 dataList[8][i*2],
+			GovernmentBondsGrowthRate:       dataList[8][i*2+1],
+			Sfinfe:                          dataList[9][i*2],
+			SfinfeGrowthRate:                dataList[9][i*2+1],
+			AssetBackedSecurities:           dataList[10][i*2],
+			AssetBackedSecuritiesGrowthRate: dataList[10][i*2+1],
+			LoansWrittenOff:                 dataList[11][i*2],
+			LoansWrittenOffGrowthRate:       dataList[11][i*2+1],
+		}
+		*macroChinaShrzgmList = append(*macroChinaShrzgmList, data)
+	}
+}
+
+func socialFinancingStockConvertToObject1(macroChinaShrzgmList *[]*model.MacroChinaShrzgm, dataList [][]string, is2018 bool) {
+	index := 8
+	if is2018 {
+		index = 9 // 除去地方政府专项债券
+	}
+	for i := 0; i < len(dataList[0]); i++ {
+		data := &model.MacroChinaShrzgm{
+			Tyep:                  "Stock",
+			Date:                  dataList[0][i],
+			Tiosfs:                dataList[1][i*2],
+			TiosfsGrowthRate:      dataList[1][i*2+1],
+			Rmblaon:               dataList[2][i*2],
+			RmblaonGrowthRate:     dataList[2][i*2+1],
+			Forcloan:              dataList[3][i*2],
+			ForcloanGrowthRate:    dataList[3][i*2+1],
+			Entrustloan:           dataList[4][i*2],
+			EntrustloanGrowthRate: dataList[4][i*2+1],
+			Trustloan:             dataList[5][i*2],
+			TrustloanGrowthRate:   dataList[5][i*2+1],
+			Ndbab:                 dataList[6][i*2],
+			NdbabGrowthRate:       dataList[6][i*2+1],
+			Bibae:                 dataList[7][i*2],
+			BibaeGrowthRate:       dataList[7][i*2+1],
+			Sfinfe:                dataList[index][i*2],
+			SfinfeGrowthRate:      dataList[index][i*2+1],
+		}
+		*macroChinaShrzgmList = append(*macroChinaShrzgmList, data)
+	}
 }
