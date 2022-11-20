@@ -11,7 +11,7 @@ func TestMacro_china_shrzgm(t *testing.T) {
 	if err != nil {
 		t.Error(err)
 	}
-	t.Logf("rsp: %v", m)
+	t.Logf("rsp: %+v", m)
 
 	t.Log("end TestMacro_china_shrzgm ")
 }

@@ -21,13 +21,14 @@ var (
 	FturesFoewign                 *fturesFoewign
 	MacroChinaConsumerGoodsRetail *macroChinaConsumerGoodsRetail
 	MacroChinaMoneySupply         *macroChinaMoneySupply
-	MacroChinaShrzgm              *macroChinaShrzgm
 	MacroCpi                      *macroCpi
 	MacroGDP                      *macroGDP
 	MacroPMI                      *macroPMI
 	MacroPpi                      *macroPpi
 	PePbPsDvTotalmv               *pePbPsDvTotalmv
 	SH300PE                       *sH300PE
+	SocialFinancingFlow           *socialFinancingFlow
+	SocialFinancingStock          *socialFinancingStock
 )
 
 func SetDefault(db *gorm.DB, opts ...gen.DOOption) {
@@ -36,13 +37,14 @@ func SetDefault(db *gorm.DB, opts ...gen.DOOption) {
 	FturesFoewign = &Q.FturesFoewign
 	MacroChinaConsumerGoodsRetail = &Q.MacroChinaConsumerGoodsRetail
 	MacroChinaMoneySupply = &Q.MacroChinaMoneySupply
-	MacroChinaShrzgm = &Q.MacroChinaShrzgm
 	MacroCpi = &Q.MacroCpi
 	MacroGDP = &Q.MacroGDP
 	MacroPMI = &Q.MacroPMI
 	MacroPpi = &Q.MacroPpi
 	PePbPsDvTotalmv = &Q.PePbPsDvTotalmv
 	SH300PE = &Q.SH300PE
+	SocialFinancingFlow = &Q.SocialFinancingFlow
+	SocialFinancingStock = &Q.SocialFinancingStock
 }
 
 func Use(db *gorm.DB, opts ...gen.DOOption) *Query {
@@ -52,13 +54,14 @@ func Use(db *gorm.DB, opts ...gen.DOOption) *Query {
 		FturesFoewign:                 newFturesFoewign(db, opts...),
 		MacroChinaConsumerGoodsRetail: newMacroChinaConsumerGoodsRetail(db, opts...),
 		MacroChinaMoneySupply:         newMacroChinaMoneySupply(db, opts...),
-		MacroChinaShrzgm:              newMacroChinaShrzgm(db, opts...),
 		MacroCpi:                      newMacroCpi(db, opts...),
 		MacroGDP:                      newMacroGDP(db, opts...),
 		MacroPMI:                      newMacroPMI(db, opts...),
 		MacroPpi:                      newMacroPpi(db, opts...),
 		PePbPsDvTotalmv:               newPePbPsDvTotalmv(db, opts...),
 		SH300PE:                       newSH300PE(db, opts...),
+		SocialFinancingFlow:           newSocialFinancingFlow(db, opts...),
+		SocialFinancingStock:          newSocialFinancingStock(db, opts...),
 	}
 }
 
@@ -69,13 +72,14 @@ type Query struct {
 	FturesFoewign                 fturesFoewign
 	MacroChinaConsumerGoodsRetail macroChinaConsumerGoodsRetail
 	MacroChinaMoneySupply         macroChinaMoneySupply
-	MacroChinaShrzgm              macroChinaShrzgm
 	MacroCpi                      macroCpi
 	MacroGDP                      macroGDP
 	MacroPMI                      macroPMI
 	MacroPpi                      macroPpi
 	PePbPsDvTotalmv               pePbPsDvTotalmv
 	SH300PE                       sH300PE
+	SocialFinancingFlow           socialFinancingFlow
+	SocialFinancingStock          socialFinancingStock
 }
 
 func (q *Query) Available() bool { return q.db != nil }
@@ -87,13 +91,14 @@ func (q *Query) clone(db *gorm.DB) *Query {
 		FturesFoewign:                 q.FturesFoewign.clone(db),
 		MacroChinaConsumerGoodsRetail: q.MacroChinaConsumerGoodsRetail.clone(db),
 		MacroChinaMoneySupply:         q.MacroChinaMoneySupply.clone(db),
-		MacroChinaShrzgm:              q.MacroChinaShrzgm.clone(db),
 		MacroCpi:                      q.MacroCpi.clone(db),
 		MacroGDP:                      q.MacroGDP.clone(db),
 		MacroPMI:                      q.MacroPMI.clone(db),
 		MacroPpi:                      q.MacroPpi.clone(db),
 		PePbPsDvTotalmv:               q.PePbPsDvTotalmv.clone(db),
 		SH300PE:                       q.SH300PE.clone(db),
+		SocialFinancingFlow:           q.SocialFinancingFlow.clone(db),
+		SocialFinancingStock:          q.SocialFinancingStock.clone(db),
 	}
 }
 
@@ -112,43 +117,46 @@ func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 		FturesFoewign:                 q.FturesFoewign.replaceDB(db),
 		MacroChinaConsumerGoodsRetail: q.MacroChinaConsumerGoodsRetail.replaceDB(db),
 		MacroChinaMoneySupply:         q.MacroChinaMoneySupply.replaceDB(db),
-		MacroChinaShrzgm:              q.MacroChinaShrzgm.replaceDB(db),
 		MacroCpi:                      q.MacroCpi.replaceDB(db),
 		MacroGDP:                      q.MacroGDP.replaceDB(db),
 		MacroPMI:                      q.MacroPMI.replaceDB(db),
 		MacroPpi:                      q.MacroPpi.replaceDB(db),
 		PePbPsDvTotalmv:               q.PePbPsDvTotalmv.replaceDB(db),
 		SH300PE:                       q.SH300PE.replaceDB(db),
+		SocialFinancingFlow:           q.SocialFinancingFlow.replaceDB(db),
+		SocialFinancingStock:          q.SocialFinancingStock.replaceDB(db),
 	}
 }
 
-type queryCtx struct {
+type QueryCtx struct {
 	BondZhUsRate                  *bondZhUsRateDo
 	FturesFoewign                 *fturesFoewignDo
 	MacroChinaConsumerGoodsRetail *macroChinaConsumerGoodsRetailDo
 	MacroChinaMoneySupply         *macroChinaMoneySupplyDo
-	MacroChinaShrzgm              *macroChinaShrzgmDo
 	MacroCpi                      *macroCpiDo
 	MacroGDP                      *macroGDPDo
 	MacroPMI                      *macroPMIDo
 	MacroPpi                      *macroPpiDo
 	PePbPsDvTotalmv               *pePbPsDvTotalmvDo
 	SH300PE                       *sH300PEDo
+	SocialFinancingFlow           *socialFinancingFlowDo
+	SocialFinancingStock          *socialFinancingStockDo
 }
 
-func (q *Query) WithContext(ctx context.Context) *queryCtx {
-	return &queryCtx{
+func (q *Query) WithContext(ctx context.Context) *QueryCtx {
+	return &QueryCtx{
 		BondZhUsRate:                  q.BondZhUsRate.WithContext(ctx),
 		FturesFoewign:                 q.FturesFoewign.WithContext(ctx),
 		MacroChinaConsumerGoodsRetail: q.MacroChinaConsumerGoodsRetail.WithContext(ctx),
 		MacroChinaMoneySupply:         q.MacroChinaMoneySupply.WithContext(ctx),
-		MacroChinaShrzgm:              q.MacroChinaShrzgm.WithContext(ctx),
 		MacroCpi:                      q.MacroCpi.WithContext(ctx),
 		MacroGDP:                      q.MacroGDP.WithContext(ctx),
 		MacroPMI:                      q.MacroPMI.WithContext(ctx),
 		MacroPpi:                      q.MacroPpi.WithContext(ctx),
 		PePbPsDvTotalmv:               q.PePbPsDvTotalmv.WithContext(ctx),
 		SH300PE:                       q.SH300PE.WithContext(ctx),
+		SocialFinancingFlow:           q.SocialFinancingFlow.WithContext(ctx),
+		SocialFinancingStock:          q.SocialFinancingStock.WithContext(ctx),
 	}
 }
 

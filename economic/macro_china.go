@@ -321,12 +321,14 @@ function E(n, e, t, r, o, f, i) {
 }
 `
 
-/*商务数据中心-国内贸易-社会融资规模增量统计
-  http://data.mofcom.gov.cn/gnmy/shrzgm.shtml
-  https://www.chinabond.com.cn/Info/20007290 社会融资规模存量各构成指标的定义及统计方法
+/*
+商务数据中心-国内贸易-社会融资规模增量统计
+
+	http://data.mofcom.gov.cn/gnmy/shrzgm.shtml
+	https://www.chinabond.com.cn/Info/20007290 社会融资规模存量各构成指标的定义及统计方法
 */
-func MacroChinaShrzgm() ([]*model.MacroChinaShrzgm, error) {
-	var m = []*model.MacroChinaShrzgm{}
+func MacroChinaShrzgm() ([]*model.SocialFinancingFlow, error) {
+	var m = []*model.SocialFinancingFlow{}
 	url := "http://data.mofcom.gov.cn/datamofcom/front/gnmy/shrzgmQuery"
 	_, err := Client.R().SetResult(&m).Post(url)
 	if err != nil {
@@ -336,16 +338,16 @@ func MacroChinaShrzgm() ([]*model.MacroChinaShrzgm, error) {
 }
 
 /*
-	东方财富-货币供应量 M0 M1 M2
-	M表示monetary
-	M0:被称为基础货币，它指的是在银行体系外流通的现金，也就是大家没有存在银行而是拿在自己手上的钱，是货币构成中流动性最强的部分
-	M1:是在M0的基础上，加上企业活期存款，代表了货币构成中流动性较强的那部分
-	M2:则是在M1的基础上，再加上企业定期存款、个人储蓄存款和其它存款，因为它包括了M1里的所有货币，所以范围比M1、M0都要大，代表了货币构成中流动性较弱的部分
-	M0:流通中的现金
-	M1:M0+企业活期存款+机关团体部队存款+农村存款+个人持有的信用卡类存款
-	M2:M1+城乡居民储蓄存款+企业存款中具有定期性质的存款+外币存款+信托类存款
+东方财富-货币供应量 M0 M1 M2
+M表示monetary
+M0:被称为基础货币，它指的是在银行体系外流通的现金，也就是大家没有存在银行而是拿在自己手上的钱，是货币构成中流动性最强的部分
+M1:是在M0的基础上，加上企业活期存款，代表了货币构成中流动性较强的那部分
+M2:则是在M1的基础上，再加上企业定期存款、个人储蓄存款和其它存款，因为它包括了M1里的所有货币，所以范围比M1、M0都要大，代表了货币构成中流动性较弱的部分
+M0:流通中的现金
+M1:M0+企业活期存款+机关团体部队存款+农村存款+个人持有的信用卡类存款
+M2:M1+城乡居民储蓄存款+企业存款中具有定期性质的存款+外币存款+信托类存款
 
-	http://data.eastmoney.com/cjsj/hbgyl.html
+http://data.eastmoney.com/cjsj/hbgyl.html
 */
 func MacroChinaMoneySupply() ([]*model.MacroChinaMoneySupply, error) {
 	var data []*model.MacroChinaMoneySupply
@@ -363,6 +365,7 @@ func MacroChinaMoneySupply() ([]*model.MacroChinaMoneySupply, error) {
 	}
 	b := resp.Body()
 	var MacroChinaMoneySupplyModelStrings []string
+	fmt.Println(string(b[1 : len(b)-1]))
 	err = json.Unmarshal(b[1:len(b)-1], &MacroChinaMoneySupplyModelStrings)
 	if err != nil {
 		return data, err
@@ -383,8 +386,8 @@ func MacroChinaMoneySupply() ([]*model.MacroChinaMoneySupply, error) {
 	return data, err
 }
 
-//金十数据中心-经济指标-中国-产业指标-官方制造业PMI
-//https://zhuanlan.zhihu.com/p/100723005 解读
+// 金十数据中心-经济指标-中国-产业指标-官方制造业PMI
+// https://zhuanlan.zhihu.com/p/100723005 解读
 // https://datacenter.jin10.com/reportType/dc_chinese_manufacturing_pmi
 // https://cdn.jin10.com/dc/reports/dc_chinese_manufacturing_pmi_all.js?v=1578817858
 func MacroChinaPmiYearly() (data map[string]string, err error) {
@@ -397,8 +400,8 @@ func MacroChinaPmiYearly() (data map[string]string, err error) {
 }
 
 /*
-   新浪财经-中国宏观经济数据-社会消费品零售总额
-   http://data.eastmoney.com/cjsj/xfp.html
+新浪财经-中国宏观经济数据-社会消费品零售总额
+http://data.eastmoney.com/cjsj/xfp.html
 */
 func MacroChinaConsumerGoodsRetail() ([]*model.MacroChinaConsumerGoodsRetail, error) {
 	data := []*model.MacroChinaConsumerGoodsRetail{}
@@ -527,7 +530,7 @@ func getJin10Yearly(args ...string) (map[string]string, error) {
 	return result, nil
 }
 
-//乐咕乐股-全A 股市盈率
+// 乐咕乐股-全A 股市盈率
 // https://www.legulegu.com/stockdata/market_pe
 // :param symbol: choice of {"sh", "sz", "cy", "zx", "000016.XSHG" ...}
 func StockAPe() (map[string]interface{}, error) {
@@ -553,9 +556,9 @@ func StockAPe() (map[string]interface{}, error) {
 }
 
 // 沪深300 市盈率
-//https://legulegu.com/stockdata/hs300-ttm-lyr
-func SH300PE() ([]model.SH300PE, error) {
-	result := []model.SH300PE{}
+// https://legulegu.com/stockdata/hs300-ttm-lyr
+func SH300PE() ([]*model.SH300PE, error) {
+	result := []*model.SH300PE{}
 	vm := otto.New()
 	vm.Run(SCRIPT)
 	t := time.Now().Format("2006-01-02")
@@ -580,10 +583,10 @@ func SH300PE() ([]model.SH300PE, error) {
 }
 
 // 东方财富网-数据中心-经济数据-中美国债收益率
-//http://data.eastmoney.com/cjsj/zmgzsyl.html
-//[{2022-10-27 00:00:00 0 2.4636 2.6953 3.1142 0 0 0 0 0 0},...]
-func BondZhUsRate() ([]model.BondZhUsRate, error) {
-	result := []model.BondZhUsRate{}
+// http://data.eastmoney.com/cjsj/zmgzsyl.html
+// [{2022-10-27 00:00:00 0 2.4636 2.6953 3.1142 0 0 0 0 0 0},...]
+func BondZhUsRate() ([]*model.BondZhUsRate, error) {
+	result := []*model.BondZhUsRate{}
 	resp, err := Client.R().
 		SetQueryParams(map[string]string{
 			"type":    "RPTA_WEB_TREASURYYIELD",
@@ -606,7 +609,7 @@ func BondZhUsRate() ([]model.BondZhUsRate, error) {
 	json.Unmarshal([]byte(v.String()), &result)
 	total_page := gjson.GetBytes(b, "result.pages").Int()
 	for i := 2; i < int(total_page); i++ {
-		r := []model.BondZhUsRate{}
+		r := []*model.BondZhUsRate{}
 		resp, err := Client.R().
 			SetQueryParams(map[string]string{
 				"type":    "RPTA_WEB_TREASURYYIELD",

@@ -7,11 +7,23 @@ import (
 	"time"
 )
 
-// 中国社会融资规模数据对象
+// 中国社会融资规模增量数据对象
+type SocialFinancingFlow struct {
+	Date        string  `json:"date"`        //时间
+	Ndbab       float32 `json:"ndbab"`       //其中-未贴现银行承兑汇票
+	Entrustloan float32 `json:"entrustloan"` //其中-委托贷款
+	Forcloan    float32 `json:"forcloan"`    //其中-委托贷款外币(折合人民币)
+	Rmblaon     float32 `json:"rmblaon"`     //其中-人民币贷款
+	Bibae       float32 `json:"bibae"`       //其中-企业债券
+	Tiosfs      float32 `json:"tiosfs"`      //社会融资规模增量(亿元)
+	Sfinfe      float32 `json:"sfinfe"`      //其中-非金融企业境内股票融资
+	Trustloan   float32 `json:"trustloan"`   //其中-信托贷款
+}
+
+// 中国社会融资规模存量数据
 // 单位：万亿元人民币
-type MacroChinaShrzgm struct {
+type SocialFinancingStock struct {
 	Date                            string `json:"date"`                    //时间
-	Tyep                            string `json:"tyep"`                    // Flow or Stock 总量或存量
 	Ndbab                           string `json:"ndbab"`                   //其中-未贴现银行承兑汇票
 	Entrustloan                     string `json:"entrustloan"`             //其中-委托贷款
 	Forcloan                        string `json:"forcloan"`                //其中-委托贷款外币(折合人民币)
@@ -36,10 +48,10 @@ type MacroChinaShrzgm struct {
 	GovernmentBondsGrowthRate       string `json:"government_bondsgrowthrate"`
 }
 
-func (m *MacroChinaShrzgm) String() string {
+func (m *SocialFinancingStock) String() string {
 	return fmt.Sprintf(
-		"{date: %v, tyep: %v, ndbab: %v,forcloan: %v, rmblaon: %v, bibae: %v,tiosfs: %v, sfinfe: %v, trustloan: %v,asset_backed_securities: %v, loans_written_off: %v, ndbabgrowthrate: %v,entrustloangrowthrate: %v, forcloangrowthrate: %v, rmblaongrowthrate: %v,bibaegrowthrate: %v,tiosfsgrowthrate: %v, sfinfegrowthrate: %v, trustloangrowthrate: %v,asset_backed_securitiesgrowthrate: %v,loans_written_offgrowthrate: %v,government_bonds: %v,government_bondsgrowthrate:%v}",
-		m.Date, m.Tyep, m.Ndbab, m.Forcloan, m.Rmblaon, m.Bibae, m.Tiosfs, m.Sfinfe, m.Trustloan, m.AssetBackedSecurities, m.LoansWrittenOff, m.NdbabGrowthRate, m.EntrustloanGrowthRate, m.ForcloanGrowthRate, m.RmblaonGrowthRate, m.BibaeGrowthRate, m.TiosfsGrowthRate, m.SfinfeGrowthRate, m.TrustloanGrowthRate, m.AssetBackedSecuritiesGrowthRate, m.LoansWrittenOffGrowthRate, m.GovernmentBonds, m.GovernmentBondsGrowthRate)
+		"{date: %v, ndbab: %v,forcloan: %v, rmblaon: %v, bibae: %v,tiosfs: %v, sfinfe: %v, trustloan: %v,asset_backed_securities: %v, loans_written_off: %v, ndbabgrowthrate: %v,entrustloangrowthrate: %v, forcloangrowthrate: %v, rmblaongrowthrate: %v,bibaegrowthrate: %v,tiosfsgrowthrate: %v, sfinfegrowthrate: %v, trustloangrowthrate: %v,asset_backed_securitiesgrowthrate: %v,loans_written_offgrowthrate: %v,government_bonds: %v,government_bondsgrowthrate:%v}",
+		m.Date, m.Ndbab, m.Forcloan, m.Rmblaon, m.Bibae, m.Tiosfs, m.Sfinfe, m.Trustloan, m.AssetBackedSecurities, m.LoansWrittenOff, m.NdbabGrowthRate, m.EntrustloanGrowthRate, m.ForcloanGrowthRate, m.RmblaonGrowthRate, m.BibaeGrowthRate, m.TiosfsGrowthRate, m.SfinfeGrowthRate, m.TrustloanGrowthRate, m.AssetBackedSecuritiesGrowthRate, m.LoansWrittenOffGrowthRate, m.GovernmentBonds, m.GovernmentBondsGrowthRate)
 }
 
 type MacroChinaMoneySupply struct {

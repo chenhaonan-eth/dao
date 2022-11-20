@@ -8,13 +8,13 @@ feishu:
 # system configuration
 system:
   port: :8888
-  dsn: "guide_sqlite.db"
+  dsn: "dao_sqlite.db"
 
 # zap logger configuration
 zap:
   level: 'info'
   format: 'console'
-  prefix: '[guide]'
+  prefix: '[dao]'
   director: 'log'
   show-line: true
   encode-level: 'LowercaseColorLevelEncoder'

@@ -1,10 +1,8 @@
 package main
 
 import (
-	"github.com/chenhaonan-eth/dao/core"
 	_ "github.com/chenhaonan-eth/dao/core"
-	"github.com/chenhaonan-eth/dao/dal"
-	"github.com/chenhaonan-eth/dao/dal/query"
+	"github.com/chenhaonan-eth/dao/dal/initialize"
 	"github.com/chenhaonan-eth/dao/router"
 	"github.com/chenhaonan-eth/dao/spider"
 )
@@ -17,12 +15,8 @@ import (
 // TODO: 启动时候检查配置文件是否正确
 func main() {
 
-	// 创建本地数据库
-	dal.DB = dal.ConnectDB(core.G_Config.System.Dsn).Debug()
-	query.SetDefault(dal.DB)
-
-	//TODO: 启动时检查数据库，初始化所有Table、数据
-	// db.initDB()
+	// 启动时检查数据库，初始化所有Table、数据
+	initialize.InitDB()
 
 	//TODO: 开启定时任务，定时爬取数据并存入本地数据库
 	spider.StartTask()
