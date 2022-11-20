@@ -27,6 +27,7 @@ func newFturesFoewign(db *gorm.DB, opts ...gen.DOOption) fturesFoewign {
 	tableName := _fturesFoewign.fturesFoewignDo.TableName()
 	_fturesFoewign.ALL = field.NewAsterisk(tableName)
 	_fturesFoewign.Date = field.NewString(tableName, "date")
+	_fturesFoewign.Symbol = field.NewString(tableName, "symbol")
 	_fturesFoewign.Open = field.NewString(tableName, "open")
 	_fturesFoewign.High = field.NewString(tableName, "high")
 	_fturesFoewign.Low = field.NewString(tableName, "low")
@@ -43,6 +44,7 @@ type fturesFoewign struct {
 
 	ALL    field.Asterisk
 	Date   field.String
+	Symbol field.String
 	Open   field.String
 	High   field.String
 	Low    field.String
@@ -65,6 +67,7 @@ func (f fturesFoewign) As(alias string) *fturesFoewign {
 func (f *fturesFoewign) updateTableName(table string) *fturesFoewign {
 	f.ALL = field.NewAsterisk(table)
 	f.Date = field.NewString(table, "date")
+	f.Symbol = field.NewString(table, "symbol")
 	f.Open = field.NewString(table, "open")
 	f.High = field.NewString(table, "high")
 	f.Low = field.NewString(table, "low")
@@ -94,8 +97,9 @@ func (f *fturesFoewign) GetFieldByName(fieldName string) (field.OrderExpr, bool)
 }
 
 func (f *fturesFoewign) fillFieldMap() {
-	f.fieldMap = make(map[string]field.Expr, 6)
+	f.fieldMap = make(map[string]field.Expr, 7)
 	f.fieldMap["date"] = f.Date
+	f.fieldMap["symbol"] = f.Symbol
 	f.fieldMap["open"] = f.Open
 	f.fieldMap["high"] = f.High
 	f.fieldMap["low"] = f.Low

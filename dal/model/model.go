@@ -148,6 +148,7 @@ type MacroPpi struct {
 // 外盘期货交易
 type FturesFoewign struct {
 	Date   string `json:"date"`   //交易日
+	Symbol string `json:"symbol"` //品种
 	Open   string `json:"open"`   //开盘价
 	High   string `json:"high"`   //最高价
 	Low    string `json:"low"`    //最低价

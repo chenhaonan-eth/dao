@@ -14,6 +14,7 @@ import (
 	"github.com/chenhaonan-eth/dao/dal/model"
 	"github.com/chenhaonan-eth/dao/dal/query"
 	"github.com/chenhaonan-eth/dao/economic"
+	"github.com/chenhaonan-eth/dao/ftures"
 	"github.com/chromedp/chromedp"
 	"github.com/go-resty/resty/v2"
 	"github.com/gocolly/colly"
@@ -33,6 +34,8 @@ func InitDB() {
 	dal.DB = dal.ConnectDB(core.G_Config.System.Dsn).Debug()
 	query.SetDefault(dal.DB)
 	queryCtxDo = q.WithContext(context.Background())
+	// 删除表
+	// dal.DB.Migrator().DropTable(&model.FturesFoewign{})
 	// 初始化数据库
 	for _, tabledb := range model.OpArgsMap {
 		// init db table 自动检测是否存在
@@ -55,7 +58,6 @@ func InitDB() {
 	if err := initGDP(); err != nil {
 		log.Println(err)
 	}
-
 	if err := initMacroChinaCpi(); err != nil {
 		log.Println(err)
 	}
@@ -71,6 +73,36 @@ func InitDB() {
 	if err := initBondZhUsRate(); err != nil {
 		log.Println(err)
 	}
+	if err := initCADFuturesForeignHist(); err != nil {
+		log.Println(err)
+	}
+
+}
+
+// 外盘期货 铜
+func initCADFuturesForeignHist() error {
+	do := queryCtxDo.FturesFoewign
+	m, err := do.First()
+	if err != nil {
+		log.Println(err)
+	}
+	if m != nil {
+		return nil
+	}
+	r, err := ftures.FuturesForeignHist("CAD")
+	if err != nil {
+		log.Printf("%s ->err:%s", "CAD", err.Error())
+	}
+	for _, v1 := range r {
+		v1.Symbol = "CAD"
+	}
+	err = do.CreateInBatches(r, 2048)
+	if err != nil {
+		// core.G_LOG.Info("find CollyMacroChinaMoneySupply err", zap.Any("err", err))
+		return err
+	}
+
+	return nil
 }
 
 // 国债收益率

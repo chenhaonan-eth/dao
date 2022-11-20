@@ -3,8 +3,8 @@ package main
 import (
 	_ "github.com/chenhaonan-eth/dao/core"
 	"github.com/chenhaonan-eth/dao/dal/initialize"
-	"github.com/chenhaonan-eth/dao/router"
-	"github.com/chenhaonan-eth/dao/spider"
+	// "github.com/chenhaonan-eth/dao/router"
+	// "github.com/chenhaonan-eth/dao/spider"
 )
 
 // go:generate go env -w GO111MODULE=on
@@ -19,10 +19,10 @@ func main() {
 	initialize.InitDB()
 
 	//TODO: 开启定时任务，定时爬取数据并存入本地数据库
-	spider.StartTask()
+	// spider.StartTask()
 
 	//TODO: HTTP
-	router.Run()
+	// router.Run()
 	//TODO: Grpc
 	// Grpc.run()
 }

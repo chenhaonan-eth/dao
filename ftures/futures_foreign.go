@@ -5,6 +5,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"log"
 	"time"
 
 	"github.com/chenhaonan-eth/dao/dal/model"
@@ -43,6 +44,20 @@ var FuturesMap = map[string]string{
 	"伦敦钯金":     "XPD",
 	"马棕油":      "FCPO",
 	"欧洲碳排放":    "EUA",
+}
+
+// 获取所有外盘期货
+func ALLFuturesForeignHist() ([]*model.FturesFoewign, error) {
+	result := []*model.FturesFoewign{}
+	for _, v := range FuturesMap {
+		r, err := FuturesForeignHist(v)
+		if err != nil {
+			log.Printf("%s ->err:%s", v, err.Error())
+			return result, err
+		}
+		result = append(result, r...)
+	}
+	return result, nil
 }
 
 // 外盘期货-历史行情数据-日频率
