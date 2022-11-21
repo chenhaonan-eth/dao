@@ -26,14 +26,14 @@ import (
 var (
 	client     = resty.New()
 	q          = query.Q
-	queryCtxDo *query.QueryCtx
+	QueryCtxDo *query.QueryCtx
 )
 
-func InitDB() {
+func init() {
 	// 创建本地数据库
 	dal.DB = dal.ConnectDB(core.G_Config.System.Dsn).Debug()
 	query.SetDefault(dal.DB)
-	queryCtxDo = q.WithContext(context.Background())
+	QueryCtxDo = q.WithContext(context.Background())
 	// 删除表
 	// dal.DB.Migrator().DropTable(&model.FturesFoewign{})
 	// 初始化数据库
@@ -81,7 +81,7 @@ func InitDB() {
 
 // 外盘期货 铜
 func initCADFuturesForeignHist() error {
-	do := queryCtxDo.FturesFoewign
+	do := QueryCtxDo.FturesFoewign
 	m, err := do.First()
 	if err != nil {
 		log.Println(err)
@@ -107,7 +107,7 @@ func initCADFuturesForeignHist() error {
 
 // 国债收益率
 func initBondZhUsRate() error {
-	do := queryCtxDo.BondZhUsRate
+	do := QueryCtxDo.BondZhUsRate
 	m, err := do.First()
 	if err != nil {
 		log.Println(err)
@@ -130,7 +130,7 @@ func initBondZhUsRate() error {
 
 // 沪深300市盈率
 func initSH300PE() error {
-	do := queryCtxDo.SH300PE
+	do := QueryCtxDo.SH300PE
 	m, err := do.First()
 	if err != nil {
 		log.Println(err)
@@ -249,7 +249,7 @@ func getToken() (string, error) {
 
 // 获取 M0 M1 M2存储
 func initMacroChinaMoneySupply() error {
-	do := queryCtxDo.MacroChinaMoneySupply
+	do := QueryCtxDo.MacroChinaMoneySupply
 
 	m, err := do.First()
 	if err != nil {
@@ -273,7 +273,7 @@ func initMacroChinaMoneySupply() error {
 
 // pmi 存储
 func initPMI() error {
-	do := queryCtxDo.MacroPMI
+	do := QueryCtxDo.MacroPMI
 	m, err := do.First()
 	if err != nil {
 		log.Println(err)
@@ -298,7 +298,7 @@ func initPMI() error {
 
 // 社会融资总额
 func initTotalSocialFinancing() error {
-	do := queryCtxDo.SocialFinancingFlow
+	do := QueryCtxDo.SocialFinancingFlow
 	m, err := do.First()
 	if err != nil {
 		log.Println(err)
@@ -318,7 +318,7 @@ func initTotalSocialFinancing() error {
 
 // GDP
 func initGDP() error {
-	do := queryCtxDo.MacroGDP
+	do := QueryCtxDo.MacroGDP
 	m, err := do.First()
 	if err != nil {
 		log.Println(err)
@@ -342,7 +342,7 @@ func initGDP() error {
 
 // 社会消费品零售总额
 func initMacroChinaConsumerGoodsRetail() error {
-	do := queryCtxDo.MacroChinaConsumerGoodsRetail
+	do := QueryCtxDo.MacroChinaConsumerGoodsRetail
 	m, err := do.First()
 	if err != nil {
 		log.Println(err)
@@ -360,7 +360,7 @@ func initMacroChinaConsumerGoodsRetail() error {
 
 // cpi
 func initMacroChinaCpi() error {
-	do := queryCtxDo.MacroCpi
+	do := QueryCtxDo.MacroCpi
 	m, err := do.First()
 	if err != nil {
 		log.Println(err)
@@ -384,7 +384,7 @@ func initMacroChinaCpi() error {
 
 // ppi
 func initMacroPpi() error {
-	do := queryCtxDo.MacroPpi
+	do := QueryCtxDo.MacroPpi
 	m, err := do.First()
 	if err != nil {
 		log.Println(err)
@@ -408,7 +408,7 @@ func initMacroPpi() error {
 
 // 社会融资存量
 func initSocialFinancingStock() error {
-	do := queryCtxDo.SocialFinancingStock
+	do := QueryCtxDo.SocialFinancingStock
 	m, err := do.First()
 	if err != nil {
 		log.Println(err)
