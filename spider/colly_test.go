@@ -1,7 +1,8 @@
 package spider
 
-import "testing"
+import (
+	"testing"
+)
 
-func TestCollyCNPPI(t *testing.T) {
-	CollyCNPPI()
+func TestCollyCNSocialFinancingStock(t *testing.T) {
 }

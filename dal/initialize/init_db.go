@@ -25,7 +25,7 @@ import (
 
 var (
 	client     = resty.New()
-	q          = query.Q
+	Q          = query.Q
 	QueryCtxDo *query.QueryCtx
 )
 
@@ -33,7 +33,7 @@ func init() {
 	// 创建本地数据库
 	dal.DB = dal.ConnectDB(core.G_Config.System.Dsn).Debug()
 	query.SetDefault(dal.DB)
-	QueryCtxDo = q.WithContext(context.Background())
+	QueryCtxDo = Q.WithContext(context.Background())
 	// 删除表
 	// dal.DB.Migrator().DropTable(&model.FturesFoewign{})
 	// 初始化数据库
@@ -154,7 +154,7 @@ func initSH300PE() error {
 // 获取所有股票市盈率|市净率|股息率|市销率|总市值
 // 写入sqlite数据库时间较长
 func initleguleguPePSPb() {
-	t := q.PePbPsDvTotalmv
+	t := Q.PePbPsDvTotalmv
 	do := t.WithContext(context.Background())
 
 	c := colly.NewCollector(
@@ -401,7 +401,9 @@ func initMacroPpi() error {
 		ppi.Date = k
 		ppi.Ppi = v
 		ppi.Country = "cn"
-		do.Create(ppi)
+		if v != "" {
+			do.Create(ppi)
+		}
 	}
 	return nil
 }
@@ -425,11 +427,11 @@ func initSocialFinancingStock() error {
 	for _, v := range urlSli {
 		// fmt.Printf("%d -> %s\n", i, v)
 		url := `http://www.pbc.gov.cn` + v
-		err = GetHttpHtmlContent(getSocialFinancingStockHTML(url, `tbody`, `table`, &htmlContent))
+		err = GetHttpHtmlContent(GetSocialFinancingStockHTML(url, `tbody`, `table`, &htmlContent))
 		if err != nil {
 			log.Fatal(err)
 		}
-		datalist, err := processedSocialFinancingStockTable(htmlContent)
+		datalist, err := ProcessedSocialFinancingStockTable(htmlContent)
 		if err != nil {
 			log.Fatal(err)
 			return err
@@ -445,7 +447,7 @@ func getSocialFinancingStockUrlMap() ([]string, error) {
 	htmlContent := ""
 	urlSli := make([]string, 0)
 	url := `http://www.pbc.gov.cn/diaochatongjisi/116219/116319/index.html`
-	err := GetHttpHtmlContent(getSocialFinancingStockHTML(url, `#l_con`, `.qhkuang2 > tbody`, &htmlContent))
+	err := GetHttpHtmlContent(GetSocialFinancingStockHTML(url, `#l_con`, `.qhkuang2 > tbody`, &htmlContent))
 	if err != nil {
 		log.Fatal(err)
 		return urlSli, err
@@ -465,7 +467,7 @@ func getSocialFinancingStockUrlMap() ([]string, error) {
 				href = strings.TrimSpace(href)
 				// 进一步获取 所有talbe 的url
 				url := `http://www.pbc.gov.cn` + href
-				err := GetHttpHtmlContent(getSocialFinancingStockHTML(url, `tbody`, `.border_nr > tbody`, &html))
+				err := GetHttpHtmlContent(GetSocialFinancingStockHTML(url, `tbody`, `.border_nr > tbody`, &html))
 				if err != nil {
 					log.Fatal(err)
 				}
@@ -520,7 +522,7 @@ func GetHttpHtmlContent(tasks chromedp.Tasks) error {
 }
 
 // 获取html
-func getSocialFinancingStockHTML(url, waitVisible, sel string, htmlContent *string) chromedp.Tasks {
+func GetSocialFinancingStockHTML(url, waitVisible, sel string, htmlContent *string) chromedp.Tasks {
 	return chromedp.Tasks{
 		chromedp.Navigate(url),
 		chromedp.WaitVisible(waitVisible),
@@ -531,7 +533,7 @@ func getSocialFinancingStockHTML(url, waitVisible, sel string, htmlContent *stri
 
 // 处理 社会融资规模存量 HTML table
 // return 二维数组
-func processedSocialFinancingStockTable(htmlDom string) ([]*model.SocialFinancingStock, error) {
+func ProcessedSocialFinancingStockTable(htmlDom string) ([]*model.SocialFinancingStock, error) {
 	dataList := make([][]string, 0)
 	macroChinaShrzgmList := []*model.SocialFinancingStock{}
 	dom, err := goquery.NewDocumentFromReader(strings.NewReader(htmlDom))
