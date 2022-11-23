@@ -10,6 +10,7 @@ import (
 
 	"github.com/PuerkitoBio/goquery"
 	"github.com/chenhaonan-eth/dao/dal/initialize"
+	"github.com/chenhaonan-eth/dao/dal/model"
 	"github.com/chromedp/chromedp"
 
 	"github.com/go-resty/resty/v2"
@@ -91,7 +92,6 @@ func CollyCNSocialFinancingStock() {
 	// 无，爬最新数据
 	htmlContent := ""
 	url := `http://www.pbc.gov.cn/diaochatongjisi/116219/116319/index.html`
-	// // create context
 	chromeCtx, cancel := chromedp.NewContext(context.Background())
 	defer cancel()
 	err = chromedp.Run(chromeCtx, chromedp.Tasks{
@@ -105,11 +105,6 @@ func CollyCNSocialFinancingStock() {
 		return
 	}
 
-	// htmlContent, err := utils.ReaderText("./out.txt")
-	// if err != nil {
-	// 	log.Fatal(err)
-	// 	return
-	// }
 	// dom选择器
 	dom, err := goquery.NewDocumentFromReader(strings.NewReader(htmlContent))
 	if err != nil {
@@ -170,11 +165,56 @@ func CollyCNSocialFinancingStock() {
 	})
 }
 
-// 伦铜 每日
+// 伦铜 每日9点
 func CollyCADFuturesForeignHist() {
-	// TODO
 	// 计算本日时间
-	// 查询数据库是否存在最近三日数据
-	// 无，爬最新数据
+	t := time.Now()
+	yesterday := t.AddDate(0, 0, -1).Format("2006-01-02")
+	today := t.Format("2006-01-02")
+	url := `https://vip.stock.finance.sina.com.cn/q/view/vFutures_History.php`
+	resp, err := Client.R().
+		SetQueryParams(map[string]string{
+			"jys":   "LME",
+			"pz":    "CAD",
+			"hy":    "",
+			"breed": "CAD",
+			"type":  "global",
+			"start": yesterday,
+			"end":   today,
+		}).
+		Get(url)
+	if err != nil {
+		log.Fatal(err)
+		return
+	}
+	dom, err := goquery.NewDocumentFromReader(strings.NewReader(string(resp.Body())))
+	if err != nil {
+		log.Fatal(err)
+		return
+	}
+	list := make([]string, 0)
+	dom.Find("body > div.wrap > div.middleSection > div.centerColumn > div.historyList > table:nth-child(1) > tbody > tr.tr_2 td").Each(func(i int, s *goquery.Selection) {
 
+		str := strings.TrimSpace(s.Text())
+		list = append(list, str)
+	})
+	f := &model.FturesFoewign{
+		Date:   list[0],
+		Symbol: "CAD",
+		Close:  list[1],
+		Open:   list[2],
+		High:   list[3],
+		Low:    list[4],
+		Volume: list[5],
+	}
+	// 查询数据库是否存在最近一个月数据
+	m, err := do.FturesFoewign.Order(q.FturesFoewign.Date.Desc()).First()
+	if err != nil {
+		return
+	}
+	if strings.Contains(m.Date, f.Date) {
+		return
+	}
+	do.FturesFoewign.Create(f)
+	// 无，爬最新数据
 }

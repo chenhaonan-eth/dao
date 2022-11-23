@@ -3,7 +3,6 @@ package main
 import (
 	_ "github.com/chenhaonan-eth/dao/core"
 	_ "github.com/chenhaonan-eth/dao/dal/initialize"
-	// "github.com/chenhaonan-eth/dao/spider"
 	// "github.com/chenhaonan-eth/dao/router"
 )
 
