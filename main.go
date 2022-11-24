@@ -3,6 +3,7 @@ package main
 import (
 	_ "github.com/chenhaonan-eth/dao/core"
 	_ "github.com/chenhaonan-eth/dao/dal/initialize"
+	"github.com/chenhaonan-eth/dao/spider"
 	// "github.com/chenhaonan-eth/dao/router"
 )
 
@@ -15,8 +16,8 @@ import (
 func main() {
 	// step1. 启动时检查数据库，初始化所有Table、数据
 
-	//TODO: step2 开启定时任务，定时爬取数据并存入本地数据库
-	// spider.StartTask()
+	// step2 开启定时任务，定时爬取数据并存入本地数据库
+	spider.StartTask()
 
 	//TODO:step3 start HTTP
 	// router.Run()
