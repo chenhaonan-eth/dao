@@ -1,9 +1,10 @@
 package main
 
 import (
-	_ "github.com/chenhaonan-eth/dao/core"
-	_ "github.com/chenhaonan-eth/dao/dal/initialize"
-	"github.com/chenhaonan-eth/dao/spider"
+	cmd "github.com/chenhaonan-eth/dao/cmd/app"
+	// _ "github.com/chenhaonan-eth/dao/core"
+	// _ "github.com/chenhaonan-eth/dao/dal/initialize"
+	// "github.com/chenhaonan-eth/dao/spider"
 	// "github.com/chenhaonan-eth/dao/router"
 )
 
@@ -17,10 +18,9 @@ func main() {
 	// step1. 启动时检查数据库，初始化所有Table、数据
 
 	// step2 开启定时任务，定时爬取数据并存入本地数据库
-	spider.StartTask()
+	// spider.StartTask()
 
-	//TODO:step3 start HTTP
-	// router.Run()
-	//TODO:step4 start Grpc
-	// Grpc.run()
+	// start HTTP Grpc
+	cmd.Execute()
+
 }

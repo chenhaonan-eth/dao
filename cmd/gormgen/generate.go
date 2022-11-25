@@ -2,17 +2,13 @@ package main
 
 // 生成DB代码 https://github.com/go-gorm/gen/tree/master/examples
 import (
-	"fmt"
-
 	"github.com/chenhaonan-eth/dao/dal/model"
-	"gorm.io/driver/sqlite"
 	"gorm.io/gen"
-	"gorm.io/gorm"
 )
 
 var (
-	genOutPath string = "../../dal/query"
-	splDsn     string = "../../guide_sqlite.db"
+	genOutPath string = "./dal/query"
+	// splDsn     string = "../../dao.db"
 )
 
 func main() {
@@ -21,11 +17,11 @@ func main() {
 		Mode:    gen.WithDefaultQuery,
 	})
 	// Initialize a *gorm.DB instance
-	db, err := gorm.Open(sqlite.Open(splDsn), &gorm.Config{})
-	if err != nil {
-		fmt.Println(err)
-	}
-	g.UseDB(db)
+	// db, err := gorm.Open(sqlite.Open(splDsn), &gorm.Config{})
+	// if err != nil {
+	// 	fmt.Println(err)
+	// }
+	// g.UseDB(db)
 
 	for _, tabledb := range model.OpArgsMap {
 		// init db table
