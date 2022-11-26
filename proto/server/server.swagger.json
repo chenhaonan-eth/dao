@@ -16,15 +16,15 @@
     "application/json"
   ],
   "paths": {
-    "/v1/example/echo": {
-      "post": {
-        "summary": "Sends a greeting",
-        "operationId": "Greeter_SayHello",
+    "/v1/macroscopic/FuturesForeignHist/{symbol}": {
+      "get": {
+        "summary": "期货 伦铜:CAD",
+        "operationId": "Greeter_GetFuturesForeignHist",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/helloworldHelloReply"
+              "$ref": "#/definitions/serverFturesFoewignResponse"
             }
           },
           "default": {
@@ -36,14 +36,35 @@
         },
         "parameters": [
           {
-            "name": "body",
-            "in": "body",
+            "name": "symbol",
+            "in": "path",
             "required": true,
-            "schema": {
-              "$ref": "#/definitions/helloworldHelloRequest"
-            }
+            "type": "string"
           }
         ],
+        "tags": [
+          "Greeter"
+        ]
+      }
+    },
+    "/v1/macroscopic/social_financing_stock": {
+      "get": {
+        "summary": "Sends a greeting",
+        "operationId": "Greeter_GetSocialFinancingStock",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/serverSocialFinancingStockResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
         "tags": [
           "Greeter"
         ]
@@ -51,24 +72,6 @@
     }
   },
   "definitions": {
-    "helloworldHelloReply": {
-      "type": "object",
-      "properties": {
-        "message": {
-          "type": "string"
-        }
-      },
-      "title": "The response message containing the greetings"
-    },
-    "helloworldHelloRequest": {
-      "type": "object",
-      "properties": {
-        "name": {
-          "type": "string"
-        }
-      },
-      "title": "The request message containing the user's name"
-    },
     "protobufAny": {
       "type": "object",
       "properties": {
@@ -92,6 +95,149 @@
           "type": "array",
           "items": {
             "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    },
+    "serverFturesFoewign": {
+      "type": "object",
+      "properties": {
+        "date": {
+          "type": "string",
+          "title": "交易日"
+        },
+        "symbol": {
+          "type": "string",
+          "title": "品种"
+        },
+        "open": {
+          "type": "string",
+          "title": "开盘价"
+        },
+        "high": {
+          "type": "string",
+          "title": "最高价"
+        },
+        "low": {
+          "type": "string",
+          "title": "最低价"
+        },
+        "lose": {
+          "type": "string",
+          "title": "收盘价"
+        },
+        "volume": {
+          "type": "string",
+          "title": "成交量"
+        }
+      }
+    },
+    "serverFturesFoewignResponse": {
+      "type": "object",
+      "properties": {
+        "results": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/serverFturesFoewign"
+          }
+        }
+      },
+      "title": "外盘期货交易"
+    },
+    "serverSocialFinancingStock": {
+      "type": "object",
+      "properties": {
+        "date": {
+          "type": "string",
+          "title": "时间"
+        },
+        "ndbab": {
+          "type": "string",
+          "title": "其中-未贴现银行承兑汇票"
+        },
+        "entrustloan": {
+          "type": "string",
+          "title": "其中-委托贷款"
+        },
+        "forcloan": {
+          "type": "string",
+          "title": "其中-委托贷款外币(折合人民币)"
+        },
+        "rmblaon": {
+          "type": "string",
+          "title": "其中-人民币贷款"
+        },
+        "bibae": {
+          "type": "string",
+          "title": "其中-企业债券"
+        },
+        "tiosfs": {
+          "type": "string",
+          "title": "社会融资规模增量(亿元)/存量"
+        },
+        "sfinfe": {
+          "type": "string",
+          "title": "其中-非金融企业境内股票融资"
+        },
+        "trustloan": {
+          "type": "string",
+          "title": "其中-信托贷款"
+        },
+        "assetBackedSecurities": {
+          "type": "string",
+          "title": "存款类金融机构资产支持证券"
+        },
+        "loansWrittenOff": {
+          "type": "string",
+          "title": "贷款核销"
+        },
+        "governmentBonds": {
+          "type": "string",
+          "title": "政府债券"
+        },
+        "ndbabgrowthrate": {
+          "type": "string",
+          "title": "增速（%）"
+        },
+        "entrustloangrowthrate": {
+          "type": "string"
+        },
+        "forcloangrowthrate": {
+          "type": "string"
+        },
+        "rmblaongrowthrate": {
+          "type": "string"
+        },
+        "bibaegrowthrate": {
+          "type": "string"
+        },
+        "tiosfsgrowthrate": {
+          "type": "string"
+        },
+        "sfinfegrowthrate": {
+          "type": "string"
+        },
+        "trustloangrowthrate": {
+          "type": "string"
+        },
+        "assetBackedSecuritiesgrowthrate": {
+          "type": "string"
+        },
+        "loansWrittenOffgrowthrate": {
+          "type": "string"
+        },
+        "governmentBondsgrowthrate": {
+          "type": "string"
+        }
+      }
+    },
+    "serverSocialFinancingStockResponse": {
+      "type": "object",
+      "properties": {
+        "results": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/serverSocialFinancingStock"
           }
         }
       }

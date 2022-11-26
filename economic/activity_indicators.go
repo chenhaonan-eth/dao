@@ -5,6 +5,8 @@ import (
 	"math"
 	"strings"
 	"time"
+
+	"github.com/chenhaonan-eth/dao/economic/macroscopic"
 )
 
 //股债利差来源自FED估值模型（美联储估值模型），也叫风险溢价模型
@@ -14,11 +16,11 @@ import (
 func EquityBbondYieldSpreads() (map[string]float64, error) {
 	// maplist := make(map[string][]float64)
 	maplist := make(map[string]float64)
-	band, err := BondZhUsRate()
+	band, err := macroscopic.BondZhUsRate()
 	if err != nil {
 		return maplist, err
 	}
-	pe, err := SH300PE()
+	pe, err := macroscopic.SH300PE()
 	if err != nil {
 		return maplist, err
 	}

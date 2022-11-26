@@ -2,6 +2,7 @@ package initialize
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"log"
 	"reflect"
@@ -9,31 +10,32 @@ import (
 	"time"
 
 	"github.com/PuerkitoBio/goquery"
-	"github.com/chenhaonan-eth/dao/core"
+	"github.com/chenhaonan-eth/dao/config"
 	"github.com/chenhaonan-eth/dao/dal"
 	"github.com/chenhaonan-eth/dao/dal/model"
 	"github.com/chenhaonan-eth/dao/dal/query"
-	"github.com/chenhaonan-eth/dao/economic"
-	"github.com/chenhaonan-eth/dao/ftures"
+	"github.com/chenhaonan-eth/dao/economic/ftures"
+	"github.com/chenhaonan-eth/dao/economic/macroscopic"
 	"github.com/chromedp/chromedp"
 	"github.com/go-resty/resty/v2"
 	"github.com/gocolly/colly"
 	"github.com/gocolly/colly/extensions"
 	"github.com/robertkrimen/otto"
 	"github.com/tidwall/gjson"
+	"gorm.io/gorm"
 )
 
 var (
-	client     = resty.New()
-	Q          = query.Q
-	QueryCtxDo *query.QueryCtx
+	client = resty.New()
+	q      = query.Q
+	// QueryCtxDo *query.QueryCtx
 )
 
-func init() {
+func Init() {
 	// 创建本地数据库
-	dal.DB = dal.ConnectDB(core.G_Config.System.Dsn).Debug()
+	dal.DB = dal.ConnectDB(config.G_Config.System.Dsn).Debug()
 	query.SetDefault(dal.DB)
-	QueryCtxDo = Q.WithContext(context.Background())
+	// QueryCtxDo = Q.WithContext(context.Background())
 	// 删除表
 	// dal.DB.Migrator().DropTable(&model.FturesFoewign{})
 	// 初始化数据库
@@ -81,72 +83,74 @@ func init() {
 
 // 外盘期货 铜
 func initCADFuturesForeignHist() error {
-	do := QueryCtxDo.FturesFoewign
-	m, err := do.First()
+	t := q.FturesFoewign
+	do := t.WithContext(context.Background())
+
+	_, err := do.First()
 	if err != nil {
 		log.Println(err)
 	}
-	if m != nil {
-		return nil
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		r, err := ftures.FuturesForeignHist("CAD")
+		if err != nil {
+			log.Printf("%s ->err:%s", "CAD", err.Error())
+		}
+		for _, v1 := range r {
+			v1.Symbol = "CAD"
+		}
+		err = do.CreateInBatches(r, 2048)
+		if err != nil {
+			// core.G_LOG.Info("find CollyMacroChinaMoneySupply err", zap.Any("err", err))
+			return err
+		}
 	}
-	r, err := ftures.FuturesForeignHist("CAD")
-	if err != nil {
-		log.Printf("%s ->err:%s", "CAD", err.Error())
-	}
-	for _, v1 := range r {
-		v1.Symbol = "CAD"
-	}
-	err = do.CreateInBatches(r, 2048)
-	if err != nil {
-		// core.G_LOG.Info("find CollyMacroChinaMoneySupply err", zap.Any("err", err))
-		return err
-	}
-
 	return nil
 }
 
 // 国债收益率
 func initBondZhUsRate() error {
-	do := QueryCtxDo.BondZhUsRate
-	m, err := do.First()
+	t := q.BondZhUsRate
+	do := t.WithContext(context.Background())
+
+	_, err := do.First()
 	if err != nil {
 		log.Println(err)
 	}
-	if m != nil {
-		return nil
-	}
-	v, err := economic.BondZhUsRate()
-	if err != nil {
-		// core.G_LOG.Error("find Colly Macro China Money Supply err", zap.Any("err", err))
-		return err
-	}
-	err = do.CreateInBatches(v, 2048)
-	if err != nil {
-		// core.G_LOG.Info("find CollyMacroChinaMoneySupply err", zap.Any("err", err))
-		return err
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		v, err := macroscopic.BondZhUsRate()
+		if err != nil {
+			// core.G_LOG.Error("find Colly Macro China Money Supply err", zap.Any("err", err))
+			return err
+		}
+		err = do.CreateInBatches(v, 2048)
+		if err != nil {
+			// core.G_LOG.Info("find CollyMacroChinaMoneySupply err", zap.Any("err", err))
+			return err
+		}
 	}
 	return nil
 }
 
 // 沪深300市盈率
 func initSH300PE() error {
-	do := QueryCtxDo.SH300PE
-	m, err := do.First()
+	t := q.SH300PE
+	do := t.WithContext(context.Background())
+
+	_, err := do.First()
 	if err != nil {
 		log.Println(err)
 	}
-	if m != nil {
-		return nil
-	}
-	v, err := economic.SH300PE()
-	if err != nil {
-		// core.G_LOG.Error("find Colly Macro China Money Supply err", zap.Any("err", err))
-		return err
-	}
-	err = do.CreateInBatches(v, 1024)
-	if err != nil {
-		// core.G_LOG.Info("find CollyMacroChinaMoneySupply err", zap.Any("err", err))
-		return err
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		v, err := macroscopic.SH300PE()
+		if err != nil {
+			// core.G_LOG.Error("find Colly Macro China Money Supply err", zap.Any("err", err))
+			return err
+		}
+		err = do.CreateInBatches(v, 1024)
+		if err != nil {
+			// core.G_LOG.Info("find CollyMacroChinaMoneySupply err", zap.Any("err", err))
+			return err
+		}
 	}
 	return nil
 }
@@ -154,7 +158,7 @@ func initSH300PE() error {
 // 获取所有股票市盈率|市净率|股息率|市销率|总市值
 // 写入sqlite数据库时间较长
 func initleguleguPePSPb() {
-	t := Q.PePbPsDvTotalmv
+	t := q.PePbPsDvTotalmv
 	do := t.WithContext(context.Background())
 
 	c := colly.NewCollector(
@@ -237,7 +241,7 @@ func Process(name, link string) ([]*model.PePbPsDvTotalmv, error) {
 
 func getToken() (string, error) {
 	vm := otto.New()
-	vm.Run(economic.SCRIPT)
+	vm.Run(macroscopic.SCRIPT)
 	t := time.Now().Format("2006-01-02")
 
 	token, err := vm.Call("hex", nil, t)
@@ -249,39 +253,41 @@ func getToken() (string, error) {
 
 // 获取 M0 M1 M2存储
 func initMacroChinaMoneySupply() error {
-	do := QueryCtxDo.MacroChinaMoneySupply
+	t := q.MacroChinaMoneySupply
+	do := t.WithContext(context.Background())
 
-	m, err := do.First()
+	_, err := do.First()
 	if err != nil {
 		log.Println(err)
 	}
-	if m != nil {
-		return nil
-	}
-	v, err := economic.MacroChinaMoneySupply()
-	if err != nil {
-		// core.G_LOG.Error("find Colly Macro China Money Supply err", zap.Any("err", err))
-		return err
-	}
-	err = do.CreateInBatches(v, 5000)
-	if err != nil {
-		// core.G_LOG.Info("find CollyMacroChinaMoneySupply err", zap.Any("err", err))
-		return err
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		v, err := macroscopic.MacroChinaMoneySupply()
+		if err != nil {
+			// core.G_LOG.Error("find Colly Macro China Money Supply err", zap.Any("err", err))
+			return err
+		}
+		err = do.CreateInBatches(v, 5000)
+		if err != nil {
+			// core.G_LOG.Info("find CollyMacroChinaMoneySupply err", zap.Any("err", err))
+			return err
+		}
 	}
 	return nil
 }
 
 // pmi 存储
 func initPMI() error {
-	do := QueryCtxDo.MacroPMI
-	m, err := do.First()
+	t := q.MacroPMI
+	do := t.WithContext(context.Background())
+
+	_, err := do.First()
 	if err != nil {
 		log.Println(err)
 	}
-	if m != nil {
-		return nil
+	if !errors.Is(err, gorm.ErrRecordNotFound) {
+		return err
 	}
-	v, err := economic.MacroChinaPmiYearly()
+	v, err := macroscopic.MacroChinaPmiYearly()
 	if err != nil {
 		// core.G_LOG.Error("store Macro China Pmi Yearly err", zap.Any("err", err))
 		return err
@@ -298,13 +304,16 @@ func initPMI() error {
 
 // 社会融资总额
 func initTotalSocialFinancing() error {
-	do := QueryCtxDo.SocialFinancingFlow
-	m, err := do.First()
+	t := q.SocialFinancingFlow
+	do := t.WithContext(context.Background())
+
+	_, err := do.First()
 	if err != nil {
 		log.Println(err)
 	}
-	if m == nil {
-		m, err := economic.MacroChinaShrzgm()
+
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		m, err := macroscopic.MacroChinaShrzgm()
 		if err != nil {
 			return err
 		}
@@ -318,15 +327,17 @@ func initTotalSocialFinancing() error {
 
 // GDP
 func initGDP() error {
-	do := QueryCtxDo.MacroGDP
-	m, err := do.First()
+	t := q.MacroGDP
+	do := t.WithContext(context.Background())
+
+	_, err := do.First()
 	if err != nil {
 		log.Println(err)
 	}
-	if m != nil {
-		return nil
+	if !errors.Is(err, gorm.ErrRecordNotFound) {
+		return err
 	}
-	v, err := economic.MacroChinaGdpYearly()
+	v, err := macroscopic.MacroChinaGdpYearly()
 	if err != nil {
 		return err
 	}
@@ -342,15 +353,17 @@ func initGDP() error {
 
 // 社会消费品零售总额
 func initMacroChinaConsumerGoodsRetail() error {
-	do := QueryCtxDo.MacroChinaConsumerGoodsRetail
-	m, err := do.First()
+	t := q.MacroChinaConsumerGoodsRetail
+	do := t.WithContext(context.Background())
+
+	_, err := do.First()
 	if err != nil {
 		log.Println(err)
 	}
-	if m != nil {
-		return nil
+	if !errors.Is(err, gorm.ErrRecordNotFound) {
+		return err
 	}
-	v, err := economic.MacroChinaConsumerGoodsRetail()
+	v, err := macroscopic.MacroChinaConsumerGoodsRetail()
 	if err != nil {
 		return err
 	}
@@ -360,15 +373,17 @@ func initMacroChinaConsumerGoodsRetail() error {
 
 // cpi
 func initMacroChinaCpi() error {
-	do := QueryCtxDo.MacroCpi
-	m, err := do.First()
+	t := q.MacroCpi
+	do := t.WithContext(context.Background())
+
+	_, err := do.First()
 	if err != nil {
 		log.Println(err)
 	}
-	if m != nil {
-		return nil
+	if !errors.Is(err, gorm.ErrRecordNotFound) {
+		return err
 	}
-	v, err := economic.MacroChinaCpiYearly()
+	v, err := macroscopic.MacroChinaCpiYearly()
 	if err != nil {
 		return err
 	}
@@ -384,15 +399,17 @@ func initMacroChinaCpi() error {
 
 // ppi
 func initMacroPpi() error {
-	do := QueryCtxDo.MacroPpi
-	m, err := do.First()
+	t := q.MacroPpi
+	do := t.WithContext(context.Background())
+
+	_, err := do.First()
 	if err != nil {
 		log.Println(err)
 	}
-	if m != nil {
-		return nil
+	if !errors.Is(err, gorm.ErrRecordNotFound) {
+		return err
 	}
-	v, err := economic.MacroChinaPpiYearly()
+	v, err := macroscopic.MacroChinaPpiYearly()
 	if err != nil {
 		return err
 	}
@@ -410,13 +427,15 @@ func initMacroPpi() error {
 
 // 社会融资存量
 func initSocialFinancingStock() error {
-	do := QueryCtxDo.SocialFinancingStock
-	m, err := do.First()
+	t := q.SocialFinancingStock
+	do := t.WithContext(context.Background())
+
+	_, err := do.First()
 	if err != nil {
 		log.Println(err)
 	}
-	if m != nil {
-		return nil
+	if !errors.Is(err, gorm.ErrRecordNotFound) {
+		return err
 	}
 	var htmlContent string
 	// macroChinaShrzgmList := []*model.SocialFinancingStock{}

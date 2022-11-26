@@ -10,7 +10,6 @@ import (
 )
 
 func main() {
-
 	conn, err := grpc.Dial(":50052", grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
 		log.Fatal(err)
@@ -18,14 +17,13 @@ func main() {
 	defer conn.Close()
 	c := pb.NewGreeterClient(conn)
 	context := context.Background()
-	body := &pb.HelloRequest{
-		Name: "Grpc",
+	body := &pb.FturesFoewignRequest{
+		Symbol: "CAD",
 	}
 
-	r, err := c.SayHello(context, body)
+	r, err := c.GetFuturesForeignHist(context, body)
 	if err != nil {
 		log.Println(err)
 	}
-
-	log.Println(r.Message)
+	log.Println(r.Results)
 }

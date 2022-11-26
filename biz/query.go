@@ -3,9 +3,10 @@ package biz
 
 import (
 	"context"
-	"fmt"
+	"log"
 
 	"github.com/chenhaonan-eth/dao/dal/query"
+	"github.com/chenhaonan-eth/dao/pkg/utils"
 )
 
 var q = query.Q
@@ -15,16 +16,10 @@ func Query(ctx context.Context) {
 	do := t.WithContext(context.Background())
 
 	data, err := do.Take()
-	catchError("Take", err)
-	fmt.Printf("got %+v\n", data)
+	utils.CatchError("Take", err)
+	log.Printf("got %+v\n", data)
 
 	dataArray, err := do.Find()
-	catchError("Find", err)
-	fmt.Printf("got %+v\n", dataArray)
-}
-
-func catchError(detail string, err error) {
-	if err != nil {
-		fmt.Printf("%s: %v\n", detail, err)
-	}
+	utils.CatchError("Find", err)
+	log.Printf("got %+v\n", dataArray)
 }

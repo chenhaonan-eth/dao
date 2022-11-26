@@ -10,7 +10,7 @@ import (
 	"strings"
 
 	"github.com/chenhaonan-eth/dao/pkg/ui/data/swagger"
-	"github.com/chenhaonan-eth/dao/pkg/utils.go"
+	"github.com/chenhaonan-eth/dao/pkg/utils"
 	pb "github.com/chenhaonan-eth/dao/proto/server"
 	assetfs "github.com/elazarl/go-bindata-assetfs"
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
@@ -40,7 +40,7 @@ func Run() {
 	// Attach the Greeter service to the server
 	pb.RegisterGreeterServer(grpcServer, &server{})
 	// Serve gRPC server
-	log.Printf("Serving gRPC on 0.0.0.0%s", gRPCEndPoint)
+	log.Printf("Serving gRPC on %s", gRPCEndPoint)
 	go func() {
 		log.Fatalln(grpcServer.Serve(lis))
 	}()
@@ -76,7 +76,6 @@ func Run() {
 
 	log.Printf("Serving gRPC-Gateway on http://0.0.0.0%s", HTTPEndPoint)
 	log.Fatalln(gwServer.ListenAndServe())
-
 }
 
 func serveSwaggerFile(w http.ResponseWriter, r *http.Request) {

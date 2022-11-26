@@ -1,30 +1,70 @@
 syntax = "proto3";
 
-package helloworld;
+package server;
 
 import "google/api/annotations.proto";
-
+import "google/protobuf/empty.proto";
 // Defines the import path that should be used to import the generated package
 // and the package name
 option go_package = "github.com/chenhaonan-eth/dao/proto;server";
 
-// Here is the overall greeting service definition where we define all our endpoints
+message FturesFoewignRequest { string symbol = 1; }
+message SocialFinancingStockResponse {
+  repeated SocialFinancingStock results = 1;
+}
+message SocialFinancingStock {
+  string date = 1;        //时间
+  string ndbab = 2;       //其中-未贴现银行承兑汇票
+  string entrustloan = 3; //其中-委托贷款
+  string forcloan = 4;    //其中-委托贷款外币(折合人民币)
+  string rmblaon = 5;     //其中-人民币贷款
+  string bibae = 6;       //其中-企业债券
+  string tiosfs = 7;      //社会融资规模增量(亿元)/存量
+  string sfinfe = 8;      //其中-非金融企业境内股票融资
+  string trustloan = 9;   //其中-信托贷款
+  string asset_backed_securities = 10; //存款类金融机构资产支持证券
+  string loans_written_off = 11;       //贷款核销
+  string government_bonds = 12;        //政府债券
+  string ndbabgrowthrate = 13;         //增速（%）
+  string entrustloangrowthrate = 14;
+  string forcloangrowthrate = 15;
+  string rmblaongrowthrate = 16;
+  string bibaegrowthrate = 17;
+  string tiosfsgrowthrate = 18;
+  string sfinfegrowthrate = 19;
+  string trustloangrowthrate = 20;
+  string asset_backed_securitiesgrowthrate = 21;
+  string loans_written_offgrowthrate = 22;
+  string government_bondsgrowthrate = 23;
+}
+
+// 外盘期货交易
+message FturesFoewignResponse {
+  repeated FturesFoewign results = 1;
+}
+message FturesFoewign {
+  string date = 1;   //交易日
+  string symbol = 2; //品种
+  string open = 3;   //开盘价
+  string high = 4;   //最高价
+  string low = 5;    //最低价
+  string lose = 6;   //收盘价
+  string volume = 7; //成交量
+}
+// Here is the overall greeting service definition where we define all our
+// endpoints
 service Greeter {
   // Sends a greeting
-  rpc SayHello (HelloRequest) returns (HelloReply) {
+  rpc GetSocialFinancingStock(google.protobuf.Empty) returns (SocialFinancingStockResponse) {
     option (google.api.http) = {
-      post: "/v1/example/echo"
-      body: "*"
+      get : "/v1/macroscopic/social_financing_stock"
     };
   }
-}
 
-// The request message containing the user's name
-message HelloRequest {
-  string name = 1;
-}
-
-// The response message containing the greetings
-message HelloReply {
-  string message = 1;
+  // 期货 伦铜:CAD
+  rpc GetFuturesForeignHist(FturesFoewignRequest) returns (FturesFoewignResponse) {
+    option (google.api.http) = {
+      get : "/v1/macroscopic/FuturesForeignHist/{symbol}"
+    };
+  }
 }

@@ -11,6 +11,7 @@ import (
 	"github.com/PuerkitoBio/goquery"
 	"github.com/chenhaonan-eth/dao/dal/initialize"
 	"github.com/chenhaonan-eth/dao/dal/model"
+	"github.com/chenhaonan-eth/dao/dal/query"
 	"github.com/chromedp/chromedp"
 
 	"github.com/go-resty/resty/v2"
@@ -19,21 +20,23 @@ import (
 
 var (
 	Client = resty.New()
-	do     = initialize.QueryCtxDo
-	q      = initialize.Q
+	q      = query.Q
 )
 
 // 爬取CN社融ppi，从每月9号开始
 func CollyCNPPI() {
+	t := q.MacroPpi
+	do := t.WithContext(context.Background())
+
 	// 计算本月时间
-	t := time.Now().Format("2006-01")
+	t1 := time.Now().Format("2006-01")
 	log.Println(t)
 	// 查询数据库是否存在最近一个月数据
-	m, err := do.MacroPpi.Order(q.MacroPpi.Date.Desc()).First()
+	m, err := do.Order(q.MacroPpi.Date.Desc()).First()
 	if err != nil {
 		return
 	}
-	if strings.Contains(m.Date, t) {
+	if strings.Contains(m.Date, t1) {
 		return
 	}
 	// 无，获取最新数据
@@ -67,10 +70,10 @@ func CollyCNPPI() {
 	value := gjson.GetBytes(b, "data.values").Array()
 	for _, v := range value {
 		vl := v.Array()
-		if find := strings.Contains(vl[0].String(), t); find {
+		if find := strings.Contains(vl[0].String(), t1); find {
 			m.Date = vl[0].String()
 			m.Ppi = vl[1].String()
-			do.MacroPpi.Create(m)
+			do.Create(m)
 			return
 		}
 	}
@@ -78,15 +81,17 @@ func CollyCNPPI() {
 
 // 社会融资存量
 func CollyCNSocialFinancingStock() {
+	t := q.SocialFinancingStock
+	do := t.WithContext(context.Background())
+
 	// 计算本月时间
-	t := time.Now().Format("2006.01")
-	log.Println(t)
+	tf := time.Now().Format("2006.01")
 	// 查询数据库是否存在最近一个月数据
-	m, err := do.SocialFinancingStock.Order(q.MacroPpi.Date.Desc()).First()
+	m, err := do.Order(q.MacroPpi.Date.Desc()).First()
 	if err != nil {
 		return
 	}
-	if strings.Contains(m.Date, t) {
+	if strings.Contains(m.Date, tf) {
 		return
 	}
 	// 无，爬最新数据
@@ -156,7 +161,7 @@ func CollyCNSocialFinancingStock() {
 						log.Println(datalist)
 						last := datalist[len(datalist)-1]
 						if last.Date != m.Date {
-							do.SocialFinancingStock.Create(last)
+							do.Create(last)
 						}
 					}
 				}
@@ -167,10 +172,13 @@ func CollyCNSocialFinancingStock() {
 
 // 伦铜 每日9点
 func CollyCADFuturesForeignHist() {
+	t := q.FturesFoewign
+	do := t.WithContext(context.Background())
+
 	// 计算本日时间
-	t := time.Now()
-	yesterday := t.AddDate(0, 0, -1).Format("2006-01-02")
-	today := t.Format("2006-01-02")
+	tf := time.Now()
+	yesterday := tf.AddDate(0, 0, -1).Format("2006-01-02")
+	today := tf.Format("2006-01-02")
 	url := `https://vip.stock.finance.sina.com.cn/q/view/vFutures_History.php`
 	resp, err := Client.R().
 		SetQueryParams(map[string]string{
@@ -208,13 +216,12 @@ func CollyCADFuturesForeignHist() {
 		Volume: list[5],
 	}
 	// 查询数据库是否存在最近一个月数据
-	m, err := do.FturesFoewign.Order(q.FturesFoewign.Date.Desc()).First()
+	m, err := do.Order(q.FturesFoewign.Date.Desc()).First()
 	if err != nil {
 		return
 	}
 	if strings.Contains(m.Date, f.Date) {
 		return
 	}
-	do.FturesFoewign.Create(f)
-	// 无，爬最新数据
+	do.Create(f)
 }
