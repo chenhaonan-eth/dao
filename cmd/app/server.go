@@ -39,7 +39,9 @@ var serverCmd = &cobra.Command{
 func init() {
 	// 我们定义了一个flag，值存储在&server.ServerPort中，长命令为--port，短命令为-p，，默认值为50052。
 	// 命令的描述为server port。这一种调用方式成为Local Flags 本地标签
-	serverCmd.Flags().StringVarP(&server.HttpPort, "httpport", "", "50053", "http port")
+
+	serverCmd.Flags().StringVarP(&server.Network, "network", "n", "tcp", `one of "tcp" or "unix". Must be consistent to -endpoint`)
+	serverCmd.Flags().StringVarP(&server.HttpPort, "http-port", "", "50053", "http port")
 	serverCmd.Flags().StringVarP(&server.ServerPort, "gRPCport", "p", "50052", "server port")
 	serverCmd.Flags().StringVarP(&server.SwaggerDir, "swagger-dir", "", "proto/server", "path to the directory which contains swagger definitions")
 

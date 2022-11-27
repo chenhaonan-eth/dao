@@ -12,18 +12,24 @@
 
 因为使用了chromedp库，所以Ubuntu使用需要事先安装chrome
 
+```bash
 ### 下载源加入到系统的源列表
-
 sudo wget <http://www.linuxidc.com/files/repo/google-chrome.list> -P /etc/apt/sources.list.d/
 
-### 导入谷歌软件公钥
-
+# 导入谷歌软件公钥
 wget -q -O - <https://dl.google.com/linux/linux_signing_key.pub>  | sudo apt-key add -
 
 ### 更新列表
-
 sudo apt-get update
 
 ## 安装chrome
-
 sudo apt-get install google-chrome-stable
+```
+
+### Swagger
+
+```bash
+http://0.0.0.0:50053/openapiv2/server.swagger.json
+
+http://0.0.0.0:50053/swagger-ui/
+```

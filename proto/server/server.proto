@@ -4,9 +4,20 @@ package server;
 
 import "google/api/annotations.proto";
 import "google/protobuf/empty.proto";
+import "protoc-gen-openapiv2/options/annotations.proto";
 // Defines the import path that should be used to import the generated package
 // and the package name
 option go_package = "github.com/chenhaonan-eth/dao/proto;server";
+
+// 定义swagger内容
+option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
+  info : {title : "Dao swagger";
+version : "V1.0";
+}
+;
+schemes : HTTP;
+}
+;
 
 message FturesFoewignRequest { string symbol = 1; }
 message SocialFinancingStockResponse {
@@ -39,9 +50,7 @@ message SocialFinancingStock {
 }
 
 // 外盘期货交易
-message FturesFoewignResponse {
-  repeated FturesFoewign results = 1;
-}
+message FturesFoewignResponse { repeated FturesFoewign results = 1; }
 message FturesFoewign {
   string date = 1;   //交易日
   string symbol = 2; //品种
@@ -51,20 +60,89 @@ message FturesFoewign {
   string lose = 6;   //收盘价
   string volume = 7; //成交量
 }
-// Here is the overall greeting service definition where we define all our
-// endpoints
+
+message PpiRequest { string country = 1; }
+message PpiResponse { repeated Ppi results = 1; }
+message Ppi {
+  string date = 1;
+  string country = 2;
+  string ppi = 3;
+}
+
+message GdpRequest { string country = 1; }
+message GdpResponse { repeated Gdp results = 1; }
+message Gdp {
+  string date = 1;
+  string country = 2;
+  string gdp = 3;
+}
+
+message PmiRequest { string country = 1; }
+message PmiResponse { repeated Pmi results = 1; }
+message Pmi {
+  string date = 1;
+  string country = 2;
+  string pmi = 3;
+}
+
+// 中美国债
+message BondZhUsRateResponse { repeated BondZhUsRate results = 1; }
+message BondZhUsRate {
+  string date = 1;
+  double cN2Years = 2;     //中国国债收益率2年
+  double cN5Years = 3;     //中国国债收益率5年
+  double cN10Years = 4;    //中国国债收益率10年
+  double cN30Years = 5;    //中国国债收益率30年
+  double cN10_2Years = 6;  //中国国债收益率10年-2年
+  double uS2Years = 7;     //美国国债收益率2年
+  double uS5Years = 8;     //美国国债收益率5年
+  double uS10Years = 9;    //美国国债收益率10年
+  double uS30Years = 10;   //美国国债收益率30年
+  double uS10_2Years = 11; //美国国债收益率10年-2年
+}
+
 service Greeter {
-  // Sends a greeting
-  rpc GetSocialFinancingStock(google.protobuf.Empty) returns (SocialFinancingStockResponse) {
+
+    // 中美国债2、5、10、30年收益率
+    rpc GetBondZhUsRate(google.protobuf.Empty) returns (BondZhUsRateResponse) {
+  option (google.api.http) = {
+    get : "/v1/macroscopic/bond_zh_us_rate"
+  };
+}
+  // 社会融资存量
+  rpc GetSocialFinancingStock(google.protobuf.Empty)
+      returns (SocialFinancingStockResponse) {
     option (google.api.http) = {
       get : "/v1/macroscopic/social_financing_stock"
     };
   }
 
   // 期货 伦铜:CAD
-  rpc GetFuturesForeignHist(FturesFoewignRequest) returns (FturesFoewignResponse) {
+  rpc GetFuturesForeignHist(FturesFoewignRequest)
+      returns (FturesFoewignResponse) {
     option (google.api.http) = {
       get : "/v1/macroscopic/FuturesForeignHist/{symbol}"
+    };
+  }
+
+  // PPI
+  rpc GetPpi(PpiRequest) returns (PpiResponse) {
+    option (google.api.http) = {
+      get : "/v1/macroscopic/ppi/{country}"
+    };
+  }
+
+  // GDP
+  rpc GetGdp(GdpRequest) returns (GdpResponse) {
+    option (google.api.http) = {
+      get : "/v1/macroscopic/gdp/{country}"
+    };
+  }
+
+  // PMI
+  rpc GetPmi(PmiRequest) returns (PmiResponse) {
+    option (google.api.http) = {
+      get : "/v1/macroscopic/pmi/{country}"
     };
   }
 }

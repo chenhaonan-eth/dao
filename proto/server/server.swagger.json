@@ -1,13 +1,16 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "server/server.proto",
-    "version": "version not set"
+    "title": "Dao swagger",
+    "version": "V1.0"
   },
   "tags": [
     {
       "name": "Greeter"
     }
+  ],
+  "schemes": [
+    "http"
   ],
   "consumes": [
     "application/json"
@@ -47,9 +50,125 @@
         ]
       }
     },
+    "/v1/macroscopic/bond_zh_us_rate": {
+      "get": {
+        "summary": "中美国债2、5、10、30年收益率",
+        "operationId": "Greeter_GetBondZhUsRate",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/serverBondZhUsRateResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "tags": [
+          "Greeter"
+        ]
+      }
+    },
+    "/v1/macroscopic/gdp/{country}": {
+      "get": {
+        "summary": "GDP",
+        "operationId": "Greeter_GetGdp",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/serverGdpResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "country",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "Greeter"
+        ]
+      }
+    },
+    "/v1/macroscopic/pmi/{country}": {
+      "get": {
+        "summary": "PMI",
+        "operationId": "Greeter_GetPmi",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/serverPmiResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "country",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "Greeter"
+        ]
+      }
+    },
+    "/v1/macroscopic/ppi/{country}": {
+      "get": {
+        "summary": "PPI",
+        "operationId": "Greeter_GetPpi",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/serverPpiResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "country",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "Greeter"
+        ]
+      }
+    },
     "/v1/macroscopic/social_financing_stock": {
       "get": {
-        "summary": "Sends a greeting",
+        "summary": "社会融资存量",
         "operationId": "Greeter_GetSocialFinancingStock",
         "responses": {
           "200": {
@@ -99,6 +218,76 @@
         }
       }
     },
+    "serverBondZhUsRate": {
+      "type": "object",
+      "properties": {
+        "date": {
+          "type": "string"
+        },
+        "cN2Years": {
+          "type": "number",
+          "format": "double",
+          "title": "中国国债收益率2年"
+        },
+        "cN5Years": {
+          "type": "number",
+          "format": "double",
+          "title": "中国国债收益率5年"
+        },
+        "cN10Years": {
+          "type": "number",
+          "format": "double",
+          "title": "中国国债收益率10年"
+        },
+        "cN30Years": {
+          "type": "number",
+          "format": "double",
+          "title": "中国国债收益率30年"
+        },
+        "cN102Years": {
+          "type": "number",
+          "format": "double",
+          "title": "中国国债收益率10年-2年"
+        },
+        "uS2Years": {
+          "type": "number",
+          "format": "double",
+          "title": "美国国债收益率2年"
+        },
+        "uS5Years": {
+          "type": "number",
+          "format": "double",
+          "title": "美国国债收益率5年"
+        },
+        "uS10Years": {
+          "type": "number",
+          "format": "double",
+          "title": "美国国债收益率10年"
+        },
+        "uS30Years": {
+          "type": "number",
+          "format": "double",
+          "title": "美国国债收益率30年"
+        },
+        "uS102Years": {
+          "type": "number",
+          "format": "double",
+          "title": "美国国债收益率10年-2年"
+        }
+      }
+    },
+    "serverBondZhUsRateResponse": {
+      "type": "object",
+      "properties": {
+        "results": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/serverBondZhUsRate"
+          }
+        }
+      },
+      "title": "中美国债"
+    },
     "serverFturesFoewign": {
       "type": "object",
       "properties": {
@@ -143,6 +332,81 @@
         }
       },
       "title": "外盘期货交易"
+    },
+    "serverGdp": {
+      "type": "object",
+      "properties": {
+        "date": {
+          "type": "string"
+        },
+        "country": {
+          "type": "string"
+        },
+        "gdp": {
+          "type": "string"
+        }
+      }
+    },
+    "serverGdpResponse": {
+      "type": "object",
+      "properties": {
+        "results": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/serverGdp"
+          }
+        }
+      }
+    },
+    "serverPmi": {
+      "type": "object",
+      "properties": {
+        "date": {
+          "type": "string"
+        },
+        "country": {
+          "type": "string"
+        },
+        "pmi": {
+          "type": "string"
+        }
+      }
+    },
+    "serverPmiResponse": {
+      "type": "object",
+      "properties": {
+        "results": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/serverPmi"
+          }
+        }
+      }
+    },
+    "serverPpi": {
+      "type": "object",
+      "properties": {
+        "date": {
+          "type": "string"
+        },
+        "country": {
+          "type": "string"
+        },
+        "ppi": {
+          "type": "string"
+        }
+      }
+    },
+    "serverPpiResponse": {
+      "type": "object",
+      "properties": {
+        "results": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/serverPpi"
+          }
+        }
+      }
     },
     "serverSocialFinancingStock": {
       "type": "object",
