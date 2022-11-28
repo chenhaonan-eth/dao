@@ -73,6 +73,60 @@
         ]
       }
     },
+    "/v1/macroscopic/consumer_goods_retail": {
+      "get": {
+        "summary": "社会消费品零售总额",
+        "operationId": "Greeter_GetConsumerGoodsRetail",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/serverConsumerGoodsRetailResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "tags": [
+          "Greeter"
+        ]
+      }
+    },
+    "/v1/macroscopic/cpi/{country}": {
+      "get": {
+        "summary": "Cpi",
+        "operationId": "Greeter_GetCpi",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/serverCpiResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "country",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "Greeter"
+        ]
+      }
+    },
     "/v1/macroscopic/gdp/{country}": {
       "get": {
         "summary": "GDP",
@@ -99,6 +153,29 @@
             "type": "string"
           }
         ],
+        "tags": [
+          "Greeter"
+        ]
+      }
+    },
+    "/v1/macroscopic/money_supply": {
+      "get": {
+        "summary": "货币供应",
+        "operationId": "Greeter_GetMoneySupply",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/serverMoneySupplyResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
         "tags": [
           "Greeter"
         ]
@@ -161,6 +238,52 @@
             "type": "string"
           }
         ],
+        "tags": [
+          "Greeter"
+        ]
+      }
+    },
+    "/v1/macroscopic/sh300pe": {
+      "get": {
+        "summary": "沪深300市盈率",
+        "operationId": "Greeter_GetSH300PE",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/serverSH300PEResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "tags": [
+          "Greeter"
+        ]
+      }
+    },
+    "/v1/macroscopic/social_financing_flows": {
+      "get": {
+        "summary": "社会融资总量",
+        "operationId": "Greeter_GetTotalSocialFlows",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/serverSocialFinancingFlowsResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
         "tags": [
           "Greeter"
         ]
@@ -288,6 +411,75 @@
       },
       "title": "中美国债"
     },
+    "serverConsumerGoodsRetail": {
+      "type": "object",
+      "properties": {
+        "date": {
+          "type": "string"
+        },
+        "totalRetailSales": {
+          "type": "number",
+          "format": "double",
+          "title": "社会消费品零售总额(亿元)"
+        },
+        "yearOnYear": {
+          "type": "number",
+          "format": "double",
+          "title": "同比增长"
+        },
+        "yearOverYear": {
+          "type": "number",
+          "format": "double",
+          "title": "环比增长"
+        },
+        "totalAccumulation": {
+          "type": "number",
+          "format": "double",
+          "title": "累计"
+        },
+        "totalAccumulationYearOnYear": {
+          "type": "number",
+          "format": "double",
+          "title": "累计同比增长"
+        }
+      }
+    },
+    "serverConsumerGoodsRetailResponse": {
+      "type": "object",
+      "properties": {
+        "results": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/serverConsumerGoodsRetail"
+          }
+        }
+      }
+    },
+    "serverCpi": {
+      "type": "object",
+      "properties": {
+        "date": {
+          "type": "string"
+        },
+        "country": {
+          "type": "string"
+        },
+        "cpi": {
+          "type": "string"
+        }
+      }
+    },
+    "serverCpiResponse": {
+      "type": "object",
+      "properties": {
+        "results": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/serverCpi"
+          }
+        }
+      }
+    },
     "serverFturesFoewign": {
       "type": "object",
       "properties": {
@@ -358,6 +550,70 @@
         }
       }
     },
+    "serverMoneySupply": {
+      "type": "object",
+      "properties": {
+        "date": {
+          "type": "string"
+        },
+        "m2": {
+          "type": "number",
+          "format": "double",
+          "title": "货币和准货币(M2)数量(亿元)"
+        },
+        "m2YearOnYear": {
+          "type": "number",
+          "format": "double",
+          "title": "货币和准货币(M2)同比增长 / %"
+        },
+        "m2YearOverYear": {
+          "type": "number",
+          "format": "double",
+          "title": "货币和准货币(M2)环比增长"
+        },
+        "m1": {
+          "type": "number",
+          "format": "double",
+          "title": "货币(M1)数量(亿元)"
+        },
+        "m1YearOnYear": {
+          "type": "number",
+          "format": "double",
+          "title": "货币(M1)同比增长"
+        },
+        "m1YearOverYear": {
+          "type": "number",
+          "format": "double",
+          "title": "货币(M1)环比增长"
+        },
+        "m0": {
+          "type": "number",
+          "format": "double",
+          "title": "流通中的现金(M0)数量(亿元)"
+        },
+        "m0YearOnYear": {
+          "type": "number",
+          "format": "double",
+          "title": "流通中的现金(M0)同比增长"
+        },
+        "m0YearOverYear": {
+          "type": "number",
+          "format": "double",
+          "title": "流通中的现金(M0)环比增长"
+        }
+      }
+    },
+    "serverMoneySupplyResponse": {
+      "type": "object",
+      "properties": {
+        "results": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/serverMoneySupply"
+          }
+        }
+      }
+    },
     "serverPmi": {
       "type": "object",
       "properties": {
@@ -404,6 +660,117 @@
           "type": "array",
           "items": {
             "$ref": "#/definitions/serverPpi"
+          }
+        }
+      }
+    },
+    "serverSH300PE": {
+      "type": "object",
+      "properties": {
+        "date": {
+          "type": "number",
+          "format": "double",
+          "title": "时间"
+        },
+        "middleLyrPe": {
+          "type": "number",
+          "format": "double",
+          "title": "沪深300静态市盈率中位数"
+        },
+        "lyrPe": {
+          "type": "number",
+          "format": "double",
+          "title": "沪深300静态市盈率等权平均"
+        },
+        "addLyrPe": {
+          "type": "number",
+          "format": "double",
+          "title": "沪深300静态市盈率"
+        },
+        "middleTtmPe": {
+          "type": "number",
+          "format": "double",
+          "title": "沪深300滚动市盈率(TTM)中位数"
+        },
+        "ttmPe": {
+          "type": "number",
+          "format": "double",
+          "title": "沪深300滚动市盈率(TTM)等权平均"
+        },
+        "addTtmPe": {
+          "type": "number",
+          "format": "double",
+          "title": "沪深300滚动市盈率(TTM)"
+        }
+      }
+    },
+    "serverSH300PEResponse": {
+      "type": "object",
+      "properties": {
+        "results": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/serverSH300PE"
+          }
+        }
+      }
+    },
+    "serverSocialFinancingFlow": {
+      "type": "object",
+      "properties": {
+        "date": {
+          "type": "string"
+        },
+        "ndbab": {
+          "type": "number",
+          "format": "float",
+          "title": "其中-未贴现银行承兑汇票"
+        },
+        "entrustloan": {
+          "type": "number",
+          "format": "float",
+          "title": "其中-委托贷款"
+        },
+        "forcloan": {
+          "type": "number",
+          "format": "float",
+          "title": "其中-委托贷款外币(折合人民币)"
+        },
+        "rmblaon": {
+          "type": "number",
+          "format": "float",
+          "title": "其中-人民币贷款"
+        },
+        "bibae": {
+          "type": "number",
+          "format": "float",
+          "title": "其中-企业债券"
+        },
+        "tiosfs": {
+          "type": "number",
+          "format": "float",
+          "title": "社会融资规模增量(亿元)"
+        },
+        "sfinfe": {
+          "type": "number",
+          "format": "float",
+          "title": "其中-非金融企业境内股票融资"
+        },
+        "trustloan": {
+          "type": "number",
+          "format": "float",
+          "title": "其中-信托贷款"
+        }
+      },
+      "title": "中国社会融资规模增量"
+    },
+    "serverSocialFinancingFlowsResponse": {
+      "type": "object",
+      "properties": {
+        "results": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/serverSocialFinancingFlow"
           }
         }
       }

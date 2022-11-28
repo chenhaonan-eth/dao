@@ -4,7 +4,6 @@ package model
 
 import (
 	"fmt"
-	"time"
 )
 
 // 中国社会融资规模增量数据对象
@@ -55,25 +54,25 @@ func (m *SocialFinancingStock) String() string {
 }
 
 type MacroChinaMoneySupply struct {
-	Date           time.Time //月份
-	M2             float64   //货币和准货币(M2)数量(亿元)
-	M2YearOnYear   float64   //货币和准货币(M2)同比增长
-	M2YearOverYear float64   //货币和准货币(M2)环比增长
-	M1             float64   //货币(M1)数量(亿元)
-	M1YearOnYear   float64   //货币(M1)同比增长
-	M1YearOverYear float64   //货币(M1)环比增长
-	M0             float64   //流通中的现金(M0)数量(亿元)
-	M0YearOnYear   float64   //流通中的现金(M0)同比增长
-	M0YearOverYear float64   //流通中的现金(M0)环比增长
+	Date           string  `json:"REPORT_DATE"`               //月份
+	M2             float64 `json:"BASIC_CURRENCY"`            //货币和准货币(M2)数量(亿元)
+	M2YearOnYear   float64 `json:"BASIC_CURRENCY_SAME"`       //货币和准货币(M2)同比增长 / %
+	M2YearOverYear float64 `json:"BASIC_CURRENCY_SEQUENTIAL"` //货币和准货币(M2)环比增长
+	M1             float64 `json:"CURRENCY"`                  //货币(M1)数量(亿元)
+	M1YearOnYear   float64 `json:"CURRENCY_SAME"`             //货币(M1)同比增长
+	M1YearOverYear float64 `json:"CURRENCY_SEQUENTIAL"`       //货币(M1)环比增长
+	M0             float64 `json:"FREE_CASH"`                 //流通中的现金(M0)数量(亿元)
+	M0YearOnYear   float64 `json:"FREE_CASH_SAME"`            //流通中的现金(M0)同比增长
+	M0YearOverYear float64 `json:"FREE_CASH_SEQUENTIAL"`      //流通中的现金(M0)环比增长
 }
 
 type MacroChinaConsumerGoodsRetail struct {
-	Date                        string `gorm:"index"`
-	TotalRetailSales            string // 社会消费品零售总额(亿元)
-	YearOnYear                  string // 同比增长
-	YearOverYear                string // 环比增长
-	TotalAccumulation           string // 累计
-	TotalAccumulationYearOnYear string // 累计同比增长
+	Date                        string  `json:"REPORT_DATE" gorm:"index"`
+	TotalRetailSales            float64 `json:"RETAIL_TOTAL"`            // 社会消费品零售总额(亿元)
+	YearOnYear                  float64 `json:"RETAIL_TOTAL_SAME"`       // 同比增长
+	YearOverYear                float64 `json:"RETAIL_TOTAL_SEQUENTIAL"` // 环比增长
+	TotalAccumulation           float64 `json:"RETAIL_TOTAL_ACCUMULATE"` // 累计
+	TotalAccumulationYearOnYear float64 `json:"RETAIL_ACCUMULATE_SAME"`  // 累计同比增长
 }
 
 // 中美国债模型

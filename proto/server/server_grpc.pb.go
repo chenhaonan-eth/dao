@@ -23,8 +23,12 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type GreeterClient interface {
+	// 沪深300市盈率
+	GetSH300PE(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*SH300PEResponse, error)
 	// 中美国债2、5、10、30年收益率
 	GetBondZhUsRate(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*BondZhUsRateResponse, error)
+	// 社会融资总量
+	GetTotalSocialFlows(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*SocialFinancingFlowsResponse, error)
 	// 社会融资存量
 	GetSocialFinancingStock(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*SocialFinancingStockResponse, error)
 	// 期货 伦铜:CAD
@@ -35,6 +39,12 @@ type GreeterClient interface {
 	GetGdp(ctx context.Context, in *GdpRequest, opts ...grpc.CallOption) (*GdpResponse, error)
 	// PMI
 	GetPmi(ctx context.Context, in *PmiRequest, opts ...grpc.CallOption) (*PmiResponse, error)
+	// Cpi
+	GetCpi(ctx context.Context, in *CpiRequest, opts ...grpc.CallOption) (*CpiResponse, error)
+	// 货币供应
+	GetMoneySupply(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*MoneySupplyResponse, error)
+	// 社会消费品零售总额
+	GetConsumerGoodsRetail(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*ConsumerGoodsRetailResponse, error)
 }
 
 type greeterClient struct {
@@ -45,9 +55,27 @@ func NewGreeterClient(cc grpc.ClientConnInterface) GreeterClient {
 	return &greeterClient{cc}
 }
 
+func (c *greeterClient) GetSH300PE(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*SH300PEResponse, error) {
+	out := new(SH300PEResponse)
+	err := c.cc.Invoke(ctx, "/server.Greeter/GetSH300PE", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *greeterClient) GetBondZhUsRate(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*BondZhUsRateResponse, error) {
 	out := new(BondZhUsRateResponse)
 	err := c.cc.Invoke(ctx, "/server.Greeter/GetBondZhUsRate", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *greeterClient) GetTotalSocialFlows(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*SocialFinancingFlowsResponse, error) {
+	out := new(SocialFinancingFlowsResponse)
+	err := c.cc.Invoke(ctx, "/server.Greeter/GetTotalSocialFlows", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -99,12 +127,43 @@ func (c *greeterClient) GetPmi(ctx context.Context, in *PmiRequest, opts ...grpc
 	return out, nil
 }
 
+func (c *greeterClient) GetCpi(ctx context.Context, in *CpiRequest, opts ...grpc.CallOption) (*CpiResponse, error) {
+	out := new(CpiResponse)
+	err := c.cc.Invoke(ctx, "/server.Greeter/GetCpi", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *greeterClient) GetMoneySupply(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*MoneySupplyResponse, error) {
+	out := new(MoneySupplyResponse)
+	err := c.cc.Invoke(ctx, "/server.Greeter/GetMoneySupply", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *greeterClient) GetConsumerGoodsRetail(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*ConsumerGoodsRetailResponse, error) {
+	out := new(ConsumerGoodsRetailResponse)
+	err := c.cc.Invoke(ctx, "/server.Greeter/GetConsumerGoodsRetail", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // GreeterServer is the server API for Greeter service.
 // All implementations should embed UnimplementedGreeterServer
 // for forward compatibility
 type GreeterServer interface {
+	// 沪深300市盈率
+	GetSH300PE(context.Context, *emptypb.Empty) (*SH300PEResponse, error)
 	// 中美国债2、5、10、30年收益率
 	GetBondZhUsRate(context.Context, *emptypb.Empty) (*BondZhUsRateResponse, error)
+	// 社会融资总量
+	GetTotalSocialFlows(context.Context, *emptypb.Empty) (*SocialFinancingFlowsResponse, error)
 	// 社会融资存量
 	GetSocialFinancingStock(context.Context, *emptypb.Empty) (*SocialFinancingStockResponse, error)
 	// 期货 伦铜:CAD
@@ -115,14 +174,26 @@ type GreeterServer interface {
 	GetGdp(context.Context, *GdpRequest) (*GdpResponse, error)
 	// PMI
 	GetPmi(context.Context, *PmiRequest) (*PmiResponse, error)
+	// Cpi
+	GetCpi(context.Context, *CpiRequest) (*CpiResponse, error)
+	// 货币供应
+	GetMoneySupply(context.Context, *emptypb.Empty) (*MoneySupplyResponse, error)
+	// 社会消费品零售总额
+	GetConsumerGoodsRetail(context.Context, *emptypb.Empty) (*ConsumerGoodsRetailResponse, error)
 }
 
 // UnimplementedGreeterServer should be embedded to have forward compatible implementations.
 type UnimplementedGreeterServer struct {
 }
 
+func (UnimplementedGreeterServer) GetSH300PE(context.Context, *emptypb.Empty) (*SH300PEResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetSH300PE not implemented")
+}
 func (UnimplementedGreeterServer) GetBondZhUsRate(context.Context, *emptypb.Empty) (*BondZhUsRateResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetBondZhUsRate not implemented")
+}
+func (UnimplementedGreeterServer) GetTotalSocialFlows(context.Context, *emptypb.Empty) (*SocialFinancingFlowsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetTotalSocialFlows not implemented")
 }
 func (UnimplementedGreeterServer) GetSocialFinancingStock(context.Context, *emptypb.Empty) (*SocialFinancingStockResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetSocialFinancingStock not implemented")
@@ -139,6 +210,15 @@ func (UnimplementedGreeterServer) GetGdp(context.Context, *GdpRequest) (*GdpResp
 func (UnimplementedGreeterServer) GetPmi(context.Context, *PmiRequest) (*PmiResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetPmi not implemented")
 }
+func (UnimplementedGreeterServer) GetCpi(context.Context, *CpiRequest) (*CpiResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetCpi not implemented")
+}
+func (UnimplementedGreeterServer) GetMoneySupply(context.Context, *emptypb.Empty) (*MoneySupplyResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetMoneySupply not implemented")
+}
+func (UnimplementedGreeterServer) GetConsumerGoodsRetail(context.Context, *emptypb.Empty) (*ConsumerGoodsRetailResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetConsumerGoodsRetail not implemented")
+}
 
 // UnsafeGreeterServer may be embedded to opt out of forward compatibility for this service.
 // Use of this interface is not recommended, as added methods to GreeterServer will
@@ -149,6 +229,24 @@ type UnsafeGreeterServer interface {
 
 func RegisterGreeterServer(s grpc.ServiceRegistrar, srv GreeterServer) {
 	s.RegisterService(&Greeter_ServiceDesc, srv)
+}
+
+func _Greeter_GetSH300PE_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(emptypb.Empty)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GreeterServer).GetSH300PE(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/server.Greeter/GetSH300PE",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GreeterServer).GetSH300PE(ctx, req.(*emptypb.Empty))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
 func _Greeter_GetBondZhUsRate_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -165,6 +263,24 @@ func _Greeter_GetBondZhUsRate_Handler(srv interface{}, ctx context.Context, dec 
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(GreeterServer).GetBondZhUsRate(ctx, req.(*emptypb.Empty))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Greeter_GetTotalSocialFlows_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(emptypb.Empty)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GreeterServer).GetTotalSocialFlows(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/server.Greeter/GetTotalSocialFlows",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GreeterServer).GetTotalSocialFlows(ctx, req.(*emptypb.Empty))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -259,6 +375,60 @@ func _Greeter_GetPmi_Handler(srv interface{}, ctx context.Context, dec func(inte
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Greeter_GetCpi_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CpiRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GreeterServer).GetCpi(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/server.Greeter/GetCpi",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GreeterServer).GetCpi(ctx, req.(*CpiRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Greeter_GetMoneySupply_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(emptypb.Empty)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GreeterServer).GetMoneySupply(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/server.Greeter/GetMoneySupply",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GreeterServer).GetMoneySupply(ctx, req.(*emptypb.Empty))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Greeter_GetConsumerGoodsRetail_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(emptypb.Empty)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GreeterServer).GetConsumerGoodsRetail(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/server.Greeter/GetConsumerGoodsRetail",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GreeterServer).GetConsumerGoodsRetail(ctx, req.(*emptypb.Empty))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Greeter_ServiceDesc is the grpc.ServiceDesc for Greeter service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -267,8 +437,16 @@ var Greeter_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*GreeterServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
+			MethodName: "GetSH300PE",
+			Handler:    _Greeter_GetSH300PE_Handler,
+		},
+		{
 			MethodName: "GetBondZhUsRate",
 			Handler:    _Greeter_GetBondZhUsRate_Handler,
+		},
+		{
+			MethodName: "GetTotalSocialFlows",
+			Handler:    _Greeter_GetTotalSocialFlows_Handler,
 		},
 		{
 			MethodName: "GetSocialFinancingStock",
@@ -289,6 +467,18 @@ var Greeter_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetPmi",
 			Handler:    _Greeter_GetPmi_Handler,
+		},
+		{
+			MethodName: "GetCpi",
+			Handler:    _Greeter_GetCpi_Handler,
+		},
+		{
+			MethodName: "GetMoneySupply",
+			Handler:    _Greeter_GetMoneySupply_Handler,
+		},
+		{
+			MethodName: "GetConsumerGoodsRetail",
+			Handler:    _Greeter_GetConsumerGoodsRetail_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

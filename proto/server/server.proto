@@ -85,6 +85,14 @@ message Pmi {
   string pmi = 3;
 }
 
+message CpiRequest { string country = 1; }
+message CpiResponse { repeated Cpi results = 1; }
+message Cpi {
+  string date = 1;
+  string country = 2;
+  string cpi = 3;
+}
+
 // 中美国债
 message BondZhUsRateResponse { repeated BondZhUsRate results = 1; }
 message BondZhUsRate {
@@ -101,14 +109,79 @@ message BondZhUsRate {
   double uS10_2Years = 11; //美国国债收益率10年-2年
 }
 
-service Greeter {
-
-    // 中美国债2、5、10、30年收益率
-    rpc GetBondZhUsRate(google.protobuf.Empty) returns (BondZhUsRateResponse) {
-  option (google.api.http) = {
-    get : "/v1/macroscopic/bond_zh_us_rate"
-  };
+message SocialFinancingFlowsResponse {
+  repeated SocialFinancingFlow results = 1;
 }
+// 中国社会融资规模增量
+message SocialFinancingFlow {
+  string date = 1;
+  float ndbab = 2;       //其中-未贴现银行承兑汇票
+  float entrustloan = 3; //其中-委托贷款
+  float forcloan = 4;    //其中-委托贷款外币(折合人民币)
+  float rmblaon = 5;     //其中-人民币贷款
+  float bibae = 6;       //其中-企业债券
+  float tiosfs = 7;      //社会融资规模增量(亿元)
+  float sfinfe = 8;      //其中-非金融企业境内股票融资
+  float trustloan = 9;   //其中-信托贷款
+}
+message SH300PEResponse { repeated SH300PE results = 1; }
+message SH300PE {
+  double date = 1;        // 时间
+  double middleLyrPe = 2; //沪深300静态市盈率中位数
+  double lyrPe = 3;       //沪深300静态市盈率等权平均
+  double addLyrPe = 4;    //沪深300静态市盈率
+  double middleTtmPe = 5; //沪深300滚动市盈率(TTM)中位数
+  double ttmPe = 6;       //沪深300滚动市盈率(TTM)等权平均
+  double addTtmPe = 7;    //沪深300滚动市盈率(TTM)
+}
+message MoneySupplyResponse { repeated MoneySupply results = 1; }
+message MoneySupply {
+  string date = 1;
+  double m2 = 2;              //货币和准货币(M2)数量(亿元)
+  double m2YearOnYear = 3;    //货币和准货币(M2)同比增长 / %
+  double m2YearOverYear = 4;  //货币和准货币(M2)环比增长/ %
+  double m1 = 5;              //货币(M1)数量(亿元)
+  double m1YearOnYear = 6;    //货币(M1)同比增长/ %
+  double m1YearOverYear = 7;  //货币(M1)环比增长/ %
+  double m0 = 8;              //流通中的现金(M0)数量(亿元)
+  double m0YearOnYear = 9;    //流通中的现金(M0)同比增长/ %
+  double m0YearOverYear = 10; //流通中的现金(M0)环比增长/ %
+}
+
+message ConsumerGoodsRetailResponse {
+  repeated ConsumerGoodsRetail results = 1;
+}
+message ConsumerGoodsRetail {
+  string date = 1;
+  double totalRetailSales = 2;            // 社会消费品零售总额(亿元)
+  double yearOnYear = 3;                  // 同比增长/ %
+  double yearOverYear = 4;                // 环比增长/ %
+  double totalAccumulation = 5;           // 累计/ %
+  double totalAccumulationYearOnYear = 6; // 累计同比增长/ %
+}
+service Greeter {
+  // 沪深300市盈率
+  rpc GetSH300PE(google.protobuf.Empty) returns (SH300PEResponse) {
+    option (google.api.http) = {
+      get : "/v1/macroscopic/sh300pe"
+    };
+  }
+
+  // 中美国债2、5、10、30年收益率
+  rpc GetBondZhUsRate(google.protobuf.Empty) returns (BondZhUsRateResponse) {
+    option (google.api.http) = {
+      get : "/v1/macroscopic/bond_zh_us_rate"
+    };
+  }
+
+  // 社会融资总量
+  rpc GetTotalSocialFlows(google.protobuf.Empty)
+      returns (SocialFinancingFlowsResponse) {
+    option (google.api.http) = {
+      get : "/v1/macroscopic/social_financing_flows"
+    };
+  }
+
   // 社会融资存量
   rpc GetSocialFinancingStock(google.protobuf.Empty)
       returns (SocialFinancingStockResponse) {
@@ -143,6 +216,28 @@ service Greeter {
   rpc GetPmi(PmiRequest) returns (PmiResponse) {
     option (google.api.http) = {
       get : "/v1/macroscopic/pmi/{country}"
+    };
+  }
+
+  // Cpi
+  rpc GetCpi(CpiRequest) returns (CpiResponse) {
+    option (google.api.http) = {
+      get : "/v1/macroscopic/cpi/{country}"
+    };
+  }
+
+  // 货币供应
+  rpc GetMoneySupply(google.protobuf.Empty) returns (MoneySupplyResponse) {
+    option (google.api.http) = {
+      get : "/v1/macroscopic/money_supply"
+    };
+  }
+
+  // 社会消费品零售总额
+  rpc GetConsumerGoodsRetail(google.protobuf.Empty)
+      returns (ConsumerGoodsRetailResponse) {
+    option (google.api.http) = {
+      get : "/v1/macroscopic/consumer_goods_retail"
     };
   }
 }

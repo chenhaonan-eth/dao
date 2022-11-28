@@ -5,7 +5,6 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"reflect"
 	"strconv"
 	"strings"
 	"time"
@@ -349,41 +348,34 @@ M2:M1+城乡居民储蓄存款+企业存款中具有定期性质的存款+外币
 
 http://data.eastmoney.com/cjsj/hbgyl.html
 */
+
 func MacroChinaMoneySupply() ([]*model.MacroChinaMoneySupply, error) {
-	var data []*model.MacroChinaMoneySupply
+	result := []*model.MacroChinaMoneySupply{}
 	resp, err := Client.R().
 		SetQueryParams(map[string]string{
-			"type": "GJZB",
-			"sty":  "ZGZB",
-			"p":    "1",
-			"ps":   "200",
-			"mkt":  "11",
+			"columns":     "REPORT_DATE,BASIC_CURRENCY,BASIC_CURRENCY_SAME,BASIC_CURRENCY_SEQUENTIAL,CURRENCY,CURRENCY_SAME,CURRENCY_SEQUENTIAL,FREE_CASH,FREE_CASH_SAME,FREE_CASH_SEQUENTIAL",
+			"pageNumber":  "1",
+			"pageSize":    "2000",
+			"sortColumns": "REPORT_DATE",
+			"sortTypes":   "-1",
+			"source":      "WEB",
+			"client":      "WEB",
+			"reportName":  "RPT_ECONOMY_CURRENCY_SUPPLY",
+			"p":           "1",
+			"pageNo":      "1",
+			"pageNum":     "1",
+			"_":           "1669047266881",
 		}).
-		Get("http://datainterface.eastmoney.com/EM_DataCenter/JS.aspx")
+		Get("https://datacenter-web.eastmoney.com/api/data/v1/get")
 	if err != nil {
-		return data, err
+		return result, err
 	}
 	b := resp.Body()
-	var MacroChinaMoneySupplyModelStrings []string
-	fmt.Println(string(b[1 : len(b)-1]))
-	err = json.Unmarshal(b[1:len(b)-1], &MacroChinaMoneySupplyModelStrings)
-	if err != nil {
-		return data, err
-	}
-	for _, s := range MacroChinaMoneySupplyModelStrings {
-		fields := strings.Split(s, ",")
-		m := model.MacroChinaMoneySupply{}
-		ivalue := reflect.ValueOf(&m).Elem()
-		for i := 1; i < ivalue.NumField(); i++ {
-			elem := ivalue.Field(i)
-			value, _ := strconv.ParseFloat(fields[i], 64)
-			elem.SetFloat(value)
-		}
-		parseTime, _ := time.ParseInLocation("2006-01-02", fields[0], time.Local)
-		m.Date = parseTime
-		data = append(data, &m)
-	}
-	return data, err
+
+	v := gjson.GetBytes(b, "result.data")
+	// log.Println(v)
+	json.Unmarshal([]byte(v.String()), &result)
+	return result, err
 }
 
 // 金十数据中心-经济指标-中国-产业指标-官方制造业PMI
@@ -404,39 +396,67 @@ func MacroChinaPmiYearly() (data map[string]string, err error) {
 http://data.eastmoney.com/cjsj/xfp.html
 */
 func MacroChinaConsumerGoodsRetail() ([]*model.MacroChinaConsumerGoodsRetail, error) {
-	data := []*model.MacroChinaConsumerGoodsRetail{}
-	url := "http://datainterface.eastmoney.com/EM_DataCenter/JS.aspx"
-	rep, err := Client.R().
+	result := []*model.MacroChinaConsumerGoodsRetail{}
+	resp, err := Client.R().
 		SetQueryParams(map[string]string{
-			"type":    "GJZB",
-			"sty":     "ZGZB",
-			"js":      "({data:[(x)],pages:(pc)})",
-			"p":       "1",
-			"ps":      "2000",
-			"mkt":     "5",
-			"pageNo":  "1",
-			"pageNum": "1",
-			"_":       "1625822628225"}).
-		Get(url)
+			"columns":     "REPORT_DATE,RETAIL_TOTAL,RETAIL_TOTAL_SAME,RETAIL_TOTAL_SEQUENTIAL,RETAIL_TOTAL_ACCUMULATE,RETAIL_ACCUMULATE_SAME",
+			"pageNumber":  "1",
+			"pageSize":    "1000",
+			"sortColumns": "REPORT_DATE",
+			"sortTypes":   "-1",
+			"source":      "WEB",
+			"client":      "WEB",
+			"reportName":  "RPT_ECONOMY_TOTAL_RETAIL",
+			"p":           "1",
+			"pageNo":      "1",
+			"pageNum":     "1",
+			"_":           "1660718498421",
+		}).
+		Get("https://datacenter-web.eastmoney.com/api/data/v1/get")
 	if err != nil {
-		return data, err
+		return result, err
 	}
-	byBody := rep.Body()
-	bydata := byBody[bytes.IndexAny(byBody, "[") : bytes.IndexAny(byBody, "]")+1]
-	var modestrings []string
-	json.Unmarshal(bydata, &modestrings)
-	for _, v := range modestrings {
-		m := model.MacroChinaConsumerGoodsRetail{}
-		str := strings.Split(v, ",")
-		ivalue := reflect.ValueOf(&m).Elem()
-		for i, s := range str {
-			elem := ivalue.Field(i)
-			elem.SetString(s)
-		}
-		data = append(data, &m)
-	}
-	return data, nil
+	b := resp.Body()
+
+	v := gjson.GetBytes(b, "result.data")
+	json.Unmarshal([]byte(v.String()), &result)
+	return result, nil
 }
+
+// func MacroChinaConsumerGoodsRetail() ([]*model.MacroChinaConsumerGoodsRetail, error) {
+// 	data := []*model.MacroChinaConsumerGoodsRetail{}
+// 	url := "http://datainterface.eastmoney.com/EM_DataCenter/JS.aspx"
+// 	rep, err := Client.R().
+// 		SetQueryParams(map[string]string{
+// 			"type":    "GJZB",
+// 			"sty":     "ZGZB",
+// 			"js":      "({data:[(x)],pages:(pc)})",
+// 			"p":       "1",
+// 			"ps":      "2000",
+// 			"mkt":     "5",
+// 			"pageNo":  "1",
+// 			"pageNum": "1",
+// 			"_":       "1625822628225"}).
+// 		Get(url)
+// 	if err != nil {
+// 		return data, err
+// 	}
+// 	byBody := rep.Body()
+// 	bydata := byBody[bytes.IndexAny(byBody, "[") : bytes.IndexAny(byBody, "]")+1]
+// 	var modestrings []string
+// 	json.Unmarshal(bydata, &modestrings)
+// 	for _, v := range modestrings {
+// 		m := model.MacroChinaConsumerGoodsRetail{}
+// 		str := strings.Split(v, ",")
+// 		ivalue := reflect.ValueOf(&m).Elem()
+// 		for i, s := range str {
+// 			elem := ivalue.Field(i)
+// 			elem.SetString(s)
+// 		}
+// 		data = append(data, &m)
+// 	}
+// 	return data, nil
+// }
 
 // 金十数据中心-中国 GDP 年率报告, 数据区间从 20110120-至今
 // https://datacenter.jin10.com/reportType/dc_chinese_gdp_yoy

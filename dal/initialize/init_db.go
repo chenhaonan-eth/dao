@@ -22,6 +22,7 @@ import (
 	"github.com/gocolly/colly/extensions"
 	"github.com/robertkrimen/otto"
 	"github.com/tidwall/gjson"
+	"go.uber.org/zap"
 	"gorm.io/gorm"
 )
 
@@ -45,38 +46,37 @@ func Init() {
 	}
 	// 检查数据库是否有数据 没有的话加载数据
 	if err := initTotalSocialFinancing(); err != nil {
-		log.Println(err)
+		config.G_LOG.Error("initTotalSocialFinancing ", zap.Error(err))
 	}
-	// TODO 东财接口失效 等待重写代码
-	// if err := initMacroChinaMoneySupply(); err != nil {
-	// 	log.Println(err)
-	// }
-	// if err := initMacroChinaConsumerGoodsRetail(); err != nil {
-	// 	log.Println(err)
-	// }
+	if err := initMacroChinaMoneySupply(); err != nil {
+		config.G_LOG.Error("initMacroChinaMoneySupply ", zap.Error(err))
+	}
+	if err := initMacroChinaConsumerGoodsRetail(); err != nil {
+		config.G_LOG.Error("initMacroChinaConsumerGoodsRetail ", zap.Error(err))
+	}
 	if err := initPMI(); err != nil {
-		log.Println(err)
+		config.G_LOG.Error("initPMI ", zap.Error(err))
 	}
 	if err := initGDP(); err != nil {
-		log.Println(err)
+		config.G_LOG.Error("initGDP ", zap.Error(err))
 	}
 	if err := initMacroChinaCpi(); err != nil {
-		log.Println(err)
+		config.G_LOG.Error("initMacroChinaCpi ", zap.Error(err))
 	}
 	if err := initMacroPpi(); err != nil {
-		log.Println(err)
+		config.G_LOG.Error("initMacroPpi ", zap.Error(err))
 	}
 	if err := initSocialFinancingStock(); err != nil {
-		log.Println(err)
+		config.G_LOG.Error("initSocialFinancingStock ", zap.Error(err))
 	}
 	if err := initSH300PE(); err != nil {
-		log.Println(err)
+		config.G_LOG.Error("initSH300PE ", zap.Error(err))
 	}
 	if err := initBondZhUsRate(); err != nil {
-		log.Println(err)
+		config.G_LOG.Error("initBondZhUsRate ", zap.Error(err))
 	}
 	if err := initCADFuturesForeignHist(); err != nil {
-		log.Println(err)
+		config.G_LOG.Error("initCADFuturesForeignHist ", zap.Error(err))
 	}
 
 }

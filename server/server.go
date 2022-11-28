@@ -10,6 +10,7 @@ import (
 	"path"
 	"strings"
 
+	"github.com/chenhaonan-eth/dao/biz"
 	"github.com/chenhaonan-eth/dao/pkg/ui/data/swagger"
 	"github.com/chenhaonan-eth/dao/pkg/utils"
 	pb "github.com/chenhaonan-eth/dao/proto/server"
@@ -48,11 +49,8 @@ func Run() {
 		}
 	}()
 
-	select {
-	case err := <-errCh:
-		fmt.Fprintln(os.Stderr, err)
-		os.Exit(1)
-	}
+	err := <-errCh
+	fmt.Fprintln(os.Stderr, err)
 }
 func rungateway(ctx context.Context) error {
 	ctx, cancel := context.WithCancel(ctx)
@@ -115,7 +113,7 @@ func rungRPC(ctx context.Context) error {
 	// Create a gRPC server object
 	grpcServer := grpc.NewServer()
 	// Attach the Greeter service to the server
-	pb.RegisterGreeterServer(grpcServer, NewServer())
+	pb.RegisterGreeterServer(grpcServer, biz.NewServer())
 	// Serve gRPC server
 	log.Printf("Serving gRPC on %s", gRPCEndPoint)
 	go func() {

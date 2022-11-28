@@ -21,7 +21,10 @@ func TestMacroChinaMoneySupply(t *testing.T) {
 	if err != nil {
 		t.Error(err)
 	}
-	t.Log(v)
+	for _, v := range v {
+		t.Logf("%v", *v)
+	}
+
 }
 
 func TestMacroChinaPmiYearly(t *testing.T) {
@@ -37,7 +40,9 @@ func TestMacroChinaConsumerGoodsRetail(t *testing.T) {
 	if err != nil {
 		t.Error(err)
 	}
-	t.Logf("%+v", v)
+	for _, v := range v {
+		t.Logf("%v", *v)
+	}
 }
 
 func TestMacroChinaGdpYearly(t *testing.T) {
