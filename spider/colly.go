@@ -9,10 +9,13 @@ import (
 	"time"
 
 	"github.com/PuerkitoBio/goquery"
+	"github.com/chenhaonan-eth/dao/config"
 	"github.com/chenhaonan-eth/dao/dal/initialize"
 	"github.com/chenhaonan-eth/dao/dal/model"
 	"github.com/chenhaonan-eth/dao/dal/query"
+	"github.com/chenhaonan-eth/dao/economic/macroscopic"
 	"github.com/chromedp/chromedp"
+	"go.uber.org/zap"
 
 	"github.com/go-resty/resty/v2"
 	"github.com/tidwall/gjson"
@@ -23,8 +26,46 @@ var (
 	q      = query.Q
 )
 
+// 爬取CN CPI
+func CollyCNCPI() {
+	config.G_LOG.Debug("Start CollyCNCPI ")
+	t := q.MacroCpi
+	do := t.WithContext(context.Background())
+	// 计算本月时间
+	t1 := time.Now().Format("2006-01")
+	// 查询数据库是否存在最近一个月数据
+	m, err := do.Order(q.MacroCpi.Date.Desc()).First()
+	if err != nil {
+		config.G_LOG.Error("find db", zap.Error(err))
+		return
+	}
+	if strings.Contains(m.Date, t1) && m.Cpi != "" {
+		config.G_LOG.Error("CollyCNPPI ", zap.Any("db date:", m.Date), zap.Any("today", t1))
+		return
+	}
+	v, err := macroscopic.MacroChinaCpiYearly()
+	if err != nil {
+		config.G_LOG.Debug("CollyCNCPI ", zap.Error(err))
+		return
+	}
+	if cpi, ok := v[t1]; ok {
+		if strings.Contains(m.Date, t1) && m.Cpi == "" {
+			do.Where(t.Date.Eq(t1)).Update(t.Cpi, cpi)
+			config.G_LOG.Debug("CollyCNCPI Update", zap.Any("date", t1), zap.Any("cpi", cpi))
+		}
+		if !strings.Contains(m.Date, t1) {
+			m.Date = t1
+			m.Cpi = cpi
+			do.Create(m)
+			config.G_LOG.Debug("CollyCNCPI Create", zap.Any("data", m))
+		}
+	}
+	config.G_LOG.Debug("End CollyCNCPI ")
+}
+
 // 爬取CN社融ppi，从每月9号开始
 func CollyCNPPI() {
+	config.G_LOG.Debug("start CollyCNPPI ")
 	t := q.MacroPpi
 	do := t.WithContext(context.Background())
 
@@ -34,9 +75,11 @@ func CollyCNPPI() {
 	// 查询数据库是否存在最近一个月数据
 	m, err := do.Order(q.MacroPpi.Date.Desc()).First()
 	if err != nil {
+		config.G_LOG.Error("CollyCNPPI ", zap.Error(err))
 		return
 	}
 	if strings.Contains(m.Date, t1) {
+		config.G_LOG.Error("CollyCNPPI ", zap.Any("db date:", m.Date), zap.Any("today", t1))
 		return
 	}
 	// 无，获取最新数据
@@ -64,6 +107,7 @@ func CollyCNPPI() {
 	}).
 		Get("https://datacenter-api.jin10.com/reports/list_v2")
 	if err != nil {
+		config.G_LOG.Error("CollyCNPPI ", zap.Error(err))
 		return
 	}
 	b := resp.Body()
@@ -73,14 +117,19 @@ func CollyCNPPI() {
 		if find := strings.Contains(vl[0].String(), t1); find {
 			m.Date = vl[0].String()
 			m.Ppi = vl[1].String()
-			do.Create(m)
+			err := do.Create(m)
+			if err != nil {
+				config.G_LOG.Error("CollyCNPPI ", zap.Error(err))
+			}
 			return
 		}
 	}
+	config.G_LOG.Debug("End CollyCNPPI ")
 }
 
 // 社会融资存量
 func CollyCNSocialFinancingStock() {
+	config.G_LOG.Debug("start CollyCNSocialFinancingStock ")
 	t := q.SocialFinancingStock
 	do := t.WithContext(context.Background())
 
@@ -89,9 +138,11 @@ func CollyCNSocialFinancingStock() {
 	// 查询数据库是否存在最近一个月数据
 	m, err := do.Order(q.MacroPpi.Date.Desc()).First()
 	if err != nil {
+		config.G_LOG.Error("find db", zap.Error(err))
 		return
 	}
 	if strings.Contains(m.Date, tf) {
+		config.G_LOG.Error("CollyCNSocialFinancingStock Not Contains date", zap.Any("db date:", m.Date), zap.Any("today", tf))
 		return
 	}
 	// 无，爬最新数据
@@ -106,14 +157,14 @@ func CollyCNSocialFinancingStock() {
 		chromedp.Stop(),
 	})
 	if err != nil {
-		log.Fatalf("Run err : %v\n", err)
+		config.G_LOG.Error("CollyCNSocialFinancingStock Run err", zap.Error(err))
 		return
 	}
 
 	// dom选择器
 	dom, err := goquery.NewDocumentFromReader(strings.NewReader(htmlContent))
 	if err != nil {
-		log.Fatal(err)
+		config.G_LOG.Error("CollyCNSocialFinancingStock NewDocumentFromReader", zap.Error(err))
 		return
 	}
 	// log.Println(htmlContent)
@@ -131,12 +182,13 @@ func CollyCNSocialFinancingStock() {
 				chromedp.Stop(),
 			})
 			if err != nil {
-				log.Fatalf("Run err : %v\n", err)
+				config.G_LOG.Error("CollyCNSocialFinancingStock chromedp run", zap.Error(err))
 				return
 			}
 			dom, err = goquery.NewDocumentFromReader(strings.NewReader(htmlContent))
 			if err != nil {
-				log.Fatal(err)
+				config.G_LOG.Error("CollyCNSocialFinancingStock NewDocumentFromReader", zap.Error(err))
+				return
 			}
 			dom.Find("table:nth-child(2) a").Each(func(i int, s *goquery.Selection) {
 				content := strings.TrimSpace(s.Text())
@@ -150,28 +202,31 @@ func CollyCNSocialFinancingStock() {
 							chromedp.Stop(),
 						})
 						if err != nil {
-							log.Fatalf("Run err : %v\n", err)
+							config.G_LOG.Error("CollyCNSocialFinancingStock Run", zap.Error(err))
 							return
 						}
 						datalist, err := initialize.ProcessedSocialFinancingStockTable(htmlContent)
 						if err != nil {
-							log.Fatal(err)
+							config.G_LOG.Error("CollyCNSocialFinancingStock ProcessedSocialFinancingStockTable", zap.Error(err))
 							return
 						}
 						log.Println(datalist)
 						last := datalist[len(datalist)-1]
 						if last.Date != m.Date {
 							do.Create(last)
+							config.G_LOG.Debug("CollyCNSocialFinancingStock Create successful ", zap.Any("data", *last))
 						}
 					}
 				}
 			})
 		}
 	})
+	config.G_LOG.Debug("End CollyCNSocialFinancingStock ")
 }
 
 // 伦铜 每日9点
 func CollyCADFuturesForeignHist() {
+	config.G_LOG.Debug("Start CollyCADFuturesForeignHist ")
 	t := q.FturesFoewign
 	do := t.WithContext(context.Background())
 
@@ -218,10 +273,14 @@ func CollyCADFuturesForeignHist() {
 	// 查询数据库是否存在最近一个月数据
 	m, err := do.Order(q.FturesFoewign.Date.Desc()).First()
 	if err != nil {
+		config.G_LOG.Error("CollyCADFuturesForeignHist find db", zap.Error(err))
 		return
 	}
 	if strings.Contains(m.Date, f.Date) {
+		config.G_LOG.Error("CollyCADFuturesForeignHist Not Contains date", zap.Any("db date:", m.Date), zap.Any("today", f.Date))
 		return
 	}
 	do.Create(f)
+	config.G_LOG.Debug("CollyCADFuturesForeignHist Create successful ", zap.Any("data", *f))
+	config.G_LOG.Debug("End CollyCADFuturesForeignHist ")
 }

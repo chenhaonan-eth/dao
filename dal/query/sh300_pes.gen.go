@@ -26,6 +26,7 @@ func newSH300PE(db *gorm.DB, opts ...gen.DOOption) sH300PE {
 
 	tableName := _sH300PE.sH300PEDo.TableName()
 	_sH300PE.ALL = field.NewAsterisk(tableName)
+	_sH300PE.Time = field.NewString(tableName, "time")
 	_sH300PE.Date = field.NewFloat64(tableName, "date")
 	_sH300PE.MiddleLyrPe = field.NewFloat64(tableName, "middle_lyr_pe")
 	_sH300PE.LyrPe = field.NewFloat64(tableName, "lyr_pe")
@@ -43,6 +44,7 @@ type sH300PE struct {
 	sH300PEDo sH300PEDo
 
 	ALL         field.Asterisk
+	Time        field.String
 	Date        field.Float64
 	MiddleLyrPe field.Float64
 	LyrPe       field.Float64
@@ -66,6 +68,7 @@ func (s sH300PE) As(alias string) *sH300PE {
 
 func (s *sH300PE) updateTableName(table string) *sH300PE {
 	s.ALL = field.NewAsterisk(table)
+	s.Time = field.NewString(table, "time")
 	s.Date = field.NewFloat64(table, "date")
 	s.MiddleLyrPe = field.NewFloat64(table, "middle_lyr_pe")
 	s.LyrPe = field.NewFloat64(table, "lyr_pe")
@@ -95,7 +98,8 @@ func (s *sH300PE) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 }
 
 func (s *sH300PE) fillFieldMap() {
-	s.fieldMap = make(map[string]field.Expr, 7)
+	s.fieldMap = make(map[string]field.Expr, 8)
+	s.fieldMap["time"] = s.Time
 	s.fieldMap["date"] = s.Date
 	s.fieldMap["middle_lyr_pe"] = s.MiddleLyrPe
 	s.fieldMap["lyr_pe"] = s.LyrPe

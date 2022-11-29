@@ -26,7 +26,7 @@ func newMacroChinaMoneySupply(db *gorm.DB, opts ...gen.DOOption) macroChinaMoney
 
 	tableName := _macroChinaMoneySupply.macroChinaMoneySupplyDo.TableName()
 	_macroChinaMoneySupply.ALL = field.NewAsterisk(tableName)
-	_macroChinaMoneySupply.Date = field.NewTime(tableName, "date")
+	_macroChinaMoneySupply.Date = field.NewString(tableName, "date")
 	_macroChinaMoneySupply.M2 = field.NewFloat64(tableName, "m2")
 	_macroChinaMoneySupply.M2YearOnYear = field.NewFloat64(tableName, "m2_year_on_year")
 	_macroChinaMoneySupply.M2YearOverYear = field.NewFloat64(tableName, "m2_year_over_year")
@@ -46,7 +46,7 @@ type macroChinaMoneySupply struct {
 	macroChinaMoneySupplyDo macroChinaMoneySupplyDo
 
 	ALL            field.Asterisk
-	Date           field.Time
+	Date           field.String
 	M2             field.Float64
 	M2YearOnYear   field.Float64
 	M2YearOverYear field.Float64
@@ -72,7 +72,7 @@ func (m macroChinaMoneySupply) As(alias string) *macroChinaMoneySupply {
 
 func (m *macroChinaMoneySupply) updateTableName(table string) *macroChinaMoneySupply {
 	m.ALL = field.NewAsterisk(table)
-	m.Date = field.NewTime(table, "date")
+	m.Date = field.NewString(table, "date")
 	m.M2 = field.NewFloat64(table, "m2")
 	m.M2YearOnYear = field.NewFloat64(table, "m2_year_on_year")
 	m.M2YearOverYear = field.NewFloat64(table, "m2_year_over_year")

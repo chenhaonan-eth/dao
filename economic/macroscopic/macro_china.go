@@ -323,8 +323,8 @@ function E(n, e, t, r, o, f, i) {
 /*
 商务数据中心-国内贸易-社会融资规模增量统计
 
-	http://data.mofcom.gov.cn/gnmy/shrzgm.shtml
-	https://www.chinabond.com.cn/Info/20007290 社会融资规模存量各构成指标的定义及统计方法
+http://data.mofcom.gov.cn/gnmy/shrzgm.shtml
+https://www.chinabond.com.cn/Info/20007290 社会融资规模存量各构成指标的定义及统计方法
 */
 func MacroChinaShrzgm() ([]*model.SocialFinancingFlow, error) {
 	var m = []*model.SocialFinancingFlow{}
@@ -422,41 +422,6 @@ func MacroChinaConsumerGoodsRetail() ([]*model.MacroChinaConsumerGoodsRetail, er
 	json.Unmarshal([]byte(v.String()), &result)
 	return result, nil
 }
-
-// func MacroChinaConsumerGoodsRetail() ([]*model.MacroChinaConsumerGoodsRetail, error) {
-// 	data := []*model.MacroChinaConsumerGoodsRetail{}
-// 	url := "http://datainterface.eastmoney.com/EM_DataCenter/JS.aspx"
-// 	rep, err := Client.R().
-// 		SetQueryParams(map[string]string{
-// 			"type":    "GJZB",
-// 			"sty":     "ZGZB",
-// 			"js":      "({data:[(x)],pages:(pc)})",
-// 			"p":       "1",
-// 			"ps":      "2000",
-// 			"mkt":     "5",
-// 			"pageNo":  "1",
-// 			"pageNum": "1",
-// 			"_":       "1625822628225"}).
-// 		Get(url)
-// 	if err != nil {
-// 		return data, err
-// 	}
-// 	byBody := rep.Body()
-// 	bydata := byBody[bytes.IndexAny(byBody, "[") : bytes.IndexAny(byBody, "]")+1]
-// 	var modestrings []string
-// 	json.Unmarshal(bydata, &modestrings)
-// 	for _, v := range modestrings {
-// 		m := model.MacroChinaConsumerGoodsRetail{}
-// 		str := strings.Split(v, ",")
-// 		ivalue := reflect.ValueOf(&m).Elem()
-// 		for i, s := range str {
-// 			elem := ivalue.Field(i)
-// 			elem.SetString(s)
-// 		}
-// 		data = append(data, &m)
-// 	}
-// 	return data, nil
-// }
 
 // 金十数据中心-中国 GDP 年率报告, 数据区间从 20110120-至今
 // https://datacenter.jin10.com/reportType/dc_chinese_gdp_yoy
@@ -599,6 +564,11 @@ func SH300PE() ([]*model.SH300PE, error) {
 	b := resp.Body()
 	value := gjson.GetBytes(b, "data")
 	json.Unmarshal([]byte(value.String()), &result)
+	for _, v := range result {
+		t := time.UnixMilli(int64(v.Date))
+		ts := t.Format("2006-01-02 15:04:05")
+		v.Time = ts
+	}
 	return result, nil
 }
 

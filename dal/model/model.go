@@ -92,6 +92,7 @@ type BondZhUsRate struct {
 
 // 沪深300市盈率
 type SH300PE struct {
+	Time        string
 	Date        float64 `json:"date"`        // 时间
 	MiddleLyrPe float64 `json:"middleLyrPe"` //沪深300静态市盈率中位数
 	LyrPe       float64 `json:"lyrPe"`       //沪深300静态市盈率等权平均

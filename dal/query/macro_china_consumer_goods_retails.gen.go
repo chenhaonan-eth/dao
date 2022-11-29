@@ -27,11 +27,11 @@ func newMacroChinaConsumerGoodsRetail(db *gorm.DB, opts ...gen.DOOption) macroCh
 	tableName := _macroChinaConsumerGoodsRetail.macroChinaConsumerGoodsRetailDo.TableName()
 	_macroChinaConsumerGoodsRetail.ALL = field.NewAsterisk(tableName)
 	_macroChinaConsumerGoodsRetail.Date = field.NewString(tableName, "date")
-	_macroChinaConsumerGoodsRetail.TotalRetailSales = field.NewString(tableName, "total_retail_sales")
-	_macroChinaConsumerGoodsRetail.YearOnYear = field.NewString(tableName, "year_on_year")
-	_macroChinaConsumerGoodsRetail.YearOverYear = field.NewString(tableName, "year_over_year")
-	_macroChinaConsumerGoodsRetail.TotalAccumulation = field.NewString(tableName, "total_accumulation")
-	_macroChinaConsumerGoodsRetail.TotalAccumulationYearOnYear = field.NewString(tableName, "total_accumulation_year_on_year")
+	_macroChinaConsumerGoodsRetail.TotalRetailSales = field.NewFloat64(tableName, "total_retail_sales")
+	_macroChinaConsumerGoodsRetail.YearOnYear = field.NewFloat64(tableName, "year_on_year")
+	_macroChinaConsumerGoodsRetail.YearOverYear = field.NewFloat64(tableName, "year_over_year")
+	_macroChinaConsumerGoodsRetail.TotalAccumulation = field.NewFloat64(tableName, "total_accumulation")
+	_macroChinaConsumerGoodsRetail.TotalAccumulationYearOnYear = field.NewFloat64(tableName, "total_accumulation_year_on_year")
 
 	_macroChinaConsumerGoodsRetail.fillFieldMap()
 
@@ -43,11 +43,11 @@ type macroChinaConsumerGoodsRetail struct {
 
 	ALL                         field.Asterisk
 	Date                        field.String
-	TotalRetailSales            field.String
-	YearOnYear                  field.String
-	YearOverYear                field.String
-	TotalAccumulation           field.String
-	TotalAccumulationYearOnYear field.String
+	TotalRetailSales            field.Float64
+	YearOnYear                  field.Float64
+	YearOverYear                field.Float64
+	TotalAccumulation           field.Float64
+	TotalAccumulationYearOnYear field.Float64
 
 	fieldMap map[string]field.Expr
 }
@@ -65,11 +65,11 @@ func (m macroChinaConsumerGoodsRetail) As(alias string) *macroChinaConsumerGoods
 func (m *macroChinaConsumerGoodsRetail) updateTableName(table string) *macroChinaConsumerGoodsRetail {
 	m.ALL = field.NewAsterisk(table)
 	m.Date = field.NewString(table, "date")
-	m.TotalRetailSales = field.NewString(table, "total_retail_sales")
-	m.YearOnYear = field.NewString(table, "year_on_year")
-	m.YearOverYear = field.NewString(table, "year_over_year")
-	m.TotalAccumulation = field.NewString(table, "total_accumulation")
-	m.TotalAccumulationYearOnYear = field.NewString(table, "total_accumulation_year_on_year")
+	m.TotalRetailSales = field.NewFloat64(table, "total_retail_sales")
+	m.YearOnYear = field.NewFloat64(table, "year_on_year")
+	m.YearOverYear = field.NewFloat64(table, "year_over_year")
+	m.TotalAccumulation = field.NewFloat64(table, "total_accumulation")
+	m.TotalAccumulationYearOnYear = field.NewFloat64(table, "total_accumulation_year_on_year")
 
 	m.fillFieldMap()
 

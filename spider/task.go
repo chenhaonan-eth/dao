@@ -8,6 +8,7 @@ func StartTask() {
 	crontab := cron.New()
 	task := func() {
 		CollyCNPPI()
+		CollyCNCPI()
 		CollyCNSocialFinancingStock()
 	}
 	FuturesForeignTask := func() {

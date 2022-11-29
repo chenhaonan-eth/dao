@@ -128,7 +128,7 @@ func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 	}
 }
 
-type QueryCtx struct {
+type queryCtx struct {
 	BondZhUsRate                  *bondZhUsRateDo
 	FturesFoewign                 *fturesFoewignDo
 	MacroChinaConsumerGoodsRetail *macroChinaConsumerGoodsRetailDo
@@ -143,8 +143,8 @@ type QueryCtx struct {
 	SocialFinancingStock          *socialFinancingStockDo
 }
 
-func (q *Query) WithContext(ctx context.Context) *QueryCtx {
-	return &QueryCtx{
+func (q *Query) WithContext(ctx context.Context) *queryCtx {
+	return &queryCtx{
 		BondZhUsRate:                  q.BondZhUsRate.WithContext(ctx),
 		FturesFoewign:                 q.FturesFoewign.WithContext(ctx),
 		MacroChinaConsumerGoodsRetail: q.MacroChinaConsumerGoodsRetail.WithContext(ctx),
