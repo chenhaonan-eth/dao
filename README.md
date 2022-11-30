@@ -1,11 +1,11 @@
-<h1 align="center">DAO - 本地经济数据库</h1>
+<h1 align="center">DAO - 经济数据库</h1>
 <p align="center"><b>根据公开信息实现的本地指标系统，方便查看和编写指标，追踪经济走势</b></p>
 
 [English](./README.EN.md) | 简体中文
 
 # 目录
 
-- [经济指标](#指标)
+- [TODO List](#TODOList)
 - [开始](#开始)
   - [前提条件](#前提条件)
   - [安装](#安装)
@@ -16,21 +16,51 @@
 - [SwaggerUi](#SwaggerUi)
 - [License](#license)
 
-## 指标
+## TODOList
 
-| 名称                         | × - √|
-| -----------                  | ----------- |
-| 沪深300市盈率                 | √       |
-| 中美国债2、5、10、30年收益率   | √        |
-| 社会融资总量                  | √       |
-| 社会融资存量                  | √        |
-| 货币供应 M0 M1 M2             | √       |
-| 社会消费品零售总额            | √        |
-| 期货 伦铜:CAD                 | √       |
-| PPI                           | √        |
-| GDP                           | √       |
-| PMI                           | √        |
-| Cpi                           | √        |
+| Name                                                              | ⭕ - ✔️|
+| -----------                                                       | ----------- |
+| 沪深300市盈率                                                         | ⭕       |
+| 中美国债2、5、10、30年收益率                                          | ⭕        |
+| 社会融资总量 Total social financing                                   | ⭕       |
+| 社会融资存量  Total social Stock                                       | ✔️        |
+| 货币供应 M0 M1 M2（Money Supply）                                     | ⭕       |
+| 社会消费品零售总额 Retail Sales of Consumer Goods                      | ⭕        |
+| 期货 伦铜:CAD                                                         | ✔️       |
+| PPI                                                                   | ✔️        |
+| GDP                                                                   | ⭕       |
+| Cpi                                                                   | ✔️        |
+| 国家统计局制造业采购经理人指数 NBS manufacturing PMI                      | ⭕        |
+| 国家统计局非制造业采购经理人指数 NBS non-manufacturing PMI              | ⭕       |
+| 财新制造业采购经理人指数 Caixin manufacturing PMI                     | ⭕        |
+| 财新服务采购经理人指数 Caixin service PM                              | ⭕        |
+| 工业生产 Industrial Production                                        | ⭕        |
+| 电力生产与消费 Electricity Production and Consumption                 | ⭕        |
+| 商品贸易 Merchandise Trade                                            | ⭕       |
+| 政府收支及收支平衡 Government Revenue, Expenditure and Balance        | ⭕        |
+| 国际收支平衡 Balance of Payments                                      | ⭕        |
+| 存贷款 Loan and Deposit                                               | ⭕        |
+| 房屋销售 Home Sales                                                   | ⭕        |
+| 外汇储备 Foreign Exchange Reseres                                     | ⭕        |
+| 铁路货运 Rail Freight Traffic                                         | ⭕        |
+| 服务贸易 Service Trade                                                | ⭕        |
+| 工业利润 Industrial profits                                           | ⭕        |
+| 国内生产总值平减指数 GDP Deflator                                     | ⭕        |
+| 库存房 Home inventory                                                 | ⭕       |
+| 房屋开工、在建和竣工 Housing Starts, Under Construction and Completion  | ⭕        |
+| 土地收购、交易和发展 Land Acquisition, Transaction and Development      | ⭕        |
+| 地价指数 Land Price Indices                                           | ⭕        |
+| 固定资产投资 Fixed Asset Investment                                   | ⭕       |
+| 汽车销售 Auto Sales                                                   | ⭕        |
+| 物业价格指数 Property Price Index                                     | ⭕        |
+| 房地产开发投资 Investment in Real Estate Development                  | ⭕       |
+| 家庭收入调查 Household Income Survey                                  | ⭕        |
+| 家庭支出调查 Household Expenditure Survey                             | ⭕        |
+| 国家外债 External Debt                                                | ⭕        |
+| 就业总人数 Total Employment                                           | ⭕       |
+| 城镇登记失业率 Urban Registered Unemployment Rate                     | ⭕        |
+| 城镇单位职工平均/总工资 Average/total wage of Employees in Urban Units | ⭕        |
+| 农民工平均收入 Average income of migrant workers                      | ⭕        |
 
 ## 开始
 
@@ -38,7 +68,7 @@
 
 ### 前提条件
 
-使用了chromedp库，所以Ubuntu使用需要先安装chrome
+chromedp库，需要先安装chrome
 
 ```bash
 ### 下载源加入到系统的源列表
@@ -147,8 +177,6 @@ http://0.0.0.0:50053/swagger-ui/
 ## License
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-
-- [MIT](https://opensource.org/licenses/MIT)
 
 ## 表示您的支持
 

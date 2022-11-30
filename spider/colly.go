@@ -2,7 +2,9 @@ package spider
 
 import (
 	"context"
+	"errors"
 	"log"
+	"reflect"
 	"strings"
 
 	"strconv"
@@ -16,8 +18,11 @@ import (
 	"github.com/chenhaonan-eth/dao/economic/macroscopic"
 	"github.com/chromedp/chromedp"
 	"go.uber.org/zap"
+	"gorm.io/gorm"
 
+	browser "github.com/EDDYCJY/fake-useragent"
 	"github.com/go-resty/resty/v2"
+	"github.com/noaway/dateparse"
 	"github.com/tidwall/gjson"
 )
 
@@ -25,6 +30,61 @@ var (
 	Client = resty.New()
 	q      = query.Q
 )
+
+// 沪深300市盈率
+func CollySH300PE() {
+	config.G_LOG.Debug("Start CollySH300PE. ")
+	t := q.SH300PE
+	do := t.WithContext(context.Background())
+	url := "https://legulegu.com/stockdata/hs300-ttm-lyr"
+	resp, err := Client.R().SetHeaders(map[string]string{
+		"Content-Type": "application/json",
+		"User-Agent":   browser.Random(),
+	}).Get(url)
+	if err != nil {
+		return
+	}
+	b := resp.Body()
+	dom, err := goquery.NewDocumentFromReader(strings.NewReader(string(b)))
+	if err != nil {
+		log.Fatal(err)
+		return
+	}
+
+	result := model.SH300PE{}
+	dom.Find("#data-description .index-data-update-date").Each(func(i int, s *goquery.Selection) {
+		str := strings.TrimSpace(s.Text())
+		//2022年11月30日
+		t, err := dateparse.ParseAny(str)
+		if err != nil {
+			config.G_LOG.Error(err.Error())
+			return
+		}
+		result.Time = t.Format("2006-01-02 15:04:05")
+		result.Date = float64(t.UnixMilli())
+	})
+
+	_, err = do.Where(t.Date.Eq(result.Date)).First()
+	if !errors.Is(err, gorm.ErrRecordNotFound) {
+		if err != nil {
+			config.G_LOG.Error(err.Error())
+		} else {
+			config.G_LOG.Debug("CollySH300PE. is exist", zap.Any("Time", result.Time))
+		}
+		return
+	}
+
+	ivalue := reflect.ValueOf(&result).Elem()
+	dom.Find("#data-description tbody > tr td:nth-child(2)").Each(func(i int, s *goquery.Selection) {
+		str := strings.TrimSpace(s.Text())
+		elem := ivalue.Field(i + 2)
+		float, _ := strconv.ParseFloat(str, 64)
+		elem.SetFloat(float)
+	})
+
+	do.Create(&result)
+	config.G_LOG.Debug("End  CollySH300PE. Create", zap.Any("result", result))
+}
 
 // 爬取CN CPI
 func CollyCNCPI() {
@@ -40,7 +100,7 @@ func CollyCNCPI() {
 		return
 	}
 	if strings.Contains(m.Date, t1) && m.Cpi != "" {
-		config.G_LOG.Error("CollyCNPPI ", zap.Any("db date:", m.Date), zap.Any("today", t1))
+		config.G_LOG.Debug("CollyCNCPI It already exists in the database", zap.Any("data", m))
 		return
 	}
 	v, err := macroscopic.MacroChinaCpiYearly()
@@ -79,7 +139,7 @@ func CollyCNPPI() {
 		return
 	}
 	if strings.Contains(m.Date, t1) {
-		config.G_LOG.Error("CollyCNPPI ", zap.Any("db date:", m.Date), zap.Any("today", t1))
+		config.G_LOG.Debug("CollyCNPPI It already exists in the database", zap.Any("data", m))
 		return
 	}
 	// 无，获取最新数据
@@ -142,7 +202,7 @@ func CollyCNSocialFinancingStock() {
 		return
 	}
 	if strings.Contains(m.Date, tf) {
-		config.G_LOG.Error("CollyCNSocialFinancingStock Not Contains date", zap.Any("db date:", m.Date), zap.Any("today", tf))
+		config.G_LOG.Debug("CollyCNSocialFinancingStock It already exists in the database", zap.Any("data", m))
 		return
 	}
 	// 无，爬最新数据
@@ -277,7 +337,7 @@ func CollyCADFuturesForeignHist() {
 		return
 	}
 	if strings.Contains(m.Date, f.Date) {
-		config.G_LOG.Error("CollyCADFuturesForeignHist Not Contains date", zap.Any("db date:", m.Date), zap.Any("today", f.Date))
+		config.G_LOG.Debug("CollyCADFuturesForeignHist It already exists in the database", zap.Any("data", m))
 		return
 	}
 	do.Create(f)

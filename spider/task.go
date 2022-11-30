@@ -11,9 +11,15 @@ func StartTask() {
 		CollyCNCPI()
 		CollyCNSocialFinancingStock()
 	}
+
 	FuturesForeignTask := func() {
 		CollyCADFuturesForeignHist()
+		CollySH300PE()
 	}
+
+	// 每日任务
+	// dailyTask := func (){CollySH300PE()}
+
 	//每月9-15日上午10:15触发
 	crontab.AddFunc("0 15 10 9-15 *", task)
 	// 每日9点
