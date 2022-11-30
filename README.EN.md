@@ -69,9 +69,7 @@ Install this project with:
 To run the project, execute the following command:
 
 ```sh
-  go build main.go
-
-  ./main server
+    make run
 ```
 
 ### Usage

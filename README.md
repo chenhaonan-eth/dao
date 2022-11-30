@@ -93,9 +93,7 @@ sudo apt-get install google-chrome-stable
 ### 启动
 
    ```sh
-   go build main.go
-
-   ./main server
+   make run
    ```
 
 ### 使用

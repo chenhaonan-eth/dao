@@ -21,3 +21,6 @@ install:
 		github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-openapiv2@lastest \
 		google.golang.org/grpc/cmd/protoc-gen-go-grpc@lastest \
 		google.golang.org/protobuf/cmd/protoc-gen-go@lastest
+
+run:
+	go run main.go server 
