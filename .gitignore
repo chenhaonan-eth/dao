@@ -8,6 +8,7 @@
 *.db
 .vscode
 *.txt
+*.yaml
 
 # Test binary, built with `go test -c`
 *.test

@@ -10,6 +10,7 @@ func StartTask() {
 		CollyCNPPI()
 		CollyCNCPI()
 		CollyCNSocialFinancingStock()
+		CollyChinaMoneySupply()
 	}
 
 	FuturesForeignTask := func() {

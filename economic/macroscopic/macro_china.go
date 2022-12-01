@@ -373,7 +373,6 @@ func MacroChinaMoneySupply() ([]*model.MacroChinaMoneySupply, error) {
 	b := resp.Body()
 
 	v := gjson.GetBytes(b, "result.data")
-	// log.Println(v)
 	json.Unmarshal([]byte(v.String()), &result)
 	return result, err
 }

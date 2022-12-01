@@ -20,23 +20,23 @@
 
 | Name                                                              | ⭕ - ✔️|
 | -----------                                                       | ----------- |
-| 沪深300市盈率                                                         | ✔️       |
-| 中美国债2、5、10、30年收益率                                          | ⭕        |
-| 社会融资总量 Total social financing                                   | ⭕       |
-| 社会融资存量  Total social Stock                                       | ✔️        |
-| 货币供应 M0 M1 M2（Money Supply）                                     | ⭕       |
-| 社会消费品零售总额 Retail Sales of Consumer Goods                      | ⭕        |
-| 期货 伦铜:CAD                                                         | ✔️       |
-| PPI                                                                   | ✔️        |
-| GDP                                                                   | ⭕       |
-| Cpi                                                                   | ✔️        |
-| 国家统计局制造业采购经理人指数 NBS manufacturing PMI                      | ⭕        |
-| 国家统计局非制造业采购经理人指数 NBS non-manufacturing PMI              | ⭕       |
+| 沪深300市盈率                                                      | ⭕       |
+| 中美国债2、5、10、30年收益率                                        | ⭕        |
+| 社会融资总量 Total social financing                                | ⭕       |
+| 社会融资存量  Total social Stock                                   | ✔️        |
+| 货币供应 M0 M1 M2（Money Supply）                                  | ✔️       |
+| 社会消费品零售总额 Retail Sales of Consumer Goods                   | ⭕        |
+| 期货 伦铜:CAD                                                      | ✔️       |
+| PPI                                                                | ✔️        |
+| GDP                                                                | ✔️       |
+| CPI                                                                | ✔️        |
+| 国家统计局制造业采购经理人指数 NBS manufacturing PMI                  | ⭕        |
+| 国家统计局非制造业采购经理人指数 NBS non-manufacturing PMI             | ⭕       |
 | 财新制造业采购经理人指数 Caixin manufacturing PMI                     | ⭕        |
 | 财新服务采购经理人指数 Caixin service PM                              | ⭕        |
-| 工业生产 Industrial Production                                        | ⭕        |
+| 工业生产 Industrial Production                                       | ⭕        |
 | 电力生产与消费 Electricity Production and Consumption                 | ⭕        |
-| 商品贸易 Merchandise Trade                                            | ⭕       |
+| 商品贸易 Merchandise Trade                                           | ⭕       |
 | 政府收支及收支平衡 Government Revenue, Expenditure and Balance        | ⭕        |
 | 国际收支平衡 Balance of Payments                                      | ⭕        |
 | 存贷款 Loan and Deposit                                               | ⭕        |
@@ -45,8 +45,8 @@
 | 铁路货运 Rail Freight Traffic                                         | ⭕        |
 | 服务贸易 Service Trade                                                | ⭕        |
 | 工业利润 Industrial profits                                           | ⭕        |
-| 国内生产总值平减指数 GDP Deflator                                     | ⭕        |
-| 库存房 Home inventory                                                 | ⭕       |
+| 国内生产总值平减指数 GDP Deflator                                       | ⭕        |
+| 库存房 Home inventory                                                  | ⭕       |
 | 房屋开工、在建和竣工 Housing Starts, Under Construction and Completion  | ⭕        |
 | 土地收购、交易和发展 Land Acquisition, Transaction and Development      | ⭕        |
 | 地价指数 Land Price Indices                                           | ⭕        |

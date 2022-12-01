@@ -2,6 +2,7 @@ package spider
 
 import (
 	"context"
+	"encoding/json"
 	"errors"
 	"log"
 	"reflect"
@@ -16,6 +17,7 @@ import (
 	"github.com/chenhaonan-eth/dao/dal/model"
 	"github.com/chenhaonan-eth/dao/dal/query"
 	"github.com/chenhaonan-eth/dao/economic/macroscopic"
+	"github.com/chenhaonan-eth/dao/pkg/utils"
 	"github.com/chromedp/chromedp"
 	"go.uber.org/zap"
 	"gorm.io/gorm"
@@ -30,6 +32,55 @@ var (
 	Client = resty.New()
 	q      = query.Q
 )
+
+// 货币供应 M0 M1 M2
+func CollyChinaMoneySupply() {
+	config.G_LOG.Debug("Start CollyChinaMoneySupply ")
+	// 计算如果上月时间对比数据如已入库，则取消请求
+	t := q.MacroChinaMoneySupply
+	do := t.WithContext(context.Background())
+	// 查询数据库是否存在最近一个月数据
+	m, err := do.Order(t.Date.Desc()).First()
+	if err != nil {
+		config.G_LOG.Error(err.Error())
+		return
+	}
+	if m.Date == utils.FirstDayOfLastMonth() {
+		config.G_LOG.Error("db is exist", zap.Any("date", m.Date))
+		return
+	}
+	res := []*model.MacroChinaMoneySupply{}
+	resp, err := Client.R().
+		SetQueryParams(map[string]string{
+			"columns":     "REPORT_DATE,BASIC_CURRENCY,BASIC_CURRENCY_SAME,BASIC_CURRENCY_SEQUENTIAL,CURRENCY,CURRENCY_SAME,CURRENCY_SEQUENTIAL,FREE_CASH,FREE_CASH_SAME,FREE_CASH_SEQUENTIAL",
+			"pageNumber":  "1",
+			"pageSize":    "1",
+			"sortColumns": "REPORT_DATE",
+			"sortTypes":   "-1",
+			"source":      "WEB",
+			"client":      "WEB",
+			"reportName":  "RPT_ECONOMY_CURRENCY_SUPPLY",
+			"p":           "1",
+			"pageNo":      "1",
+			"pageNum":     "1",
+			"_":           "1669047266881",
+		}).
+		Get("https://datacenter-web.eastmoney.com/api/data/v1/get")
+	if err != nil {
+		config.G_LOG.Error(err.Error())
+		return
+	}
+	b := resp.Body()
+	v := gjson.GetBytes(b, "result.data")
+	json.Unmarshal([]byte(v.String()), &res)
+
+	if m.Date == res[0].Date {
+		config.G_LOG.Error("db is exist !", zap.Any("date", m.Date))
+		return
+	}
+	do.Create(res[0])
+	config.G_LOG.Debug("End CollyChinaMoneySupply ")
+}
 
 // 沪深300市盈率
 func CollySH300PE() {
@@ -87,6 +138,48 @@ func CollySH300PE() {
 }
 
 // 爬取CN CPI
+func CollyCNGDP() {
+	config.G_LOG.Debug("Start CollyCNGDP ")
+	t := q.MacroGDP
+	do := t.WithContext(context.Background())
+	// 计算本月时间
+	t1 := time.Now().Format("2006-01")
+	// 查询数据库是否存在最近一个月数据
+	m, err := do.Order(t.Date.Desc()).First()
+	if err != nil {
+		config.G_LOG.Error("find db", zap.Error(err))
+		return
+	}
+	if strings.Contains(m.Date, t1) && m.Gdp != "" {
+		config.G_LOG.Debug("CollyCNGDP It already exists in the database", zap.Any("data", m))
+		return
+	}
+	v, err := macroscopic.MacroChinaGdpYearly()
+	if err != nil {
+		config.G_LOG.Debug("CollyCNGDP ", zap.Error(err))
+		return
+	}
+	// TODO 需要优化重新
+	for k, v := range v {
+		if !strings.Contains(k, t1) {
+			continue
+		}
+		if strings.Contains(m.Date, t1) && m.Gdp == "" {
+			do.Where(t.Date.Eq(t1)).Update(t.Gdp, v)
+			config.G_LOG.Debug("CollyCNGDP Update", zap.Any("date", t1), zap.Any("GDP", v))
+		}
+		if !strings.Contains(m.Date, t1) {
+			m.Date = t1
+			m.Gdp = v
+			do.Create(m)
+			config.G_LOG.Debug("CollyCNGDP Create", zap.Any("data", m))
+		}
+		break
+	}
+	config.G_LOG.Debug("End CollyCNGDP ")
+}
+
+// 爬取CN CPI
 func CollyCNCPI() {
 	config.G_LOG.Debug("Start CollyCNCPI ")
 	t := q.MacroCpi
@@ -94,7 +187,7 @@ func CollyCNCPI() {
 	// 计算本月时间
 	t1 := time.Now().Format("2006-01")
 	// 查询数据库是否存在最近一个月数据
-	m, err := do.Order(q.MacroCpi.Date.Desc()).First()
+	m, err := do.Order(t.Date.Desc()).First()
 	if err != nil {
 		config.G_LOG.Error("find db", zap.Error(err))
 		return
@@ -108,17 +201,23 @@ func CollyCNCPI() {
 		config.G_LOG.Debug("CollyCNCPI ", zap.Error(err))
 		return
 	}
-	if cpi, ok := v[t1]; ok {
+
+	// TODO 需要优化重新
+	for k, v := range v {
+		if !strings.Contains(k, t1) {
+			continue
+		}
 		if strings.Contains(m.Date, t1) && m.Cpi == "" {
-			do.Where(t.Date.Eq(t1)).Update(t.Cpi, cpi)
-			config.G_LOG.Debug("CollyCNCPI Update", zap.Any("date", t1), zap.Any("cpi", cpi))
+			do.Where(t.Date.Eq(t1)).Update(t.Cpi, v)
+			config.G_LOG.Debug("CollyCNCPI Update", zap.Any("date", t1), zap.Any("GDP", v))
 		}
 		if !strings.Contains(m.Date, t1) {
 			m.Date = t1
-			m.Cpi = cpi
+			m.Cpi = v
 			do.Create(m)
 			config.G_LOG.Debug("CollyCNCPI Create", zap.Any("data", m))
 		}
+		break
 	}
 	config.G_LOG.Debug("End CollyCNCPI ")
 }
@@ -133,7 +232,7 @@ func CollyCNPPI() {
 	t1 := time.Now().Format("2006-01")
 	log.Println(t)
 	// 查询数据库是否存在最近一个月数据
-	m, err := do.Order(q.MacroPpi.Date.Desc()).First()
+	m, err := do.Order(t.Date.Desc()).First()
 	if err != nil {
 		config.G_LOG.Error("CollyCNPPI ", zap.Error(err))
 		return
@@ -196,7 +295,7 @@ func CollyCNSocialFinancingStock() {
 	// 计算本月时间
 	tf := time.Now().Format("2006.01")
 	// 查询数据库是否存在最近一个月数据
-	m, err := do.Order(q.MacroPpi.Date.Desc()).First()
+	m, err := do.Order(t.Date.Desc()).First()
 	if err != nil {
 		config.G_LOG.Error("find db", zap.Error(err))
 		return
@@ -331,7 +430,7 @@ func CollyCADFuturesForeignHist() {
 		Volume: list[5],
 	}
 	// 查询数据库是否存在最近一个月数据
-	m, err := do.Order(q.FturesFoewign.Date.Desc()).First()
+	m, err := do.Order(t.Date.Desc()).First()
 	if err != nil {
 		config.G_LOG.Error("CollyCADFuturesForeignHist find db", zap.Error(err))
 		return
