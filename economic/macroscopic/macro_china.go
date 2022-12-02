@@ -351,43 +351,13 @@ http://data.eastmoney.com/cjsj/hbgyl.html
 
 func MacroChinaMoneySupply() ([]*model.MacroChinaMoneySupply, error) {
 	result := []*model.MacroChinaMoneySupply{}
-	resp, err := Client.R().
-		SetQueryParams(map[string]string{
-			"columns":     "REPORT_DATE,BASIC_CURRENCY,BASIC_CURRENCY_SAME,BASIC_CURRENCY_SEQUENTIAL,CURRENCY,CURRENCY_SAME,CURRENCY_SEQUENTIAL,FREE_CASH,FREE_CASH_SAME,FREE_CASH_SEQUENTIAL",
-			"pageNumber":  "1",
-			"pageSize":    "2000",
-			"sortColumns": "REPORT_DATE",
-			"sortTypes":   "-1",
-			"source":      "WEB",
-			"client":      "WEB",
-			"reportName":  "RPT_ECONOMY_CURRENCY_SUPPLY",
-			"p":           "1",
-			"pageNo":      "1",
-			"pageNum":     "1",
-			"_":           "1669047266881",
-		}).
-		Get("https://datacenter-web.eastmoney.com/api/data/v1/get")
+	b, err := GetEastmoney("REPORT_DATE,BASIC_CURRENCY,BASIC_CURRENCY_SAME,BASIC_CURRENCY_SEQUENTIAL,CURRENCY,CURRENCY_SAME,CURRENCY_SEQUENTIAL,FREE_CASH,FREE_CASH_SAME,FREE_CASH_SEQUENTIAL", "2000", "RPT_ECONOMY_CURRENCY_SUPPLY")
 	if err != nil {
 		return result, err
 	}
-	b := resp.Body()
-
 	v := gjson.GetBytes(b, "result.data")
 	json.Unmarshal([]byte(v.String()), &result)
 	return result, err
-}
-
-// 金十数据中心-经济指标-中国-产业指标-官方制造业PMI
-// https://zhuanlan.zhihu.com/p/100723005 解读
-// https://datacenter.jin10.com/reportType/dc_chinese_manufacturing_pmi
-// https://cdn.jin10.com/dc/reports/dc_chinese_manufacturing_pmi_all.js?v=1578817858
-func MacroChinaPmiYearly() (data map[string]string, err error) {
-	data, err = getJin10Yearly("https://cdn.jin10.com/dc/reports/dc_chinese_manufacturing_pmi_all.js",
-		"中国官方制造业PMI报告", "65")
-	if err != nil {
-		return data, err
-	}
-	return data, nil
 }
 
 /*
@@ -396,27 +366,11 @@ http://data.eastmoney.com/cjsj/xfp.html
 */
 func MacroChinaConsumerGoodsRetail() ([]*model.MacroChinaConsumerGoodsRetail, error) {
 	result := []*model.MacroChinaConsumerGoodsRetail{}
-	resp, err := Client.R().
-		SetQueryParams(map[string]string{
-			"columns":     "REPORT_DATE,RETAIL_TOTAL,RETAIL_TOTAL_SAME,RETAIL_TOTAL_SEQUENTIAL,RETAIL_TOTAL_ACCUMULATE,RETAIL_ACCUMULATE_SAME",
-			"pageNumber":  "1",
-			"pageSize":    "1000",
-			"sortColumns": "REPORT_DATE",
-			"sortTypes":   "-1",
-			"source":      "WEB",
-			"client":      "WEB",
-			"reportName":  "RPT_ECONOMY_TOTAL_RETAIL",
-			"p":           "1",
-			"pageNo":      "1",
-			"pageNum":     "1",
-			"_":           "1660718498421",
-		}).
-		Get("https://datacenter-web.eastmoney.com/api/data/v1/get")
+	b, err := GetEastmoney("REPORT_DATE,RETAIL_TOTAL,RETAIL_TOTAL_SAME,RETAIL_TOTAL_SEQUENTIAL,RETAIL_TOTAL_ACCUMULATE,RETAIL_ACCUMULATE_SAME",
+		"1000", "RPT_ECONOMY_TOTAL_RETAIL")
 	if err != nil {
 		return result, err
 	}
-	b := resp.Body()
-
 	v := gjson.GetBytes(b, "result.data")
 	json.Unmarshal([]byte(v.String()), &result)
 	return result, nil
@@ -424,7 +378,7 @@ func MacroChinaConsumerGoodsRetail() ([]*model.MacroChinaConsumerGoodsRetail, er
 
 // 金十数据中心-中国 GDP 年率报告, 数据区间从 20110120-至今
 // https://datacenter.jin10.com/reportType/dc_chinese_gdp_yoy
-func MacroChinaGdpYearly() (data map[string]string, err error) {
+func MacroChinaGdpYearlyJin10() (data map[string]string, err error) {
 	data, err = getJin10Yearly("https://cdn.jin10.com/dc/reports/dc_chinese_gdp_yoy_all.js",
 		"中国GDP年率报告", "57")
 	if err != nil {
@@ -435,7 +389,7 @@ func MacroChinaGdpYearly() (data map[string]string, err error) {
 
 // 金十数据中心-经济指标-中国-国民经济运行状况-物价水平-中国CPI月率报告
 // https://datacenter.jin10.com/reportType/dc_chinese_cpi_yoy
-func MacroChinaCpiYearly() (data map[string]string, err error) {
+func MacroChinaCpiYearlyJin10() (data map[string]string, err error) {
 	data, err = getJin10Yearly("https://cdn.jin10.com/dc/reports/dc_chinese_cpi_yoy_all.js",
 		"中国CPI年率报告", "56")
 	if err != nil {
@@ -447,9 +401,22 @@ func MacroChinaCpiYearly() (data map[string]string, err error) {
 // 金十数据中心-经济指标-中国-国民经济运行状况-物价水平-中国PPI年率报告
 // 中国年度 PPI 数据, 数据区间从 19950801-至今
 // https://datacenter.jin10.com/reportType/dc_chinese_ppi_yoy
-func MacroChinaPpiYearly() (data map[string]string, err error) {
+func MacroChinaPpiYearlyJin10() (data map[string]string, err error) {
 	data, err = getJin10Yearly("https://cdn.jin10.com/dc/reports/dc_chinese_ppi_yoy_all.js",
 		"中国PPI年率报告", "60")
+	if err != nil {
+		return data, err
+	}
+	return data, nil
+}
+
+// 金十数据中心-经济指标-中国-产业指标-官方制造业PMI
+// https://zhuanlan.zhihu.com/p/100723005 解读
+// https://datacenter.jin10.com/reportType/dc_chinese_manufacturing_pmi
+// https://cdn.jin10.com/dc/reports/dc_chinese_manufacturing_pmi_all.js?v=1578817858
+func MacroChinaPmiYearlyJin10() (data map[string]string, err error) {
+	data, err = getJin10Yearly("https://cdn.jin10.com/dc/reports/dc_chinese_manufacturing_pmi_all.js",
+		"中国官方制造业PMI报告", "65")
 	if err != nil {
 		return data, err
 	}
@@ -650,4 +617,73 @@ func StockSohuCom(symbol string) error {
 	bydata := byBody[bytes.IndexAny(byBody, "[")+1 : bytes.LastIndexAny(byBody, "]")]
 	fmt.Println(string(bydata))
 	return nil
+}
+
+func ChinaGDP() ([]*model.ChinaGDP, error) {
+	result := []*model.ChinaGDP{}
+	b, err := GetEastmoney("ALL", "1000", "RPT_ECONOMY_GDP")
+	if err != nil {
+		return result, err
+	}
+	v := gjson.GetBytes(b, "result.data")
+	json.Unmarshal([]byte(v.String()), &result)
+	return result, nil
+}
+
+func ChinaCPI() ([]*model.ChinaCPI, error) {
+	result := []*model.ChinaCPI{}
+	b, err := GetEastmoney("ALL", "1000", "RPT_ECONOMY_CPI")
+	if err != nil {
+		return result, err
+	}
+	v := gjson.GetBytes(b, "result.data")
+	json.Unmarshal([]byte(v.String()), &result)
+	return result, nil
+}
+
+func ChinaPPI() ([]*model.ChinaPPI, error) {
+	result := []*model.ChinaPPI{}
+	b, err := GetEastmoney("ALL", "1000", "RPT_ECONOMY_PPI")
+	if err != nil {
+		return result, err
+	}
+	v := gjson.GetBytes(b, "result.data")
+	json.Unmarshal([]byte(v.String()), &result)
+	return result, nil
+}
+
+func ChinaPMI() ([]*model.ChinaPMI, error) {
+	result := []*model.ChinaPMI{}
+	b, err := GetEastmoney("ALL", "1000", "RPT_ECONOMY_PMI")
+	if err != nil {
+		return result, err
+	}
+	v := gjson.GetBytes(b, "result.data")
+	json.Unmarshal([]byte(v.String()), &result)
+	return result, nil
+}
+
+// 东方财富网
+func GetEastmoney(columns, pageSize, reportName string) ([]byte, error) {
+	resp, err := Client.R().
+		SetQueryParams(map[string]string{
+			"columns":     columns,
+			"pageNumber":  "1",
+			"pageSize":    pageSize,
+			"sortColumns": "REPORT_DATE",
+			"sortTypes":   "-1",
+			"source":      "WEB",
+			"client":      "WEB",
+			"reportName":  reportName,
+			"p":           "1",
+			"pageNo":      "1",
+			"pageNum":     "1",
+			"_":           "1660718498421",
+		}).
+		Get("https://datacenter-web.eastmoney.com/api/data/v1/get")
+	if err != nil {
+		return nil, err
+	}
+	b := resp.Body()
+	return b, nil
 }

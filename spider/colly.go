@@ -16,7 +16,6 @@ import (
 	"github.com/chenhaonan-eth/dao/dal/initialize"
 	"github.com/chenhaonan-eth/dao/dal/model"
 	"github.com/chenhaonan-eth/dao/dal/query"
-	"github.com/chenhaonan-eth/dao/economic/macroscopic"
 	"github.com/chenhaonan-eth/dao/pkg/utils"
 	"github.com/chromedp/chromedp"
 	"go.uber.org/zap"
@@ -137,116 +136,139 @@ func CollySH300PE() {
 	config.G_LOG.Debug("End  CollySH300PE. Create", zap.Any("result", result))
 }
 
-// 爬取CN CPI
+// 爬取CN GDP
 func CollyCNGDP() {
-	config.G_LOG.Debug("Start CollyCNGDP ")
-	t := q.MacroGDP
-	do := t.WithContext(context.Background())
-	// 计算本月时间
-	t1 := time.Now().Format("2006-01")
-	// 查询数据库是否存在最近一个月数据
-	m, err := do.Order(t.Date.Desc()).First()
-	if err != nil {
-		config.G_LOG.Error("find db", zap.Error(err))
-		return
-	}
-	if strings.Contains(m.Date, t1) && m.Gdp != "" {
-		config.G_LOG.Debug("CollyCNGDP It already exists in the database", zap.Any("data", m))
-		return
-	}
-	v, err := macroscopic.MacroChinaGdpYearly()
-	if err != nil {
-		config.G_LOG.Debug("CollyCNGDP ", zap.Error(err))
-		return
-	}
-	// TODO 需要优化重新
-	for k, v := range v {
-		if !strings.Contains(k, t1) {
-			continue
-		}
-		if strings.Contains(m.Date, t1) && m.Gdp == "" {
-			do.Where(t.Date.Eq(t1)).Update(t.Gdp, v)
-			config.G_LOG.Debug("CollyCNGDP Update", zap.Any("date", t1), zap.Any("GDP", v))
-		}
-		if !strings.Contains(m.Date, t1) {
-			m.Date = t1
-			m.Gdp = v
-			do.Create(m)
-			config.G_LOG.Debug("CollyCNGDP Create", zap.Any("data", m))
-		}
-		break
-	}
-	config.G_LOG.Debug("End CollyCNGDP ")
+	// TODO
+	// config.G_LOG.Debug("Start CollyCNGDP ")
+	// t := q.MacroGDP
+	// do := t.WithContext(context.Background())
+	// // 计算上月时间
+	// t1 := time.Now().Format("2006-01")
+	// // 查询数据库是否存在最近一个月数据
+	// m, err := do.Order(t.Date.Desc()).First()
+	// if err != nil {
+	// 	config.G_LOG.Error("find db", zap.Error(err))
+	// 	return
+	// }
+	// if strings.Contains(m.Date, t1) && m.Gdp != "" {
+	// 	config.G_LOG.Debug("CollyCNGDP It already exists in the database", zap.Any("data", m))
+	// 	return
+	// }
+	// v, err := jin10("CollyCNGDP", "57")
+	// if err != nil {
+	// 	config.G_LOG.Error("CollyCNGDP ", zap.Error(err))
+	// 	return
+	// }
+	// for _, v := range v {
+	// 	vl := v.Array()
+	// 	if find := strings.Contains(vl[0].String(), t1); find {
+	// 		if strings.Contains(m.Date, t1) && m.Gdp == "" {
+	// 			do.Where(t.Date.Eq(vl[0].String())).Update(t.Gdp, vl[1].String())
+	// 			config.G_LOG.Debug("CollyCNGDP Update", zap.Any("date", vl[0].String()), zap.Any("GDP", vl[1].String()))
+	// 		}
+	// 		if !strings.Contains(m.Date, t1) {
+	// 			m.Date = vl[0].String()
+	// 			m.Gdp = vl[1].String()
+	// 			do.Create(m)
+	// 			config.G_LOG.Debug("CollyCNGDP Create", zap.Any("data", *m))
+	// 		}
+	// 		break
+	// 	}
+	// }
+	// config.G_LOG.Debug("End CollyCNGDP ")
 }
 
 // 爬取CN CPI
 func CollyCNCPI() {
-	config.G_LOG.Debug("Start CollyCNCPI ")
-	t := q.MacroCpi
-	do := t.WithContext(context.Background())
-	// 计算本月时间
-	t1 := time.Now().Format("2006-01")
-	// 查询数据库是否存在最近一个月数据
-	m, err := do.Order(t.Date.Desc()).First()
-	if err != nil {
-		config.G_LOG.Error("find db", zap.Error(err))
-		return
-	}
-	if strings.Contains(m.Date, t1) && m.Cpi != "" {
-		config.G_LOG.Debug("CollyCNCPI It already exists in the database", zap.Any("data", m))
-		return
-	}
-	v, err := macroscopic.MacroChinaCpiYearly()
-	if err != nil {
-		config.G_LOG.Debug("CollyCNCPI ", zap.Error(err))
-		return
-	}
+	// TODO
+	// config.G_LOG.Debug("Start CollyCNCPI ")
+	// t := q.MacroCpi
+	// do := t.WithContext(context.Background())
+	// // 计算本月时间
+	// t1 := time.Now().Format("2006-01")
+	// // 查询数据库是否存在最近一个月数据
+	// m, err := do.Order(t.Date.Desc()).First()
+	// if err != nil {
+	// 	config.G_LOG.Error("find db", zap.Error(err))
+	// 	return
+	// }
+	// if strings.Contains(m.Date, t1) && m.Cpi != "" {
+	// 	config.G_LOG.Debug("CollyCNCPI It already exists in the database", zap.Any("data", m))
+	// 	return
+	// }
+	// v, err := jin10("CollyCNPPI", "56")
+	// if err != nil {
+	// 	config.G_LOG.Error("CollyCNPPI ", zap.Error(err))
+	// 	return
+	// }
+	// for _, v := range v {
+	// 	vl := v.Array()
+	// 	if find := strings.Contains(vl[0].String(), t1); find {
+	// 		if strings.Contains(m.Date, t1) && m.Cpi == "" {
+	// 			do.Where(t.Date.Eq(vl[0].String())).Update(t.Cpi, vl[1].String())
+	// 			config.G_LOG.Debug("CollyCNCPI Update", zap.Any("date", vl[0].String()), zap.Any("PPI", vl[1].String()))
+	// 		}
+	// 		if !strings.Contains(m.Date, t1) {
+	// 			m.Date = vl[0].String()
+	// 			m.Cpi = vl[1].String()
+	// 			do.Create(m)
+	// 			config.G_LOG.Debug("CollyCNCPI Create", zap.Any("data", *m))
+	// 		}
+	// 		break
+	// 	}
+	// }
 
-	// TODO 需要优化重新
-	for k, v := range v {
-		if !strings.Contains(k, t1) {
-			continue
-		}
-		if strings.Contains(m.Date, t1) && m.Cpi == "" {
-			do.Where(t.Date.Eq(t1)).Update(t.Cpi, v)
-			config.G_LOG.Debug("CollyCNCPI Update", zap.Any("date", t1), zap.Any("GDP", v))
-		}
-		if !strings.Contains(m.Date, t1) {
-			m.Date = t1
-			m.Cpi = v
-			do.Create(m)
-			config.G_LOG.Debug("CollyCNCPI Create", zap.Any("data", m))
-		}
-		break
-	}
-	config.G_LOG.Debug("End CollyCNCPI ")
+	// config.G_LOG.Debug("End CollyCNCPI ")
 }
 
 // 爬取CN社融ppi，从每月9号开始
 func CollyCNPPI() {
-	config.G_LOG.Debug("start CollyCNPPI ")
-	t := q.MacroPpi
-	do := t.WithContext(context.Background())
+	// TODO
+	// config.G_LOG.Debug("start CollyCNPPI ")
+	// t := q.MacroPpi
+	// do := t.WithContext(context.Background())
 
-	// 计算本月时间
-	t1 := time.Now().Format("2006-01")
-	log.Println(t)
-	// 查询数据库是否存在最近一个月数据
-	m, err := do.Order(t.Date.Desc()).First()
-	if err != nil {
-		config.G_LOG.Error("CollyCNPPI ", zap.Error(err))
-		return
-	}
-	if strings.Contains(m.Date, t1) {
-		config.G_LOG.Debug("CollyCNPPI It already exists in the database", zap.Any("data", m))
-		return
-	}
-	// 无，获取最新数据
+	// // 计算本月时间
+	// t1 := time.Now().Format("2006-01")
+	// log.Println(t)
+	// // 查询数据库是否存在最近一个月数据
+	// m, err := do.Order(t.Date.Desc()).First()
+	// if err != nil {
+	// 	config.G_LOG.Error("CollyCNPPI ", zap.Error(err))
+	// 	return
+	// }
+	// if strings.Contains(m.Date, t1) {
+	// 	config.G_LOG.Debug("CollyCNPPI It already exists in the database", zap.Any("data", m))
+	// 	return
+	// }
+	// // 无，获取最新数据
+	// value, err := jin10("CollyCNPPI", "60")
+	// if err != nil {
+	// 	config.G_LOG.Error("CollyCNPPI ", zap.Error(err))
+	// 	return
+	// }
+	// for _, v := range value {
+	// 	vl := v.Array()
+	// 	if find := strings.Contains(vl[0].String(), t1); find {
+	// 		m.Date = vl[0].String()
+	// 		m.Ppi = vl[1].String()
+	// 		err := do.Create(m)
+	// 		if err != nil {
+	// 			config.G_LOG.Error("CollyCNPPI ", zap.Error(err))
+	// 		}
+	// 		config.G_LOG.Debug("CollyCNPPI Create", zap.Any("data", *m))
+	// 		return
+	// 	}
+	// }
+	// config.G_LOG.Debug("End CollyCNPPI ")
+}
+
+func jin10(name, id string) ([]gjson.Result, error) {
 	resp, err := Client.R().
 		SetQueryParams(map[string]string{
 			"max_date": "",
 			"category": "ec",
-			"attr_id":  "60",
+			"attr_id":  id,
 			"_":        strconv.FormatInt(time.Now().Unix(), 10),
 		}).SetHeaders(map[string]string{
 		"accept":          "*/*",
@@ -266,24 +288,12 @@ func CollyCNPPI() {
 	}).
 		Get("https://datacenter-api.jin10.com/reports/list_v2")
 	if err != nil {
-		config.G_LOG.Error("CollyCNPPI ", zap.Error(err))
-		return
+		config.G_LOG.Error("get jin10 ", zap.Any("name", name), zap.Error(err))
+		return nil, err
 	}
 	b := resp.Body()
 	value := gjson.GetBytes(b, "data.values").Array()
-	for _, v := range value {
-		vl := v.Array()
-		if find := strings.Contains(vl[0].String(), t1); find {
-			m.Date = vl[0].String()
-			m.Ppi = vl[1].String()
-			err := do.Create(m)
-			if err != nil {
-				config.G_LOG.Error("CollyCNPPI ", zap.Error(err))
-			}
-			return
-		}
-	}
-	config.G_LOG.Debug("End CollyCNPPI ")
+	return value, nil
 }
 
 // 社会融资存量

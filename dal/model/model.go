@@ -118,31 +118,54 @@ type PePbPsDvTotalmv struct {
 }
 
 // PMI
-type MacroPMI struct {
-	Date    string `json:"date" gorm:"index"`
-	Country string `json:"country"`
-	Pmi     string `json:"pmi"`
+type ChinaPMI struct {
+	Date                       string  `json:"REPORT_DATE" gorm:"index"` //2022-10-01 00:00:00
+	Time                       string  `json:"TIME"`                     //2022年10月份
+	Manufacturing              float64 `json:"MAKE_INDEX"`               // 制造业
+	ManufacturingYearOnYear    float64 `json:"MAKE_SAME"`                // 同比增加(%)
+	NonManufacturing           float64 `json:"NMAKE_INDEX"`              // 非制造业
+	NonManufacturingYearOnYear float64 `json:"NMAKE_SAME"`               // 同比增加(%)
 }
 
 // GDP
-type MacroGDP struct {
-	Date    string `json:"date" gorm:"index"`
-	Country string `json:"country"`
-	Gdp     string `json:"gdp"`
+type ChinaGDP struct {
+	Date                          string  `json:"REPORT_DATE" gorm:"index"` //2022-09-01 00:00:00
+	Time                          string  `json:"TIME"`                     //"2022年第1-3季度"
+	GDP                           float64 `json:"DOMESTICL_PRODUCT_BASE"`   // 国内生产总值(亿元)
+	GDPYearOnYear                 float64 `json:"SUM_SAME"`                 // 国内生产总值季度累计同比增长（%）
+	PrimaryIndustry               float64 `json:"FIRST_PRODUCT_BASE"`       // 第一产业增加值（亿元）
+	PrimaryIndustryYearOnYear     float64 `json:"FIRST_SAME"`               // 第一产业增加值季度累计同比增长（%）
+	SecondaryIndustries           float64 `json:"SECOND_PRODUCT_BASE"`      // 第二产业增加值（亿元）
+	SecondaryIndustriesYearOnYear float64 `json:"SECOND_SAME"`              // 第二产业增加值季度累计同比增长（%）
+	TertiaryIndustry              float64 `json:"THIRD_PRODUCT_BASE"`       // 第三产业增加值（亿元）
+	TertiaryIndustryYearOnYear    float64 `json:"THIRD_SAME"`               // 第三产业增加值季度累计同比增长（%）
 }
 
 // cpi
-type MacroCpi struct {
-	Date    string `json:"date" gorm:"index"`
-	Country string `json:"country"`
-	Cpi     string `json:"cpi"`
+type ChinaCPI struct {
+	Date                 string  `json:"REPORT_DATE" gorm:"index"` //2022-10-01 00:00:00
+	Time                 string  `json:"TIME"`                     //2022年10月份
+	National             float64 `json:"NATIONAL_BASE"`            // 全国当月
+	NationalYearOnYear   float64 `json:"NATIONAL_SAME"`            // 全国同比增加(%)
+	NationalYearOverYear float64 `json:"NATIONAL_SEQUENTIAL"`      // 全国环比增长(%)
+	NationalAccumulative float64 `json:"NATIONAL_ACCUMULATE"`      // 全国累计
+	City                 float64 `json:"CITY_BASE"`                // 城市当月
+	CityYearOnYear       float64 `json:"CITY_SAME"`                // 城市同比增加(%)
+	CityYearOverYear     float64 `json:"CITY_SEQUENTIAL"`          // 城市环比增长(%)
+	CityAccumulative     float64 `json:"CITY_ACCUMULATE"`          // 城市累计
+	Rural                float64 `json:"RURAL_BASE"`               // 农村当月
+	RuralYearOnYear      float64 `json:"RURAL_SAME"`               // 农村同比增加(%)
+	RuralYearOverYear    float64 `json:"RURAL_SEQUENTIAL"`         // 农村环比增长(%)
+	RuralAccumulative    float64 `json:"RURAL_ACCUMULATE"`         // 农村累计
 }
 
 // ppi
-type MacroPpi struct {
-	Date    string `json:"date" gorm:"index"`
-	Country string `json:"country"`
-	Ppi     string `json:"Ppi"`
+type ChinaPPI struct {
+	Date         string  `json:"REPORT_DATE" gorm:"index"` //2022-10-01 00:00:00
+	Time         string  `json:"TIME"`                     //2022年10月份
+	PPI          float64 `json:"BASE"`                     // 工业品出厂价格指数
+	YearOnYear   float64 `json:"BASE_SAME"`                // 当月同比增长(%)
+	Accumulative float64 `json:"BASE_ACCUMULATE"`          // 累计
 }
 
 // 外盘期货交易

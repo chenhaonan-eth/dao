@@ -34,13 +34,13 @@ type GreeterClient interface {
 	// 期货 伦铜:CAD
 	GetFuturesForeignHist(ctx context.Context, in *FturesFoewignRequest, opts ...grpc.CallOption) (*FturesFoewignResponse, error)
 	// PPI
-	GetPpi(ctx context.Context, in *PpiRequest, opts ...grpc.CallOption) (*PpiResponse, error)
+	GetPpi(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*PpiResponse, error)
 	// GDP
-	GetGdp(ctx context.Context, in *GdpRequest, opts ...grpc.CallOption) (*GdpResponse, error)
+	GetGdp(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*GdpResponse, error)
 	// PMI
-	GetPmi(ctx context.Context, in *PmiRequest, opts ...grpc.CallOption) (*PmiResponse, error)
+	GetPmi(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*PmiResponse, error)
 	// Cpi
-	GetCpi(ctx context.Context, in *CpiRequest, opts ...grpc.CallOption) (*CpiResponse, error)
+	GetCpi(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*CpiResponse, error)
 	// 货币供应
 	GetMoneySupply(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*MoneySupplyResponse, error)
 	// 社会消费品零售总额
@@ -100,7 +100,7 @@ func (c *greeterClient) GetFuturesForeignHist(ctx context.Context, in *FturesFoe
 	return out, nil
 }
 
-func (c *greeterClient) GetPpi(ctx context.Context, in *PpiRequest, opts ...grpc.CallOption) (*PpiResponse, error) {
+func (c *greeterClient) GetPpi(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*PpiResponse, error) {
 	out := new(PpiResponse)
 	err := c.cc.Invoke(ctx, "/server.Greeter/GetPpi", in, out, opts...)
 	if err != nil {
@@ -109,7 +109,7 @@ func (c *greeterClient) GetPpi(ctx context.Context, in *PpiRequest, opts ...grpc
 	return out, nil
 }
 
-func (c *greeterClient) GetGdp(ctx context.Context, in *GdpRequest, opts ...grpc.CallOption) (*GdpResponse, error) {
+func (c *greeterClient) GetGdp(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*GdpResponse, error) {
 	out := new(GdpResponse)
 	err := c.cc.Invoke(ctx, "/server.Greeter/GetGdp", in, out, opts...)
 	if err != nil {
@@ -118,7 +118,7 @@ func (c *greeterClient) GetGdp(ctx context.Context, in *GdpRequest, opts ...grpc
 	return out, nil
 }
 
-func (c *greeterClient) GetPmi(ctx context.Context, in *PmiRequest, opts ...grpc.CallOption) (*PmiResponse, error) {
+func (c *greeterClient) GetPmi(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*PmiResponse, error) {
 	out := new(PmiResponse)
 	err := c.cc.Invoke(ctx, "/server.Greeter/GetPmi", in, out, opts...)
 	if err != nil {
@@ -127,7 +127,7 @@ func (c *greeterClient) GetPmi(ctx context.Context, in *PmiRequest, opts ...grpc
 	return out, nil
 }
 
-func (c *greeterClient) GetCpi(ctx context.Context, in *CpiRequest, opts ...grpc.CallOption) (*CpiResponse, error) {
+func (c *greeterClient) GetCpi(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*CpiResponse, error) {
 	out := new(CpiResponse)
 	err := c.cc.Invoke(ctx, "/server.Greeter/GetCpi", in, out, opts...)
 	if err != nil {
@@ -169,13 +169,13 @@ type GreeterServer interface {
 	// 期货 伦铜:CAD
 	GetFuturesForeignHist(context.Context, *FturesFoewignRequest) (*FturesFoewignResponse, error)
 	// PPI
-	GetPpi(context.Context, *PpiRequest) (*PpiResponse, error)
+	GetPpi(context.Context, *emptypb.Empty) (*PpiResponse, error)
 	// GDP
-	GetGdp(context.Context, *GdpRequest) (*GdpResponse, error)
+	GetGdp(context.Context, *emptypb.Empty) (*GdpResponse, error)
 	// PMI
-	GetPmi(context.Context, *PmiRequest) (*PmiResponse, error)
+	GetPmi(context.Context, *emptypb.Empty) (*PmiResponse, error)
 	// Cpi
-	GetCpi(context.Context, *CpiRequest) (*CpiResponse, error)
+	GetCpi(context.Context, *emptypb.Empty) (*CpiResponse, error)
 	// 货币供应
 	GetMoneySupply(context.Context, *emptypb.Empty) (*MoneySupplyResponse, error)
 	// 社会消费品零售总额
@@ -201,16 +201,16 @@ func (UnimplementedGreeterServer) GetSocialFinancingStock(context.Context, *empt
 func (UnimplementedGreeterServer) GetFuturesForeignHist(context.Context, *FturesFoewignRequest) (*FturesFoewignResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetFuturesForeignHist not implemented")
 }
-func (UnimplementedGreeterServer) GetPpi(context.Context, *PpiRequest) (*PpiResponse, error) {
+func (UnimplementedGreeterServer) GetPpi(context.Context, *emptypb.Empty) (*PpiResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetPpi not implemented")
 }
-func (UnimplementedGreeterServer) GetGdp(context.Context, *GdpRequest) (*GdpResponse, error) {
+func (UnimplementedGreeterServer) GetGdp(context.Context, *emptypb.Empty) (*GdpResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetGdp not implemented")
 }
-func (UnimplementedGreeterServer) GetPmi(context.Context, *PmiRequest) (*PmiResponse, error) {
+func (UnimplementedGreeterServer) GetPmi(context.Context, *emptypb.Empty) (*PmiResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetPmi not implemented")
 }
-func (UnimplementedGreeterServer) GetCpi(context.Context, *CpiRequest) (*CpiResponse, error) {
+func (UnimplementedGreeterServer) GetCpi(context.Context, *emptypb.Empty) (*CpiResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetCpi not implemented")
 }
 func (UnimplementedGreeterServer) GetMoneySupply(context.Context, *emptypb.Empty) (*MoneySupplyResponse, error) {
@@ -322,7 +322,7 @@ func _Greeter_GetFuturesForeignHist_Handler(srv interface{}, ctx context.Context
 }
 
 func _Greeter_GetPpi_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(PpiRequest)
+	in := new(emptypb.Empty)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -334,13 +334,13 @@ func _Greeter_GetPpi_Handler(srv interface{}, ctx context.Context, dec func(inte
 		FullMethod: "/server.Greeter/GetPpi",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(GreeterServer).GetPpi(ctx, req.(*PpiRequest))
+		return srv.(GreeterServer).GetPpi(ctx, req.(*emptypb.Empty))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _Greeter_GetGdp_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GdpRequest)
+	in := new(emptypb.Empty)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -352,13 +352,13 @@ func _Greeter_GetGdp_Handler(srv interface{}, ctx context.Context, dec func(inte
 		FullMethod: "/server.Greeter/GetGdp",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(GreeterServer).GetGdp(ctx, req.(*GdpRequest))
+		return srv.(GreeterServer).GetGdp(ctx, req.(*emptypb.Empty))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _Greeter_GetPmi_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(PmiRequest)
+	in := new(emptypb.Empty)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -370,13 +370,13 @@ func _Greeter_GetPmi_Handler(srv interface{}, ctx context.Context, dec func(inte
 		FullMethod: "/server.Greeter/GetPmi",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(GreeterServer).GetPmi(ctx, req.(*PmiRequest))
+		return srv.(GreeterServer).GetPmi(ctx, req.(*emptypb.Empty))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _Greeter_GetCpi_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(CpiRequest)
+	in := new(emptypb.Empty)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -388,7 +388,7 @@ func _Greeter_GetCpi_Handler(srv interface{}, ctx context.Context, dec func(inte
 		FullMethod: "/server.Greeter/GetCpi",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(GreeterServer).GetCpi(ctx, req.(*CpiRequest))
+		return srv.(GreeterServer).GetCpi(ctx, req.(*emptypb.Empty))
 	}
 	return interceptor(ctx, in, info, handler)
 }

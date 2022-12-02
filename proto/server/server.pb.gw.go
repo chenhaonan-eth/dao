@@ -157,25 +157,8 @@ func local_request_Greeter_GetFuturesForeignHist_0(ctx context.Context, marshale
 }
 
 func request_Greeter_GetPpi_0(ctx context.Context, marshaler runtime.Marshaler, client GreeterClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq PpiRequest
+	var protoReq emptypb.Empty
 	var metadata runtime.ServerMetadata
-
-	var (
-		val string
-		ok  bool
-		err error
-		_   = err
-	)
-
-	val, ok = pathParams["country"]
-	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "country")
-	}
-
-	protoReq.Country, err = runtime.String(val)
-	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "country", err)
-	}
 
 	msg, err := client.GetPpi(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
@@ -183,25 +166,8 @@ func request_Greeter_GetPpi_0(ctx context.Context, marshaler runtime.Marshaler, 
 }
 
 func local_request_Greeter_GetPpi_0(ctx context.Context, marshaler runtime.Marshaler, server GreeterServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq PpiRequest
+	var protoReq emptypb.Empty
 	var metadata runtime.ServerMetadata
-
-	var (
-		val string
-		ok  bool
-		err error
-		_   = err
-	)
-
-	val, ok = pathParams["country"]
-	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "country")
-	}
-
-	protoReq.Country, err = runtime.String(val)
-	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "country", err)
-	}
 
 	msg, err := server.GetPpi(ctx, &protoReq)
 	return msg, metadata, err
@@ -209,25 +175,8 @@ func local_request_Greeter_GetPpi_0(ctx context.Context, marshaler runtime.Marsh
 }
 
 func request_Greeter_GetGdp_0(ctx context.Context, marshaler runtime.Marshaler, client GreeterClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq GdpRequest
+	var protoReq emptypb.Empty
 	var metadata runtime.ServerMetadata
-
-	var (
-		val string
-		ok  bool
-		err error
-		_   = err
-	)
-
-	val, ok = pathParams["country"]
-	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "country")
-	}
-
-	protoReq.Country, err = runtime.String(val)
-	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "country", err)
-	}
 
 	msg, err := client.GetGdp(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
@@ -235,25 +184,8 @@ func request_Greeter_GetGdp_0(ctx context.Context, marshaler runtime.Marshaler, 
 }
 
 func local_request_Greeter_GetGdp_0(ctx context.Context, marshaler runtime.Marshaler, server GreeterServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq GdpRequest
+	var protoReq emptypb.Empty
 	var metadata runtime.ServerMetadata
-
-	var (
-		val string
-		ok  bool
-		err error
-		_   = err
-	)
-
-	val, ok = pathParams["country"]
-	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "country")
-	}
-
-	protoReq.Country, err = runtime.String(val)
-	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "country", err)
-	}
 
 	msg, err := server.GetGdp(ctx, &protoReq)
 	return msg, metadata, err
@@ -261,25 +193,8 @@ func local_request_Greeter_GetGdp_0(ctx context.Context, marshaler runtime.Marsh
 }
 
 func request_Greeter_GetPmi_0(ctx context.Context, marshaler runtime.Marshaler, client GreeterClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq PmiRequest
+	var protoReq emptypb.Empty
 	var metadata runtime.ServerMetadata
-
-	var (
-		val string
-		ok  bool
-		err error
-		_   = err
-	)
-
-	val, ok = pathParams["country"]
-	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "country")
-	}
-
-	protoReq.Country, err = runtime.String(val)
-	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "country", err)
-	}
 
 	msg, err := client.GetPmi(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
@@ -287,25 +202,8 @@ func request_Greeter_GetPmi_0(ctx context.Context, marshaler runtime.Marshaler, 
 }
 
 func local_request_Greeter_GetPmi_0(ctx context.Context, marshaler runtime.Marshaler, server GreeterServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq PmiRequest
+	var protoReq emptypb.Empty
 	var metadata runtime.ServerMetadata
-
-	var (
-		val string
-		ok  bool
-		err error
-		_   = err
-	)
-
-	val, ok = pathParams["country"]
-	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "country")
-	}
-
-	protoReq.Country, err = runtime.String(val)
-	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "country", err)
-	}
 
 	msg, err := server.GetPmi(ctx, &protoReq)
 	return msg, metadata, err
@@ -313,25 +211,8 @@ func local_request_Greeter_GetPmi_0(ctx context.Context, marshaler runtime.Marsh
 }
 
 func request_Greeter_GetCpi_0(ctx context.Context, marshaler runtime.Marshaler, client GreeterClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq CpiRequest
+	var protoReq emptypb.Empty
 	var metadata runtime.ServerMetadata
-
-	var (
-		val string
-		ok  bool
-		err error
-		_   = err
-	)
-
-	val, ok = pathParams["country"]
-	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "country")
-	}
-
-	protoReq.Country, err = runtime.String(val)
-	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "country", err)
-	}
 
 	msg, err := client.GetCpi(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
@@ -339,25 +220,8 @@ func request_Greeter_GetCpi_0(ctx context.Context, marshaler runtime.Marshaler, 
 }
 
 func local_request_Greeter_GetCpi_0(ctx context.Context, marshaler runtime.Marshaler, server GreeterServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq CpiRequest
+	var protoReq emptypb.Empty
 	var metadata runtime.ServerMetadata
-
-	var (
-		val string
-		ok  bool
-		err error
-		_   = err
-	)
-
-	val, ok = pathParams["country"]
-	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "country")
-	}
-
-	protoReq.Country, err = runtime.String(val)
-	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "country", err)
-	}
 
 	msg, err := server.GetCpi(ctx, &protoReq)
 	return msg, metadata, err
@@ -539,7 +403,7 @@ func RegisterGreeterHandlerServer(ctx context.Context, mux *runtime.ServeMux, se
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/server.Greeter/GetPpi", runtime.WithHTTPPathPattern("/v1/macroscopic/ppi/{country}"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/server.Greeter/GetPpi", runtime.WithHTTPPathPattern("/v1/macroscopic/cn/ppi"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -564,7 +428,7 @@ func RegisterGreeterHandlerServer(ctx context.Context, mux *runtime.ServeMux, se
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/server.Greeter/GetGdp", runtime.WithHTTPPathPattern("/v1/macroscopic/gdp/{country}"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/server.Greeter/GetGdp", runtime.WithHTTPPathPattern("/v1/macroscopic/cn/gdp"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -589,7 +453,7 @@ func RegisterGreeterHandlerServer(ctx context.Context, mux *runtime.ServeMux, se
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/server.Greeter/GetPmi", runtime.WithHTTPPathPattern("/v1/macroscopic/pmi/{country}"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/server.Greeter/GetPmi", runtime.WithHTTPPathPattern("/v1/macroscopic/cn/pmi"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -614,7 +478,7 @@ func RegisterGreeterHandlerServer(ctx context.Context, mux *runtime.ServeMux, se
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/server.Greeter/GetCpi", runtime.WithHTTPPathPattern("/v1/macroscopic/cpi/{country}"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/server.Greeter/GetCpi", runtime.WithHTTPPathPattern("/v1/macroscopic/cn/cpi"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -639,7 +503,7 @@ func RegisterGreeterHandlerServer(ctx context.Context, mux *runtime.ServeMux, se
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/server.Greeter/GetMoneySupply", runtime.WithHTTPPathPattern("/v1/macroscopic/money_supply"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/server.Greeter/GetMoneySupply", runtime.WithHTTPPathPattern("/v1/macroscopic/cn/money_supply"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -838,7 +702,7 @@ func RegisterGreeterHandlerClient(ctx context.Context, mux *runtime.ServeMux, cl
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/server.Greeter/GetPpi", runtime.WithHTTPPathPattern("/v1/macroscopic/ppi/{country}"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/server.Greeter/GetPpi", runtime.WithHTTPPathPattern("/v1/macroscopic/cn/ppi"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -860,7 +724,7 @@ func RegisterGreeterHandlerClient(ctx context.Context, mux *runtime.ServeMux, cl
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/server.Greeter/GetGdp", runtime.WithHTTPPathPattern("/v1/macroscopic/gdp/{country}"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/server.Greeter/GetGdp", runtime.WithHTTPPathPattern("/v1/macroscopic/cn/gdp"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -882,7 +746,7 @@ func RegisterGreeterHandlerClient(ctx context.Context, mux *runtime.ServeMux, cl
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/server.Greeter/GetPmi", runtime.WithHTTPPathPattern("/v1/macroscopic/pmi/{country}"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/server.Greeter/GetPmi", runtime.WithHTTPPathPattern("/v1/macroscopic/cn/pmi"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -904,7 +768,7 @@ func RegisterGreeterHandlerClient(ctx context.Context, mux *runtime.ServeMux, cl
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/server.Greeter/GetCpi", runtime.WithHTTPPathPattern("/v1/macroscopic/cpi/{country}"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/server.Greeter/GetCpi", runtime.WithHTTPPathPattern("/v1/macroscopic/cn/cpi"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -926,7 +790,7 @@ func RegisterGreeterHandlerClient(ctx context.Context, mux *runtime.ServeMux, cl
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/server.Greeter/GetMoneySupply", runtime.WithHTTPPathPattern("/v1/macroscopic/money_supply"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/server.Greeter/GetMoneySupply", runtime.WithHTTPPathPattern("/v1/macroscopic/cn/money_supply"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -978,15 +842,15 @@ var (
 
 	pattern_Greeter_GetFuturesForeignHist_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"v1", "macroscopic", "FuturesForeignHist", "symbol"}, ""))
 
-	pattern_Greeter_GetPpi_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"v1", "macroscopic", "ppi", "country"}, ""))
+	pattern_Greeter_GetPpi_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"v1", "macroscopic", "cn", "ppi"}, ""))
 
-	pattern_Greeter_GetGdp_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"v1", "macroscopic", "gdp", "country"}, ""))
+	pattern_Greeter_GetGdp_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"v1", "macroscopic", "cn", "gdp"}, ""))
 
-	pattern_Greeter_GetPmi_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"v1", "macroscopic", "pmi", "country"}, ""))
+	pattern_Greeter_GetPmi_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"v1", "macroscopic", "cn", "pmi"}, ""))
 
-	pattern_Greeter_GetCpi_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"v1", "macroscopic", "cpi", "country"}, ""))
+	pattern_Greeter_GetCpi_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"v1", "macroscopic", "cn", "cpi"}, ""))
 
-	pattern_Greeter_GetMoneySupply_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"v1", "macroscopic", "money_supply"}, ""))
+	pattern_Greeter_GetMoneySupply_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"v1", "macroscopic", "cn", "money_supply"}, ""))
 
 	pattern_Greeter_GetConsumerGoodsRetail_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"v1", "macroscopic", "consumer_goods_retail"}, ""))
 )

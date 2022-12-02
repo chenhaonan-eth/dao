@@ -272,34 +272,27 @@ func initMacroChinaMoneySupply() error {
 			return err
 		}
 	}
-	return nil
+	return err
 }
 
 // pmi 存储
 func initPMI() error {
-	t := q.MacroPMI
+	t := q.ChinaPMI
 	do := t.WithContext(context.Background())
-
 	_, err := do.First()
-	if err != nil {
-		log.Println(err)
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		v, err := macroscopic.ChinaPMI()
+		if err != nil {
+			// core.G_LOG.Error("store Macro China Pmi Yearly err", zap.Any("err", err))
+			return err
+		}
+		err = do.CreateInBatches(v, 1024)
+		if err != nil {
+			// core.G_LOG.Info("find CollyMacroChinaMoneySupply err", zap.Any("err", err))
+			return err
+		}
 	}
-	if !errors.Is(err, gorm.ErrRecordNotFound) {
-		return err
-	}
-	v, err := macroscopic.MacroChinaPmiYearly()
-	if err != nil {
-		// core.G_LOG.Error("store Macro China Pmi Yearly err", zap.Any("err", err))
-		return err
-	}
-	for k, v := range v {
-		pmi := &model.MacroPMI{}
-		pmi.Date = k
-		pmi.Pmi = v
-		pmi.Country = "cn"
-		do.Create(pmi)
-	}
-	return nil
+	return err
 }
 
 // 社会融资总额
@@ -322,33 +315,28 @@ func initTotalSocialFinancing() error {
 			return err
 		}
 	}
-	return nil
+	return err
 }
 
 // GDP
 func initGDP() error {
-	t := q.MacroGDP
+	t := q.ChinaGDP
 	do := t.WithContext(context.Background())
 
 	_, err := do.First()
-	if err != nil {
-		log.Println(err)
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		v, err := macroscopic.ChinaGDP()
+		if err != nil {
+			// core.G_LOG.Error("store Macro China Pmi Yearly err", zap.Any("err", err))
+			return err
+		}
+		err = do.CreateInBatches(v, 1024)
+		if err != nil {
+			// core.G_LOG.Info("find CollyMacroChinaMoneySupply err", zap.Any("err", err))
+			return err
+		}
 	}
-	if !errors.Is(err, gorm.ErrRecordNotFound) {
-		return err
-	}
-	v, err := macroscopic.MacroChinaGdpYearly()
-	if err != nil {
-		return err
-	}
-	for k, v := range v {
-		gdp := &model.MacroGDP{}
-		gdp.Date = k
-		gdp.Gdp = v
-		gdp.Country = "cn"
-		do.Create(gdp)
-	}
-	return nil
+	return err
 }
 
 // 社会消费品零售总额
@@ -368,61 +356,49 @@ func initMacroChinaConsumerGoodsRetail() error {
 		return err
 	}
 	do.CreateInBatches(v, 512)
-	return nil
+	return err
 }
 
 // cpi
 func initMacroChinaCpi() error {
-	t := q.MacroCpi
+	t := q.ChinaCPI
 	do := t.WithContext(context.Background())
 
 	_, err := do.First()
-	if err != nil {
-		log.Println(err)
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		v, err := macroscopic.ChinaCPI()
+		if err != nil {
+			// core.G_LOG.Error("store Macro China Pmi Yearly err", zap.Any("err", err))
+			return err
+		}
+		err = do.CreateInBatches(v, 1024)
+		if err != nil {
+			// core.G_LOG.Info("find CollyMacroChinaMoneySupply err", zap.Any("err", err))
+			return err
+		}
 	}
-	if !errors.Is(err, gorm.ErrRecordNotFound) {
-		return err
-	}
-	v, err := macroscopic.MacroChinaCpiYearly()
-	if err != nil {
-		return err
-	}
-	for k, v := range v {
-		cpi := &model.MacroCpi{}
-		cpi.Date = k
-		cpi.Cpi = v
-		cpi.Country = "cn"
-		do.Create(cpi)
-	}
-	return nil
+	return err
 }
 
 // ppi
 func initMacroPpi() error {
-	t := q.MacroPpi
+	t := q.ChinaPPI
 	do := t.WithContext(context.Background())
 
 	_, err := do.First()
-	if err != nil {
-		log.Println(err)
-	}
-	if !errors.Is(err, gorm.ErrRecordNotFound) {
-		return err
-	}
-	v, err := macroscopic.MacroChinaPpiYearly()
-	if err != nil {
-		return err
-	}
-	for k, v := range v {
-		ppi := &model.MacroPpi{}
-		ppi.Date = k
-		ppi.Ppi = v
-		ppi.Country = "cn"
-		if v != "" {
-			do.Create(ppi)
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		v, err := macroscopic.ChinaPPI()
+		if err != nil {
+			// core.G_LOG.Error("store Macro China Pmi Yearly err", zap.Any("err", err))
+			return err
+		}
+		err = do.CreateInBatches(v, 1024)
+		if err != nil {
+			// core.G_LOG.Info("find CollyMacroChinaMoneySupply err", zap.Any("err", err))
+			return err
 		}
 	}
-	return nil
+	return err
 }
 
 // 社会融资存量
@@ -458,7 +434,7 @@ func initSocialFinancingStock() error {
 		do.CreateInBatches(datalist, 512)
 		// macroChinaShrzgmList = append(macroChinaShrzgmList, datalist...)
 	}
-	return nil
+	return err
 }
 
 // 获取社会融资url map

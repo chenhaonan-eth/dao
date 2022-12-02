@@ -88,11 +88,11 @@ func (s *server) GetFuturesForeignHist(ctx context.Context, r *pb.FturesFoewignR
 	return resp, nil
 }
 
-func (s *server) GetPpi(ctx context.Context, r *pb.PpiRequest) (*pb.PpiResponse, error) {
+func (s *server) GetPpi(ctx context.Context, r *emptypb.Empty) (*pb.PpiResponse, error) {
 	config.G_LOG.Debug("Start GetPpi ...")
-	t := q.MacroPpi
+	t := q.ChinaPPI
 	do := t.WithContext(context.Background())
-	results, err := do.Where(t.Country.Eq(r.Country)).Find()
+	results, err := do.Find()
 	if err != nil {
 		config.G_LOG.Error("Find err ", zap.Error(err))
 		return nil, err
@@ -101,20 +101,22 @@ func (s *server) GetPpi(ctx context.Context, r *pb.PpiRequest) (*pb.PpiResponse,
 	resp.Results = make([]*pb.Ppi, 0)
 	for _, v := range results {
 		resp.Results = append(resp.Results, &pb.Ppi{
-			Date:    v.Date,
-			Country: v.Country,
-			Ppi:     v.Ppi,
+			Date:         v.Date,
+			Time:         v.Time,
+			PPI:          v.PPI,
+			YearOnYear:   v.YearOnYear,
+			Accumulative: v.Accumulative,
 		})
 	}
 	config.G_LOG.Debug("End GetPpi ...Results ", zap.Any("len", len(resp.Results)))
 	return resp, nil
 }
 
-func (s *server) GetGdp(ctx context.Context, r *pb.GdpRequest) (*pb.GdpResponse, error) {
+func (s *server) GetGdp(ctx context.Context, r *emptypb.Empty) (*pb.GdpResponse, error) {
 	config.G_LOG.Debug("Start GetGdp ...")
-	t := q.MacroGDP
+	t := q.ChinaGDP
 	do := t.WithContext(context.Background())
-	results, err := do.Where(t.Country.Eq(r.Country)).Find()
+	results, err := do.Find()
 	if err != nil {
 		config.G_LOG.Error("Find err ", zap.Error(err))
 		return nil, err
@@ -123,20 +125,27 @@ func (s *server) GetGdp(ctx context.Context, r *pb.GdpRequest) (*pb.GdpResponse,
 	resp.Results = make([]*pb.Gdp, 0)
 	for _, v := range results {
 		resp.Results = append(resp.Results, &pb.Gdp{
-			Date:    v.Date,
-			Country: v.Country,
-			Gdp:     v.Gdp,
+			Date:                          v.Date,
+			Time:                          v.Time,
+			GDP:                           v.GDP,
+			GDPYearOnYear:                 v.GDPYearOnYear,
+			PrimaryIndustry:               v.PrimaryIndustry,
+			PrimaryIndustryYearOnYear:     v.PrimaryIndustryYearOnYear,
+			SecondaryIndustries:           v.SecondaryIndustries,
+			SecondaryIndustriesYearOnYear: v.SecondaryIndustriesYearOnYear,
+			TertiaryIndustry:              v.TertiaryIndustry,
+			TertiaryIndustryYearOnYear:    v.TertiaryIndustryYearOnYear,
 		})
 	}
 	config.G_LOG.Debug("End GetGdp ...Results ", zap.Any("len", len(resp.Results)))
 	return resp, nil
 }
 
-func (s *server) GetPmi(ctx context.Context, r *pb.PmiRequest) (*pb.PmiResponse, error) {
+func (s *server) GetPmi(ctx context.Context, r *emptypb.Empty) (*pb.PmiResponse, error) {
 	config.G_LOG.Debug("Start GetPmi ...")
-	t := q.MacroPMI
+	t := q.ChinaPMI
 	do := t.WithContext(context.Background())
-	results, err := do.Where(t.Country.Eq(r.Country)).Find()
+	results, err := do.Find()
 	if err != nil {
 		config.G_LOG.Error("Find err ", zap.Error(err))
 		return nil, err
@@ -145,20 +154,23 @@ func (s *server) GetPmi(ctx context.Context, r *pb.PmiRequest) (*pb.PmiResponse,
 	resp.Results = make([]*pb.Pmi, 0)
 	for _, v := range results {
 		resp.Results = append(resp.Results, &pb.Pmi{
-			Date:    v.Date,
-			Country: v.Country,
-			Pmi:     v.Pmi,
+			Date:                       v.Date,
+			Time:                       v.Time,
+			Manufacturing:              v.Manufacturing,
+			ManufacturingYearOnYear:    v.ManufacturingYearOnYear,
+			NonManufacturing:           v.NonManufacturing,
+			NonManufacturingYearOnYear: v.NonManufacturingYearOnYear,
 		})
 	}
 	config.G_LOG.Debug("End GetPmi ...Results ", zap.Any("len", len(resp.Results)))
 	return resp, nil
 }
 
-func (s *server) GetCpi(ctx context.Context, r *pb.CpiRequest) (*pb.CpiResponse, error) {
+func (s *server) GetCpi(ctx context.Context, r *emptypb.Empty) (*pb.CpiResponse, error) {
 	config.G_LOG.Debug("Start GetCpi ...")
-	t := q.MacroCpi
+	t := q.ChinaCPI
 	do := t.WithContext(context.Background())
-	results, err := do.Where(t.Country.Eq(r.Country)).Find()
+	results, err := do.Find()
 	if err != nil {
 		config.G_LOG.Error("Find err ", zap.Error(err))
 		return nil, err
@@ -167,9 +179,20 @@ func (s *server) GetCpi(ctx context.Context, r *pb.CpiRequest) (*pb.CpiResponse,
 	resp.Results = make([]*pb.Cpi, 0)
 	for _, v := range results {
 		resp.Results = append(resp.Results, &pb.Cpi{
-			Date:    v.Date,
-			Country: v.Country,
-			Cpi:     v.Cpi,
+			Date:                 v.Date,
+			Time:                 v.Time,
+			National:             v.National,
+			NationalYearOnYear:   v.NationalYearOnYear,
+			NationalYearOverYear: v.NationalYearOverYear,
+			NationalAccumulative: v.NationalAccumulative,
+			City:                 v.City,
+			CityYearOnYear:       v.CityYearOnYear,
+			CityYearOverYear:     v.CityYearOverYear,
+			CityAccumulative:     v.CityAccumulative,
+			Rural:                v.Rural,
+			RuralYearOnYear:      v.RuralYearOnYear,
+			RuralYearOverYear:    v.RuralYearOverYear,
+			RuralAccumulative:    v.RuralAccumulative,
 		})
 	}
 	config.G_LOG.Debug("End GetCpi ...Results ", zap.Any("len", len(resp.Results)))

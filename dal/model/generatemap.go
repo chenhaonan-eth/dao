@@ -10,12 +10,12 @@ func init() {
 	OpArgsMap["SH300PE"] = &SH300PE{}
 	OpArgsMap["PePbPsDvTotalmv"] = &PePbPsDvTotalmv{}
 	OpArgsMap["MacroChinaMoneySupply"] = &MacroChinaMoneySupply{}
-	OpArgsMap["MacroPMI"] = &MacroPMI{}
+	OpArgsMap["MacroPMI"] = &ChinaPMI{}
 	OpArgsMap["SocialFinancingFlow"] = &SocialFinancingFlow{}
 	OpArgsMap["SocialFinancingStock"] = &SocialFinancingStock{}
-	OpArgsMap["MacroGDP"] = &MacroGDP{}
+	OpArgsMap["MacroGDP"] = &ChinaGDP{}
 	OpArgsMap["MacroChinaConsumerGoodsRetail"] = &MacroChinaConsumerGoodsRetail{}
-	OpArgsMap["MacroCpi"] = &MacroCpi{}
-	OpArgsMap["MacroPpi"] = &MacroPpi{}
+	OpArgsMap["MacroCpi"] = &ChinaCPI{}
+	OpArgsMap["MacroPpi"] = &ChinaPPI{}
 	OpArgsMap["FturesFoewign"] = &FturesFoewign{}
 }

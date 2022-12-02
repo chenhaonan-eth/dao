@@ -61,36 +61,55 @@ message FturesFoewign {
   string volume = 7; //成交量
 }
 
-message PpiRequest { string country = 1; }
 message PpiResponse { repeated Ppi results = 1; }
 message Ppi {
-  string date = 1;
-  string country = 2;
-  string ppi = 3;
+  string date = 1;         // 2022-10-01 00:00:00
+  string time = 2;         // 2022年10月份
+  double pPI = 3;          // 工业品出厂价格指数
+  double yearOnYear = 4;   // 当月同比增长(%)
+  double accumulative = 5; // 累计
 }
 
-message GdpRequest { string country = 1; }
 message GdpResponse { repeated Gdp results = 1; }
 message Gdp {
-  string date = 1;
-  string country = 2;
-  string gdp = 3;
+  string date = 1;          // 2022-09-01 00:00:00
+  string time = 2;          //"2022年第1-3季度"
+  double gDP = 3;           // 国内生产总值(亿元)
+  double gDPYearOnYear = 4; // 国内生产总值季度累计同比增长（%）
+  double primaryIndustry = 5; // 第一产业增加值（亿元）
+  double primaryIndustryYearOnYear = 6; // 第一产业增加值季度累计同比增长（%）
+  double secondaryIndustries = 7; // 第二产业增加值（亿元）
+  double secondaryIndustriesYearOnYear = 8; // 第二产业增加值季度累计同比增长（%）
+  double tertiaryIndustry = 9; // 第三产业增加值（亿元）
+  double tertiaryIndustryYearOnYear = 10; // 第三产业增加值季度累计同比增长（%）
 }
 
-message PmiRequest { string country = 1; }
 message PmiResponse { repeated Pmi results = 1; }
 message Pmi {
-  string date = 1;
-  string country = 2;
-  string pmi = 3;
+  string date = 1;                       // 2022-10-01 00:00:00
+  string time = 2;                       // 2022年10月份
+  double manufacturing = 3;              // 制造业
+  double manufacturingYearOnYear = 4;    // 同比增加(%)
+  double nonManufacturing = 5;           // 非制造业
+  double nonManufacturingYearOnYear = 6; // 同比增加(%)
 }
 
-message CpiRequest { string country = 1; }
 message CpiResponse { repeated Cpi results = 1; }
 message Cpi {
-  string date = 1;
-  string country = 2;
-  string cpi = 3;
+  string date = 1;                 // 2022-10-01 00:00:00
+  string time = 2;                 // 2022年10月份
+  double national = 3;             // 全国当月
+  double nationalYearOnYear = 4;   // 全国同比增加(%)
+  double nationalYearOverYear = 5; // 全国环比增长(%)
+  double nationalAccumulative = 6; // 全国累计
+  double city = 7;                 // 城市当月
+  double cityYearOnYear = 8;       // 城市同比增加(%)
+  double cityYearOverYear = 9;     // 城市环比增长(%)
+  double cityAccumulative = 10;     // 城市累计
+  double rural = 11;                // 农村当月
+  double ruralYearOnYear = 12;      // 农村同比增加(%)
+  double ruralYearOverYear = 13;    // 农村环比增长(%)
+  double ruralAccumulative = 14;    // 农村累计
 }
 
 // 中美国债
@@ -199,37 +218,37 @@ service Greeter {
   }
 
   // PPI
-  rpc GetPpi(PpiRequest) returns (PpiResponse) {
+  rpc GetPpi(google.protobuf.Empty) returns (PpiResponse) {
     option (google.api.http) = {
-      get : "/v1/macroscopic/ppi/{country}"
+      get : "/v1/macroscopic/cn/ppi"
     };
   }
 
   // GDP
-  rpc GetGdp(GdpRequest) returns (GdpResponse) {
+  rpc GetGdp(google.protobuf.Empty) returns (GdpResponse) {
     option (google.api.http) = {
-      get : "/v1/macroscopic/gdp/{country}"
+      get : "/v1/macroscopic/cn/gdp"
     };
   }
 
   // PMI
-  rpc GetPmi(PmiRequest) returns (PmiResponse) {
+  rpc GetPmi(google.protobuf.Empty) returns (PmiResponse) {
     option (google.api.http) = {
-      get : "/v1/macroscopic/pmi/{country}"
+      get : "/v1/macroscopic/cn/pmi"
     };
   }
 
   // Cpi
-  rpc GetCpi(CpiRequest) returns (CpiResponse) {
+  rpc GetCpi(google.protobuf.Empty) returns (CpiResponse) {
     option (google.api.http) = {
-      get : "/v1/macroscopic/cpi/{country}"
+      get : "/v1/macroscopic/cn/cpi"
     };
   }
 
   // 货币供应
   rpc GetMoneySupply(google.protobuf.Empty) returns (MoneySupplyResponse) {
     option (google.api.http) = {
-      get : "/v1/macroscopic/money_supply"
+      get : "/v1/macroscopic/cn/money_supply"
     };
   }
 

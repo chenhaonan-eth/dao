@@ -24,15 +24,16 @@ func TestMacroChinaMoneySupply(t *testing.T) {
 	for _, v := range v {
 		t.Logf("%v", *v)
 	}
-
 }
 
 func TestMacroChinaPmiYearly(t *testing.T) {
-	v, err := MacroChinaPmiYearly()
+	v, err := ChinaPMI()
 	if err != nil {
 		t.Error(err)
 	}
-	t.Log(v)
+	for _, v := range v {
+		t.Logf("%v", *v)
+	}
 }
 
 func TestMacroChinaConsumerGoodsRetail(t *testing.T) {
@@ -45,27 +46,34 @@ func TestMacroChinaConsumerGoodsRetail(t *testing.T) {
 	}
 }
 
-func TestMacroChinaGdpYearly(t *testing.T) {
-	v, err := MacroChinaGdpYearly()
+func TestChinaGDP(t *testing.T) {
+	v, err := ChinaGDP()
 	if err != nil {
 		t.Error(err)
 	}
-	t.Logf("%v", v)
+	for _, v := range v {
+		t.Logf("%v", *v)
+	}
 }
 
 func TestMacroChinaCpiMonthly(t *testing.T) {
-	v, err := MacroChinaCpiYearly()
+	v, err := ChinaCPI()
 	if err != nil {
 		t.Error(err)
 	}
-	t.Logf("%v", v)
+	for _, v := range v {
+		t.Logf("%v", *v)
+	}
 }
+
 func TestMacroChinaPpiYearly(t *testing.T) {
-	v, err := MacroChinaPpiYearly()
+	v, err := ChinaPPI()
 	if err != nil {
 		t.Error(err)
 	}
-	t.Logf("%v", v)
+	for _, v := range v {
+		t.Logf("%v", *v)
+	}
 }
 func TestStockAPe(t *testing.T) {
 	v, err := StockAPe()

@@ -73,30 +73,7 @@
         ]
       }
     },
-    "/v1/macroscopic/consumer_goods_retail": {
-      "get": {
-        "summary": "社会消费品零售总额",
-        "operationId": "Greeter_GetConsumerGoodsRetail",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/serverConsumerGoodsRetailResponse"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/rpcStatus"
-            }
-          }
-        },
-        "tags": [
-          "Greeter"
-        ]
-      }
-    },
-    "/v1/macroscopic/cpi/{country}": {
+    "/v1/macroscopic/cn/cpi": {
       "get": {
         "summary": "Cpi",
         "operationId": "Greeter_GetCpi",
@@ -114,20 +91,12 @@
             }
           }
         },
-        "parameters": [
-          {
-            "name": "country",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
         "tags": [
           "Greeter"
         ]
       }
     },
-    "/v1/macroscopic/gdp/{country}": {
+    "/v1/macroscopic/cn/gdp": {
       "get": {
         "summary": "GDP",
         "operationId": "Greeter_GetGdp",
@@ -145,20 +114,12 @@
             }
           }
         },
-        "parameters": [
-          {
-            "name": "country",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
         "tags": [
           "Greeter"
         ]
       }
     },
-    "/v1/macroscopic/money_supply": {
+    "/v1/macroscopic/cn/money_supply": {
       "get": {
         "summary": "货币供应",
         "operationId": "Greeter_GetMoneySupply",
@@ -181,7 +142,7 @@
         ]
       }
     },
-    "/v1/macroscopic/pmi/{country}": {
+    "/v1/macroscopic/cn/pmi": {
       "get": {
         "summary": "PMI",
         "operationId": "Greeter_GetPmi",
@@ -199,20 +160,12 @@
             }
           }
         },
-        "parameters": [
-          {
-            "name": "country",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
         "tags": [
           "Greeter"
         ]
       }
     },
-    "/v1/macroscopic/ppi/{country}": {
+    "/v1/macroscopic/cn/ppi": {
       "get": {
         "summary": "PPI",
         "operationId": "Greeter_GetPpi",
@@ -230,14 +183,29 @@
             }
           }
         },
-        "parameters": [
-          {
-            "name": "country",
-            "in": "path",
-            "required": true,
-            "type": "string"
+        "tags": [
+          "Greeter"
+        ]
+      }
+    },
+    "/v1/macroscopic/consumer_goods_retail": {
+      "get": {
+        "summary": "社会消费品零售总额",
+        "operationId": "Greeter_GetConsumerGoodsRetail",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/serverConsumerGoodsRetailResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
           }
-        ],
+        },
         "tags": [
           "Greeter"
         ]
@@ -425,22 +393,22 @@
         "yearOnYear": {
           "type": "number",
           "format": "double",
-          "title": "同比增长"
+          "title": "同比增长/ %"
         },
         "yearOverYear": {
           "type": "number",
           "format": "double",
-          "title": "环比增长"
+          "title": "环比增长/ %"
         },
         "totalAccumulation": {
           "type": "number",
           "format": "double",
-          "title": "累计"
+          "title": "累计/ %"
         },
         "totalAccumulationYearOnYear": {
           "type": "number",
           "format": "double",
-          "title": "累计同比增长"
+          "title": "累计同比增长/ %"
         }
       }
     },
@@ -459,13 +427,72 @@
       "type": "object",
       "properties": {
         "date": {
-          "type": "string"
+          "type": "string",
+          "title": "2022-10-01 00:00:00"
         },
-        "country": {
-          "type": "string"
+        "time": {
+          "type": "string",
+          "title": "2022年10月份"
         },
-        "cpi": {
-          "type": "string"
+        "national": {
+          "type": "number",
+          "format": "double",
+          "title": "全国当月"
+        },
+        "nationalYearOnYear": {
+          "type": "number",
+          "format": "double",
+          "title": "全国同比增加(%)"
+        },
+        "nationalYearOverYear": {
+          "type": "number",
+          "format": "double",
+          "title": "全国环比增长(%)"
+        },
+        "nationalAccumulative": {
+          "type": "number",
+          "format": "double",
+          "title": "全国累计"
+        },
+        "city": {
+          "type": "number",
+          "format": "double",
+          "title": "城市当月"
+        },
+        "cityYearOnYear": {
+          "type": "number",
+          "format": "double",
+          "title": "城市同比增加(%)"
+        },
+        "cityYearOverYear": {
+          "type": "number",
+          "format": "double",
+          "title": "城市环比增长(%)"
+        },
+        "cityAccumulative": {
+          "type": "number",
+          "format": "double",
+          "title": "城市累计"
+        },
+        "rural": {
+          "type": "number",
+          "format": "double",
+          "title": "农村当月"
+        },
+        "ruralYearOnYear": {
+          "type": "number",
+          "format": "double",
+          "title": "农村同比增加(%)"
+        },
+        "ruralYearOverYear": {
+          "type": "number",
+          "format": "double",
+          "title": "农村环比增长(%)"
+        },
+        "ruralAccumulative": {
+          "type": "number",
+          "format": "double",
+          "title": "农村累计"
         }
       }
     },
@@ -529,13 +556,52 @@
       "type": "object",
       "properties": {
         "date": {
-          "type": "string"
+          "type": "string",
+          "title": "2022-09-01 00:00:00"
         },
-        "country": {
-          "type": "string"
+        "time": {
+          "type": "string",
+          "title": "\"2022年第1-3季度\""
         },
-        "gdp": {
-          "type": "string"
+        "gDP": {
+          "type": "number",
+          "format": "double",
+          "title": "国内生产总值(亿元)"
+        },
+        "gDPYearOnYear": {
+          "type": "number",
+          "format": "double",
+          "title": "国内生产总值季度累计同比增长（%）"
+        },
+        "primaryIndustry": {
+          "type": "number",
+          "format": "double",
+          "title": "第一产业增加值（亿元）"
+        },
+        "primaryIndustryYearOnYear": {
+          "type": "number",
+          "format": "double",
+          "title": "第一产业增加值季度累计同比增长（%）"
+        },
+        "secondaryIndustries": {
+          "type": "number",
+          "format": "double",
+          "title": "第二产业增加值（亿元）"
+        },
+        "secondaryIndustriesYearOnYear": {
+          "type": "number",
+          "format": "double",
+          "title": "第二产业增加值季度累计同比增长（%）"
+        },
+        "tertiaryIndustry": {
+          "type": "number",
+          "format": "double",
+          "title": "第三产业增加值（亿元）"
+        },
+        "tertiaryIndustryYearOnYear": {
+          "type": "number",
+          "format": "double",
+          "title": "第三产业增加值季度累计同比增长（%）"
         }
       }
     },
@@ -569,7 +635,7 @@
         "m2YearOverYear": {
           "type": "number",
           "format": "double",
-          "title": "货币和准货币(M2)环比增长"
+          "title": "货币和准货币(M2)环比增长/ %"
         },
         "m1": {
           "type": "number",
@@ -579,12 +645,12 @@
         "m1YearOnYear": {
           "type": "number",
           "format": "double",
-          "title": "货币(M1)同比增长"
+          "title": "货币(M1)同比增长/ %"
         },
         "m1YearOverYear": {
           "type": "number",
           "format": "double",
-          "title": "货币(M1)环比增长"
+          "title": "货币(M1)环比增长/ %"
         },
         "m0": {
           "type": "number",
@@ -594,12 +660,12 @@
         "m0YearOnYear": {
           "type": "number",
           "format": "double",
-          "title": "流通中的现金(M0)同比增长"
+          "title": "流通中的现金(M0)同比增长/ %"
         },
         "m0YearOverYear": {
           "type": "number",
           "format": "double",
-          "title": "流通中的现金(M0)环比增长"
+          "title": "流通中的现金(M0)环比增长/ %"
         }
       }
     },
@@ -618,13 +684,32 @@
       "type": "object",
       "properties": {
         "date": {
-          "type": "string"
+          "type": "string",
+          "title": "2022-10-01 00:00:00"
         },
-        "country": {
-          "type": "string"
+        "time": {
+          "type": "string",
+          "title": "2022年10月份"
         },
-        "pmi": {
-          "type": "string"
+        "manufacturing": {
+          "type": "number",
+          "format": "double",
+          "title": "制造业"
+        },
+        "manufacturingYearOnYear": {
+          "type": "number",
+          "format": "double",
+          "title": "同比增加(%)"
+        },
+        "nonManufacturing": {
+          "type": "number",
+          "format": "double",
+          "title": "非制造业"
+        },
+        "nonManufacturingYearOnYear": {
+          "type": "number",
+          "format": "double",
+          "title": "同比增加(%)"
         }
       }
     },
@@ -643,13 +728,27 @@
       "type": "object",
       "properties": {
         "date": {
-          "type": "string"
+          "type": "string",
+          "title": "2022-10-01 00:00:00"
         },
-        "country": {
-          "type": "string"
+        "time": {
+          "type": "string",
+          "title": "2022年10月份"
         },
-        "ppi": {
-          "type": "string"
+        "pPI": {
+          "type": "number",
+          "format": "double",
+          "title": "工业品出厂价格指数"
+        },
+        "yearOnYear": {
+          "type": "number",
+          "format": "double",
+          "title": "当月同比增长(%)"
+        },
+        "accumulative": {
+          "type": "number",
+          "format": "double",
+          "title": "累计"
         }
       }
     },

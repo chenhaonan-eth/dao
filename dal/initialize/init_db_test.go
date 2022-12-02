@@ -28,7 +28,7 @@ func TestProcess(t *testing.T) {
 func TestInitPMI(t *testing.T) {
 	dal.DB = dal.ConnectDB("guide_sqlite.db").Debug()
 	query.SetDefault(dal.DB)
-	dal.DB.AutoMigrate(&model.MacroPMI{})
+	dal.DB.AutoMigrate(&model.ChinaPMI{})
 	err := initPMI()
 	if err != nil {
 		t.Error(err)
@@ -48,7 +48,7 @@ func TestInitTotalSocialFinancing(t *testing.T) {
 func TestInitGDP(t *testing.T) {
 	dal.DB = dal.ConnectDB("guide_sqlite.db").Debug()
 	query.SetDefault(dal.DB)
-	dal.DB.AutoMigrate(&model.MacroGDP{})
+	dal.DB.AutoMigrate(&model.ChinaGDP{})
 	err := initGDP()
 	if err != nil {
 		t.Error(err)
@@ -67,7 +67,7 @@ func TestInitMacroChinaConsumerGoodsRetail(t *testing.T) {
 func TestInitMacroCpi(t *testing.T) {
 	dal.DB = dal.ConnectDB("guide_sqlite.db").Debug()
 	query.SetDefault(dal.DB)
-	dal.DB.AutoMigrate(&model.MacroCpi{})
+	dal.DB.AutoMigrate(&model.ChinaCPI{})
 	if err := initMacroChinaCpi(); err != nil {
 		t.Error(err)
 	}
@@ -75,7 +75,7 @@ func TestInitMacroCpi(t *testing.T) {
 func TestInitMacroChinaPpi(t *testing.T) {
 	dal.DB = dal.ConnectDB("guide_sqlite.db").Debug()
 	query.SetDefault(dal.DB)
-	dal.DB.AutoMigrate(&model.MacroPpi{})
+	dal.DB.AutoMigrate(&model.ChinaPPI{})
 	if err := initMacroPpi(); err != nil {
 		t.Error(err)
 	}
