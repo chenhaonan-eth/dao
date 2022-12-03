@@ -36,7 +36,7 @@ var (
 
 func Init() {
 	// 创建本地数据库
-	dal.DB = dal.ConnectDB(config.G_Config.System.Dsn).Debug()
+	dal.DB = dal.ConnectDB(config.G_Config.System.Dsn)
 	query.SetDefault(dal.DB)
 	// QueryCtxDo = Q.WithContext(context.Background())
 	// 删除表
