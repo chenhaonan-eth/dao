@@ -103,7 +103,7 @@ func (s *server) GetPpi(ctx context.Context, r *emptypb.Empty) (*pb.PpiResponse,
 		resp.Results = append(resp.Results, &pb.Ppi{
 			Date:         v.Date,
 			Time:         v.Time,
-			PPI:          v.PPI,
+			Ppi:          v.PPI,
 			YearOnYear:   v.YearOnYear,
 			Accumulative: v.Accumulative,
 		})
@@ -127,8 +127,8 @@ func (s *server) GetGdp(ctx context.Context, r *emptypb.Empty) (*pb.GdpResponse,
 		resp.Results = append(resp.Results, &pb.Gdp{
 			Date:                          v.Date,
 			Time:                          v.Time,
-			GDP:                           v.GDP,
-			GDPYearOnYear:                 v.GDPYearOnYear,
+			Gdp:                           v.GDP,
+			GdpYearOnYear:                 v.GDPYearOnYear,
 			PrimaryIndustry:               v.PrimaryIndustry,
 			PrimaryIndustryYearOnYear:     v.PrimaryIndustryYearOnYear,
 			SecondaryIndustries:           v.SecondaryIndustries,
@@ -253,7 +253,7 @@ func (s *server) GetTotalSocialFlows(ctx context.Context, r *emptypb.Empty) (*pb
 			Trustloan:   v.Trustloan,
 		})
 	}
-	config.G_LOG.Debug("End GetTotalSocialFlows ...")
+	config.G_LOG.Debug("End GetTotalSocialFlows ...", zap.Any("len", len(resp.Results)))
 	return resp, nil
 }
 
@@ -270,6 +270,7 @@ func (s *server) GetSH300PE(ctx context.Context, r *emptypb.Empty) (*pb.SH300PER
 	resp.Results = make([]*pb.SH300PE, 0)
 	for _, v := range results {
 		resp.Results = append(resp.Results, &pb.SH300PE{
+			Time:        v.Time,
 			Date:        v.Date,
 			MiddleLyrPe: v.MiddleLyrPe,
 			LyrPe:       v.LyrPe,
@@ -279,7 +280,7 @@ func (s *server) GetSH300PE(ctx context.Context, r *emptypb.Empty) (*pb.SH300PER
 			AddTtmPe:    v.AddTtmPe,
 		})
 	}
-	config.G_LOG.Debug("End GetSH300PE ...")
+	config.G_LOG.Debug("End GetSH300PE ...", zap.Any("len", len(resp.Results)))
 	return resp, nil
 }
 
@@ -308,7 +309,7 @@ func (s *server) GetMoneySupply(ctx context.Context, r *emptypb.Empty) (*pb.Mone
 			M0YearOverYear: v.M0YearOverYear,
 		})
 	}
-	config.G_LOG.Debug("End GetMoneySupply ...")
+	config.G_LOG.Debug("End GetMoneySupply ...", zap.Any("len", len(resp.Results)))
 	return resp, nil
 }
 func (s *server) GetConsumerGoodsRetail(ctx context.Context, r *emptypb.Empty) (*pb.ConsumerGoodsRetailResponse, error) {
@@ -332,6 +333,6 @@ func (s *server) GetConsumerGoodsRetail(ctx context.Context, r *emptypb.Empty) (
 			TotalAccumulationYearOnYear: v.TotalAccumulationYearOnYear,
 		})
 	}
-	config.G_LOG.Debug("End GetConsumerGoodsRetail ...")
+	config.G_LOG.Debug("End GetConsumerGoodsRetail ...", zap.Any("len", len(resp.Results)))
 	return resp, nil
 }

@@ -1,12 +1,6 @@
 package main
 
-import (
-	cmd "github.com/chenhaonan-eth/dao/cmd/app"
-	// _ "github.com/chenhaonan-eth/dao/core"
-	// _ "github.com/chenhaonan-eth/dao/dal/initialize"
-	// "github.com/chenhaonan-eth/dao/spider"
-	// "github.com/chenhaonan-eth/dao/router"
-)
+import cmd "github.com/chenhaonan-eth/dao/cmd/app"
 
 // go:generate go env -w GO111MODULE=on
 // go:generate go env -w GOPROXY=https://goproxy.cn,direct

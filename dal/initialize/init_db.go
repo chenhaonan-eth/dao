@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"log"
 	"reflect"
+	"strconv"
 	"strings"
 	"time"
 
@@ -16,6 +17,7 @@ import (
 	"github.com/chenhaonan-eth/dao/dal/query"
 	"github.com/chenhaonan-eth/dao/economic/ftures"
 	"github.com/chenhaonan-eth/dao/economic/macroscopic"
+	"github.com/chenhaonan-eth/dao/pkg/utils"
 	"github.com/chromedp/chromedp"
 	"github.com/go-resty/resty/v2"
 	"github.com/gocolly/colly"
@@ -38,47 +40,32 @@ func Init() {
 	query.SetDefault(dal.DB)
 	// QueryCtxDo = Q.WithContext(context.Background())
 	// 删除表
-	// dal.DB.Migrator().DropTable(&model.FturesFoewign{})
+	// dal.DB.Migrator().DropTable(&model.SocialFinancingStock{})
 	// 初始化数据库
 	for _, tabledb := range model.OpArgsMap {
 		// init db table 自动检测是否存在
 		dal.DB.AutoMigrate(tabledb)
 	}
 	// 检查数据库是否有数据 没有的话加载数据
-	if err := initTotalSocialFinancing(); err != nil {
-		config.G_LOG.Error("initTotalSocialFinancing ", zap.Error(err))
+	for _, f := range []func() error{
+		initTotalSocialFinancing,
+		initMacroChinaMoneySupply,
+		initMacroChinaConsumerGoodsRetail,
+		initPMI,
+		initGDP,
+		initMacroChinaCpi,
+		initMacroPpi,
+		initSocialFinancingStock,
+		initSH300PE,
+		initBondZhUsRate,
+		initCADFuturesForeignHist,
+	} {
+		if err := f(); err != nil {
+			if !errors.Is(err, gorm.ErrRecordNotFound) {
+				config.G_LOG.Error("init db ", zap.Error(err))
+			}
+		}
 	}
-	if err := initMacroChinaMoneySupply(); err != nil {
-		config.G_LOG.Error("initMacroChinaMoneySupply ", zap.Error(err))
-	}
-	if err := initMacroChinaConsumerGoodsRetail(); err != nil {
-		config.G_LOG.Error("initMacroChinaConsumerGoodsRetail ", zap.Error(err))
-	}
-	if err := initPMI(); err != nil {
-		config.G_LOG.Error("initPMI ", zap.Error(err))
-	}
-	if err := initGDP(); err != nil {
-		config.G_LOG.Error("initGDP ", zap.Error(err))
-	}
-	if err := initMacroChinaCpi(); err != nil {
-		config.G_LOG.Error("initMacroChinaCpi ", zap.Error(err))
-	}
-	if err := initMacroPpi(); err != nil {
-		config.G_LOG.Error("initMacroPpi ", zap.Error(err))
-	}
-	if err := initSocialFinancingStock(); err != nil {
-		config.G_LOG.Error("initSocialFinancingStock ", zap.Error(err))
-	}
-	if err := initSH300PE(); err != nil {
-		config.G_LOG.Error("initSH300PE ", zap.Error(err))
-	}
-	if err := initBondZhUsRate(); err != nil {
-		config.G_LOG.Error("initBondZhUsRate ", zap.Error(err))
-	}
-	if err := initCADFuturesForeignHist(); err != nil {
-		config.G_LOG.Error("initCADFuturesForeignHist ", zap.Error(err))
-	}
-
 }
 
 // 外盘期货 铜
@@ -87,24 +74,26 @@ func initCADFuturesForeignHist() error {
 	do := t.WithContext(context.Background())
 
 	_, err := do.First()
-	if err != nil {
-		log.Println(err)
-	}
 	if errors.Is(err, gorm.ErrRecordNotFound) {
 		r, err := ftures.FuturesForeignHist("CAD")
 		if err != nil {
-			log.Printf("%s ->err:%s", "CAD", err.Error())
+			config.G_LOG.Error("initCADFuturesForeignHist err", zap.Error(err))
 		}
 		for _, v1 := range r {
+			date, err := utils.ParseTime(v1.Date)
+			if err != nil {
+				config.G_LOG.Error("ParseTime", zap.Error(err))
+			}
+			v1.Date = date.Format(utils.DATE_FORMAT)
 			v1.Symbol = "CAD"
 		}
 		err = do.CreateInBatches(r, 2048)
 		if err != nil {
-			// core.G_LOG.Info("find CollyMacroChinaMoneySupply err", zap.Any("err", err))
+			config.G_LOG.Error("CreateInBatches initCADFuturesForeignHist err", zap.Any("err", err))
 			return err
 		}
 	}
-	return nil
+	return err
 }
 
 // 国债收益率
@@ -113,22 +102,19 @@ func initBondZhUsRate() error {
 	do := t.WithContext(context.Background())
 
 	_, err := do.First()
-	if err != nil {
-		log.Println(err)
-	}
 	if errors.Is(err, gorm.ErrRecordNotFound) {
 		v, err := macroscopic.BondZhUsRate()
 		if err != nil {
-			// core.G_LOG.Error("find Colly Macro China Money Supply err", zap.Any("err", err))
+			config.G_LOG.Error("find Colly Macro China Money Supply err", zap.Any("err", err))
 			return err
 		}
 		err = do.CreateInBatches(v, 2048)
 		if err != nil {
-			// core.G_LOG.Info("find CollyMacroChinaMoneySupply err", zap.Any("err", err))
+			config.G_LOG.Error("CreateInBatches CollyMacroChinaMoneySupply err", zap.Any("err", err))
 			return err
 		}
 	}
-	return nil
+	return err
 }
 
 // 沪深300市盈率
@@ -137,22 +123,19 @@ func initSH300PE() error {
 	do := t.WithContext(context.Background())
 
 	_, err := do.First()
-	if err != nil {
-		log.Println(err)
-	}
 	if errors.Is(err, gorm.ErrRecordNotFound) {
 		v, err := macroscopic.SH300PE()
 		if err != nil {
-			// core.G_LOG.Error("find Colly Macro China Money Supply err", zap.Any("err", err))
+			config.G_LOG.Error("find SH300PE err", zap.Any("err", err))
 			return err
 		}
 		err = do.CreateInBatches(v, 1024)
 		if err != nil {
-			// core.G_LOG.Info("find CollyMacroChinaMoneySupply err", zap.Any("err", err))
+			config.G_LOG.Error("CreateInBatches SH300PE err", zap.Any("err", err))
 			return err
 		}
 	}
-	return nil
+	return err
 }
 
 // 获取所有股票市盈率|市净率|股息率|市销率|总市值
@@ -257,18 +240,15 @@ func initMacroChinaMoneySupply() error {
 	do := t.WithContext(context.Background())
 
 	_, err := do.First()
-	if err != nil {
-		log.Println(err)
-	}
 	if errors.Is(err, gorm.ErrRecordNotFound) {
 		v, err := macroscopic.MacroChinaMoneySupply()
 		if err != nil {
-			// core.G_LOG.Error("find Colly Macro China Money Supply err", zap.Any("err", err))
+			config.G_LOG.Error("find init Macro China Money Supply err", zap.Any("err", err))
 			return err
 		}
 		err = do.CreateInBatches(v, 5000)
 		if err != nil {
-			// core.G_LOG.Info("find CollyMacroChinaMoneySupply err", zap.Any("err", err))
+			config.G_LOG.Error("find initMacroChinaMoneySupply err", zap.Any("err", err))
 			return err
 		}
 	}
@@ -283,12 +263,12 @@ func initPMI() error {
 	if errors.Is(err, gorm.ErrRecordNotFound) {
 		v, err := macroscopic.ChinaPMI()
 		if err != nil {
-			// core.G_LOG.Error("store Macro China Pmi Yearly err", zap.Any("err", err))
+			config.G_LOG.Error("find initPMI err", zap.Any("err", err))
 			return err
 		}
 		err = do.CreateInBatches(v, 1024)
 		if err != nil {
-			// core.G_LOG.Info("find CollyMacroChinaMoneySupply err", zap.Any("err", err))
+			config.G_LOG.Error("find initPMI err", zap.Any("err", err))
 			return err
 		}
 	}
@@ -301,17 +281,22 @@ func initTotalSocialFinancing() error {
 	do := t.WithContext(context.Background())
 
 	_, err := do.First()
-	if err != nil {
-		log.Println(err)
-	}
-
 	if errors.Is(err, gorm.ErrRecordNotFound) {
 		m, err := macroscopic.MacroChinaShrzgm()
 		if err != nil {
+			config.G_LOG.Error("find initTotalSocialFinancing err", zap.Any("err", err))
 			return err
 		}
-		err = do.CreateInBatches(m, 5000)
+		for _, v := range m {
+			date, err := time.Parse("200601", v.Date)
+			if err != nil {
+				config.G_LOG.Error("ParseTime", zap.Error(err))
+			}
+			v.Date = date.Format(utils.DATE_FORMAT)
+		}
+		err = do.CreateInBatches(m, 1024)
 		if err != nil {
+			config.G_LOG.Error("CreateInBatches initTotalSocialFinancing err", zap.Any("err", err))
 			return err
 		}
 	}
@@ -327,12 +312,12 @@ func initGDP() error {
 	if errors.Is(err, gorm.ErrRecordNotFound) {
 		v, err := macroscopic.ChinaGDP()
 		if err != nil {
-			// core.G_LOG.Error("store Macro China Pmi Yearly err", zap.Any("err", err))
+			config.G_LOG.Error("find initGDP err", zap.Any("err", err))
 			return err
 		}
 		err = do.CreateInBatches(v, 1024)
 		if err != nil {
-			// core.G_LOG.Info("find CollyMacroChinaMoneySupply err", zap.Any("err", err))
+			config.G_LOG.Info("CreateInBatches initGDP err", zap.Any("err", err))
 			return err
 		}
 	}
@@ -345,17 +330,18 @@ func initMacroChinaConsumerGoodsRetail() error {
 	do := t.WithContext(context.Background())
 
 	_, err := do.First()
-	if err != nil {
-		log.Println(err)
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		v, err := macroscopic.MacroChinaConsumerGoodsRetail()
+		if err != nil {
+			config.G_LOG.Info("find initMacroChinaConsumerGoodsRetail err", zap.Any("err", err))
+			return err
+		}
+		err = do.CreateInBatches(v, 1024)
+		if err != nil {
+			config.G_LOG.Info("CreateInBatches initMacroChinaConsumerGoodsRetail err", zap.Any("err", err))
+			return err
+		}
 	}
-	if !errors.Is(err, gorm.ErrRecordNotFound) {
-		return err
-	}
-	v, err := macroscopic.MacroChinaConsumerGoodsRetail()
-	if err != nil {
-		return err
-	}
-	do.CreateInBatches(v, 512)
 	return err
 }
 
@@ -368,12 +354,12 @@ func initMacroChinaCpi() error {
 	if errors.Is(err, gorm.ErrRecordNotFound) {
 		v, err := macroscopic.ChinaCPI()
 		if err != nil {
-			// core.G_LOG.Error("store Macro China Pmi Yearly err", zap.Any("err", err))
+			config.G_LOG.Error("find initMacroChinaCpi err", zap.Any("err", err))
 			return err
 		}
 		err = do.CreateInBatches(v, 1024)
 		if err != nil {
-			// core.G_LOG.Info("find CollyMacroChinaMoneySupply err", zap.Any("err", err))
+			config.G_LOG.Error("CreateInBatches initMacroChinaCpi err", zap.Any("err", err))
 			return err
 		}
 	}
@@ -389,12 +375,12 @@ func initMacroPpi() error {
 	if errors.Is(err, gorm.ErrRecordNotFound) {
 		v, err := macroscopic.ChinaPPI()
 		if err != nil {
-			// core.G_LOG.Error("store Macro China Pmi Yearly err", zap.Any("err", err))
+			config.G_LOG.Error("find initMacroPpi err", zap.Any("err", err))
 			return err
 		}
 		err = do.CreateInBatches(v, 1024)
 		if err != nil {
-			// core.G_LOG.Info("find CollyMacroChinaMoneySupply err", zap.Any("err", err))
+			config.G_LOG.Error("CreateInBatches initMacroPpi err", zap.Any("err", err))
 			return err
 		}
 	}
@@ -407,32 +393,26 @@ func initSocialFinancingStock() error {
 	do := t.WithContext(context.Background())
 
 	_, err := do.First()
-	if err != nil {
-		log.Println(err)
-	}
-	if !errors.Is(err, gorm.ErrRecordNotFound) {
-		return err
-	}
-	var htmlContent string
-	// macroChinaShrzgmList := []*model.SocialFinancingStock{}
-	urlSli, err := getSocialFinancingStockUrlMap()
-	if err != nil {
-		log.Println(err)
-	}
-	for _, v := range urlSli {
-		// fmt.Printf("%d -> %s\n", i, v)
-		url := `http://www.pbc.gov.cn` + v
-		err = GetHttpHtmlContent(GetSocialFinancingStockHTML(url, `tbody`, `table`, &htmlContent))
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		var htmlContent string
+		urlSli, err := getSocialFinancingStockUrlMap()
 		if err != nil {
-			log.Fatal(err)
+			config.G_LOG.Error("getSocialFinancingStockUrlMap err", zap.Any("err", err))
 		}
-		datalist, err := ProcessedSocialFinancingStockTable(htmlContent)
-		if err != nil {
-			log.Fatal(err)
-			return err
+		for _, v := range urlSli {
+			url := `http://www.pbc.gov.cn` + v
+			err = GetHttpHtmlContent(GetSocialFinancingStockHTML(url, `tbody`, `table`, &htmlContent))
+			if err != nil {
+				config.G_LOG.Error("GetHttpHtmlContent", zap.Any("err", err))
+				return err
+			}
+			datalist, err := ProcessedSocialFinancingStockTable(htmlContent)
+			if err != nil {
+				config.G_LOG.Error("ProcessedSocialFinancingStockTable", zap.Any("err", err))
+				return err
+			}
+			do.CreateInBatches(datalist, 512)
 		}
-		do.CreateInBatches(datalist, 512)
-		// macroChinaShrzgmList = append(macroChinaShrzgmList, datalist...)
 	}
 	return err
 }
@@ -526,6 +506,47 @@ func GetSocialFinancingStockHTML(url, waitVisible, sel string, htmlContent *stri
 	}
 }
 
+func ProcessedSocialFinancingFlowTable(htmlDom string) ([]*model.SocialFinancingFlow, error) {
+	result := []*model.SocialFinancingFlow{}
+	dom, err := goquery.NewDocumentFromReader(strings.NewReader(htmlDom))
+	if err != nil {
+		config.G_LOG.Error(err.Error())
+		return nil, err
+	}
+	for i := 8; i < 20; i++ {
+		// list := make([]string, 0)
+		m := model.SocialFinancingFlow{}
+		ivalue := reflect.ValueOf(&m).Elem()
+		dom.Find(fmt.Sprintf("tbody > tr:nth-child(%d) td", i)).Each(func(i int, s *goquery.Selection) {
+			str := strings.TrimSpace(s.Text())
+			if s.Text() != "" && len(str) != 0 {
+				if i == 0 {
+					elem := ivalue.Field(0)
+					ti, err := time.Parse("2006.01", str)
+					if err != nil {
+						config.G_LOG.Error(err.Error())
+					}
+					elem.SetString(ti.Format(utils.DATE_FORMAT))
+				} else if i == 9 {
+					elem := ivalue.Field(8)
+					float, _ := strconv.ParseFloat(str, 32)
+					elem.SetFloat(float)
+				} else if i == 8 || i == 10 || i == 11 {
+					return
+				} else {
+					elem := ivalue.Field(i)
+					float, _ := strconv.ParseFloat(str, 32)
+					elem.SetFloat(float)
+				}
+			}
+		})
+		if m.Date != "" {
+			result = append(result, &m)
+		}
+	}
+	return result, err
+}
+
 // 处理 社会融资规模存量 HTML table
 // return 二维数组
 func ProcessedSocialFinancingStockTable(htmlDom string) ([]*model.SocialFinancingStock, error) {
@@ -533,7 +554,7 @@ func ProcessedSocialFinancingStockTable(htmlDom string) ([]*model.SocialFinancin
 	macroChinaShrzgmList := []*model.SocialFinancingStock{}
 	dom, err := goquery.NewDocumentFromReader(strings.NewReader(htmlDom))
 	if err != nil {
-		log.Fatal(err)
+		config.G_LOG.Error(err.Error())
 		return macroChinaShrzgmList, err
 	}
 
@@ -549,14 +570,13 @@ func ProcessedSocialFinancingStockTable(htmlDom string) ([]*model.SocialFinancin
 		}
 	})
 	dataList = append(dataList, list)
-	log.Println(list[0])
-	time := strings.Split(list[0], ".")
+	timeSplit := strings.Split(list[0], ".")
 	// 22、21、20年 9~19 td
 	// 19年需要特殊处理
 	// 18年多了一项地方政府专项债券
 	// 17、16年 9~16 td
 	// 15年时间需要特殊处理
-	if time[0] == "2018" {
+	if timeSplit[0] == "2018" {
 		for i := 9; i < 18; i++ {
 			list := make([]string, 0)
 			dom.Find(fmt.Sprintf("tbody > tr:nth-child(%d) td", i)).Each(func(i int, s *goquery.Selection) {
@@ -571,7 +591,7 @@ func ProcessedSocialFinancingStockTable(htmlDom string) ([]*model.SocialFinancin
 			dataList = append(dataList, list)
 		}
 		socialFinancingStockConvertToObject1(&macroChinaShrzgmList, dataList, true)
-	} else if time[0] == "2015" {
+	} else if timeSplit[0] == "2015" {
 		dataList[0] = []string{"2015.3", "2015.6", "2015.9", "2015.12"}
 		for i := 9; i < 17; i++ {
 			list := make([]string, 0)
@@ -587,7 +607,7 @@ func ProcessedSocialFinancingStockTable(htmlDom string) ([]*model.SocialFinancin
 			dataList = append(dataList, list)
 		}
 		socialFinancingStockConvertToObject1(&macroChinaShrzgmList, dataList, false)
-	} else if time[0] == "2017" || time[0] == "2016" {
+	} else if timeSplit[0] == "2017" || timeSplit[0] == "2016" {
 		for i := 9; i < 17; i++ {
 			list := make([]string, 0)
 			dom.Find(fmt.Sprintf("tbody > tr:nth-child(%d) td", i)).Each(func(i int, s *goquery.Selection) {
@@ -603,7 +623,7 @@ func ProcessedSocialFinancingStockTable(htmlDom string) ([]*model.SocialFinancin
 		}
 		// 转换为对象
 		socialFinancingStockConvertToObject1(&macroChinaShrzgmList, dataList, false)
-	} else if time[0] == "2019" {
+	} else if timeSplit[0] == "2019" {
 		for i := 9; i < 30; i += 2 {
 			list := make([]string, 0)
 			dom.Find(fmt.Sprintf("tbody > tr:nth-child(%d) td", i)).Each(func(i int, s *goquery.Selection) {
@@ -635,6 +655,13 @@ func ProcessedSocialFinancingStockTable(htmlDom string) ([]*model.SocialFinancin
 		}
 		// 转换为对象
 		socialFinancingStockConvertToObject(&macroChinaShrzgmList, dataList)
+	}
+	for _, v := range macroChinaShrzgmList {
+		te, err := time.Parse("2006.1", v.Date)
+		if err != nil {
+			config.G_LOG.Error(err.Error())
+		}
+		v.Date = te.Format("2006-01-02 15:04:05")
 	}
 	return macroChinaShrzgmList, err
 }

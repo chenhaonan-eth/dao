@@ -7,6 +7,7 @@ import (
 	"github.com/chenhaonan-eth/dao/dal"
 	"github.com/chenhaonan-eth/dao/dal/model"
 	"github.com/chenhaonan-eth/dao/dal/query"
+	"github.com/chenhaonan-eth/dao/pkg/utils"
 )
 
 func TestInitlegulegu(t *testing.T) {
@@ -86,4 +87,11 @@ func TestInitSocialFinancingStock(t *testing.T) {
 	if err != nil {
 		t.Error(err)
 	}
+}
+func TestProcessedSocialFinancingFlowTable(t *testing.T) {
+	strhtml, err := utils.ReaderText("./out.txt")
+	if err != nil {
+		t.Error(err)
+	}
+	ProcessedSocialFinancingFlowTable(strhtml)
 }

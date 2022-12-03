@@ -75,7 +75,7 @@
     },
     "/v1/macroscopic/cn/cpi": {
       "get": {
-        "summary": "Cpi",
+        "summary": "CPI",
         "operationId": "Greeter_GetCpi",
         "responses": {
           "200": {
@@ -563,12 +563,12 @@
           "type": "string",
           "title": "\"2022年第1-3季度\""
         },
-        "gDP": {
+        "gdp": {
           "type": "number",
           "format": "double",
           "title": "国内生产总值(亿元)"
         },
-        "gDPYearOnYear": {
+        "gdpYearOnYear": {
           "type": "number",
           "format": "double",
           "title": "国内生产总值季度累计同比增长（%）"
@@ -735,7 +735,7 @@
           "type": "string",
           "title": "2022年10月份"
         },
-        "pPI": {
+        "ppi": {
           "type": "number",
           "format": "double",
           "title": "工业品出厂价格指数"
@@ -770,6 +770,9 @@
           "type": "number",
           "format": "double",
           "title": "时间"
+        },
+        "time": {
+          "type": "string"
         },
         "middleLyrPe": {
           "type": "number",

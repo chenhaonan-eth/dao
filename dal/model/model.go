@@ -9,14 +9,14 @@ import (
 // 中国社会融资规模增量数据对象
 type SocialFinancingFlow struct {
 	Date        string  `json:"date"`        //时间
-	Ndbab       float32 `json:"ndbab"`       //其中-未贴现银行承兑汇票
-	Entrustloan float32 `json:"entrustloan"` //其中-委托贷款
-	Forcloan    float32 `json:"forcloan"`    //其中-委托贷款外币(折合人民币)
-	Rmblaon     float32 `json:"rmblaon"`     //其中-人民币贷款
-	Bibae       float32 `json:"bibae"`       //其中-企业债券
 	Tiosfs      float32 `json:"tiosfs"`      //社会融资规模增量(亿元)
-	Sfinfe      float32 `json:"sfinfe"`      //其中-非金融企业境内股票融资
+	Rmblaon     float32 `json:"rmblaon"`     //其中-人民币贷款
+	Forcloan    float32 `json:"forcloan"`    //其中-委托贷款外币(折合人民币)
+	Entrustloan float32 `json:"entrustloan"` //其中-委托贷款
 	Trustloan   float32 `json:"trustloan"`   //其中-信托贷款
+	Ndbab       float32 `json:"ndbab"`       //其中-未贴现银行承兑汇票
+	Bibae       float32 `json:"bibae"`       //其中-企业债券
+	Sfinfe      float32 `json:"sfinfe"`      //其中-非金融企业境内股票融资
 }
 
 // 中国社会融资规模存量数据
@@ -92,7 +92,7 @@ type BondZhUsRate struct {
 
 // 沪深300市盈率
 type SH300PE struct {
-	Time        string
+	Time        string  `json:"time"`
 	Date        float64 `json:"date"`        // 时间
 	MiddleLyrPe float64 `json:"middleLyrPe"` //沪深300静态市盈率中位数
 	LyrPe       float64 `json:"lyrPe"`       //沪深300静态市盈率等权平均

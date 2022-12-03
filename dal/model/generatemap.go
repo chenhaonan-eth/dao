@@ -1,8 +1,6 @@
 package model
 
-var (
-	OpArgsMap = make(map[string]interface{})
-)
+var OpArgsMap = make(map[string]interface{})
 
 // 注册所有数据库
 func init() {

@@ -39,7 +39,7 @@ type GreeterClient interface {
 	GetGdp(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*GdpResponse, error)
 	// PMI
 	GetPmi(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*PmiResponse, error)
-	// Cpi
+	// CPI
 	GetCpi(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*CpiResponse, error)
 	// 货币供应
 	GetMoneySupply(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*MoneySupplyResponse, error)
@@ -174,7 +174,7 @@ type GreeterServer interface {
 	GetGdp(context.Context, *emptypb.Empty) (*GdpResponse, error)
 	// PMI
 	GetPmi(context.Context, *emptypb.Empty) (*PmiResponse, error)
-	// Cpi
+	// CPI
 	GetCpi(context.Context, *emptypb.Empty) (*CpiResponse, error)
 	// 货币供应
 	GetMoneySupply(context.Context, *emptypb.Empty) (*MoneySupplyResponse, error)

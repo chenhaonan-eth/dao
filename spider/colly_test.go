@@ -49,3 +49,10 @@ func TestCollyCNCPI(t *testing.T) {
 	// do.Create(&model.MacroGDP{Date: "2022-10-14", Country: "cn", Gdp: "2.3"})
 	CollyCNCPI()
 }
+
+func TestCollyCNSocialFinancingFlow(t *testing.T) {
+	config.Init()
+	// dal.DB = dal.ConnectDB("test_sqlite.db").Debug()
+	// query.SetDefault(dal.DB)
+	CollyCNSocialFinancingFlow()
+}

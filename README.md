@@ -20,18 +20,18 @@
 
 | Name                                                              | ⭕ - ✔️|
 | -----------                                                       | ----------- |
-| 沪深300市盈率                                                      | ⭕       |
-| 中美国债2、5、10、30年收益率                                        | ⭕        |
-| 社会融资总量 Total social financing                                | ⭕       |
+| 沪深300市盈率                                                      | ✔️       |
+| 中美国债2、5、10、30年收益率                                        | ✔️        |
+| 社会融资总量 Total social financing                                | ✔️       |
 | 社会融资存量  Total social Stock                                   | ✔️        |
 | 货币供应 M0 M1 M2（Money Supply）                                  | ✔️       |
-| 社会消费品零售总额 Retail Sales of Consumer Goods                   | ⭕        |
+| 社会消费品零售总额 Retail Sales of Consumer Goods                   | ✔️        |
 | 期货 伦铜:CAD                                                      | ✔️       |
 | PPI                                                                | ✔️        |
 | GDP                                                                | ✔️       |
 | CPI                                                                | ✔️        |
-| 国家统计局制造业采购经理人指数 NBS manufacturing PMI                  | ⭕        |
-| 国家统计局非制造业采购经理人指数 NBS non-manufacturing PMI             | ⭕       |
+| 国家统计局制造业采购经理人指数 NBS manufacturing PMI                  | ✔️        |
+| 国家统计局非制造业采购经理人指数 NBS non-manufacturing PMI             | ✔️       |
 | 财新制造业采购经理人指数 Caixin manufacturing PMI                     | ⭕        |
 | 财新服务采购经理人指数 Caixin service PM                              | ⭕        |
 | 工业生产 Industrial Production                                       | ⭕        |

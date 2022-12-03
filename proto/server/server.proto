@@ -65,7 +65,7 @@ message PpiResponse { repeated Ppi results = 1; }
 message Ppi {
   string date = 1;         // 2022-10-01 00:00:00
   string time = 2;         // 2022年10月份
-  double pPI = 3;          // 工业品出厂价格指数
+  double ppi = 3;          // 工业品出厂价格指数
   double yearOnYear = 4;   // 当月同比增长(%)
   double accumulative = 5; // 累计
 }
@@ -74,8 +74,8 @@ message GdpResponse { repeated Gdp results = 1; }
 message Gdp {
   string date = 1;          // 2022-09-01 00:00:00
   string time = 2;          //"2022年第1-3季度"
-  double gDP = 3;           // 国内生产总值(亿元)
-  double gDPYearOnYear = 4; // 国内生产总值季度累计同比增长（%）
+  double gdp = 3;           // 国内生产总值(亿元)
+  double gdpYearOnYear = 4; // 国内生产总值季度累计同比增长（%）
   double primaryIndustry = 5; // 第一产业增加值（亿元）
   double primaryIndustryYearOnYear = 6; // 第一产业增加值季度累计同比增长（%）
   double secondaryIndustries = 7; // 第二产业增加值（亿元）
@@ -146,13 +146,15 @@ message SocialFinancingFlow {
 message SH300PEResponse { repeated SH300PE results = 1; }
 message SH300PE {
   double date = 1;        // 时间
-  double middleLyrPe = 2; //沪深300静态市盈率中位数
-  double lyrPe = 3;       //沪深300静态市盈率等权平均
-  double addLyrPe = 4;    //沪深300静态市盈率
-  double middleTtmPe = 5; //沪深300滚动市盈率(TTM)中位数
-  double ttmPe = 6;       //沪深300滚动市盈率(TTM)等权平均
-  double addTtmPe = 7;    //沪深300滚动市盈率(TTM)
+  string time = 2;
+  double middleLyrPe = 3; //沪深300静态市盈率中位数
+  double lyrPe = 4;       //沪深300静态市盈率等权平均
+  double addLyrPe = 5;    //沪深300静态市盈率
+  double middleTtmPe = 6; //沪深300滚动市盈率(TTM)中位数
+  double ttmPe = 7;       //沪深300滚动市盈率(TTM)等权平均
+  double addTtmPe = 8;    //沪深300滚动市盈率(TTM)
 }
+
 message MoneySupplyResponse { repeated MoneySupply results = 1; }
 message MoneySupply {
   string date = 1;
@@ -238,7 +240,7 @@ service Greeter {
     };
   }
 
-  // Cpi
+  // CPI
   rpc GetCpi(google.protobuf.Empty) returns (CpiResponse) {
     option (google.api.http) = {
       get : "/v1/macroscopic/cn/cpi"

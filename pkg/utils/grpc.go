@@ -5,8 +5,13 @@ import (
 	"net/http"
 	"strings"
 
+	browser "github.com/EDDYCJY/fake-useragent"
 	"google.golang.org/grpc"
 )
+
+func Random() string {
+	return browser.Random()
+}
 
 // allowCORS allows Cross Origin Resoruce Sharing from any origin.
 // Don't do this without consideration in production systems.
