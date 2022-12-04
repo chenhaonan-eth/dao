@@ -22,5 +22,11 @@ install:
 		google.golang.org/grpc/cmd/protoc-gen-go-grpc@lastest \
 		google.golang.org/protobuf/cmd/protoc-gen-go@lastest
 
-run:
-	go run main.go server 
+run: build
+	cd bin;\
+	./dao server -c ../config.yaml
+.PHONY: run
+
+build:
+	go build -o ./bin/dao main.go
+.PHONY: build

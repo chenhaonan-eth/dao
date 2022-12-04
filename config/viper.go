@@ -1,7 +1,6 @@
 package config
 
 import (
-	"flag"
 	"fmt"
 	"os"
 
@@ -10,8 +9,9 @@ import (
 )
 
 var (
-	G_Config Config
-	G_viper  *viper.Viper
+	G_Config      Config
+	G_viper       *viper.Viper
+	ConfigEnvPath string
 )
 
 func Init() {
@@ -25,22 +25,21 @@ func initViper(path ...string) *viper.Viper {
 	var config string
 
 	if len(path) == 0 {
-		flag.StringVar(&config, "c", "", "choose config file.")
-		flag.Parse()
-		if config == "" { // 优先级: 命令行 > 环境变量 > 默认值
-			if configEnv := os.Getenv("KASEYA_CONFIG"); configEnv == "" {
+		if ConfigEnvPath == "" { // 优先级: 命令行 > 环境变量 > 默认值
+			if configEnv := os.Getenv("DAO_CONFIG"); configEnv == "" {
 				config = "config.yaml"
-				fmt.Printf("您正在使用config的默认值,config的路径为%v\n", "config.yaml")
+				fmt.Printf("You are using the default value of config, whose path is:%v\n", "config.yaml")
 			} else {
 				config = configEnv
-				fmt.Printf("您正在使用KASEYA_CONFIG环境变量,config的路径为%v\n", config)
+				fmt.Printf("You are using the DAO CONFIG environment variable, and the path to config is:%v\n", config)
 			}
 		} else {
-			fmt.Printf("您正在使用命令行的-c参数传递的值,config的路径为%v\n", config)
+			config = ConfigEnvPath
+			fmt.Printf("The value you are passing using the -c argument on the command line, the path to config is:%v\n", config)
 		}
 	} else {
 		config = path[0]
-		fmt.Printf("您正在使用func Viper()传递的值,config的路径为%v\n", config)
+		fmt.Printf("The value you are passing using func Viper(), the path of config is:%v\n", config)
 	}
 
 	v := viper.New()

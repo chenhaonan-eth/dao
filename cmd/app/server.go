@@ -44,7 +44,7 @@ func init() {
 	serverCmd.Flags().StringVarP(&server.HttpPort, "http-port", "", "50053", "http port")
 	serverCmd.Flags().StringVarP(&server.ServerPort, "gRPCport", "p", "50052", "server port")
 	serverCmd.Flags().StringVarP(&server.SwaggerDir, "swagger-dir", "", "proto/server", "path to the directory which contains swagger definitions")
-
+	serverCmd.Flags().StringVarP(&config.ConfigEnvPath, "config-env-path", "c", "", "choose config file.")
 	// AddCommand向这父命令（rootCmd）添加一个或多个命令
 	rootCmd.AddCommand(serverCmd)
 }

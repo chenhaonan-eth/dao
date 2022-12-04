@@ -563,31 +563,38 @@ func CollyCADFuturesForeignHist() {
 		return
 	}
 	list := make([]string, 0)
+	f := model.FturesFoewign{}
+	irefl := reflect.ValueOf(&f).Elem()
 	dom.Find("body > div.wrap > div.middleSection > div.centerColumn > div.historyList > table:nth-child(1) > tbody > tr.tr_2 td").Each(func(i int, s *goquery.Selection) {
-
 		str := strings.TrimSpace(s.Text())
 		list = append(list, str)
+		if i == 0 {
+			ti, err := utils.ParseTime(str)
+			if err != nil {
+				config.G_LOG.Error(err.Error())
+				return
+			}
+			str = ti.Format(utils.DATE_FORMAT)
+			irefl.Field(0).SetString(str)
+		}
+		irefl.Field(i).SetString(str)
 	})
-	f := &model.FturesFoewign{
-		Date:   list[0],
-		Symbol: "CAD",
-		Close:  list[1],
-		Open:   list[2],
-		High:   list[3],
-		Low:    list[4],
-		Volume: list[5],
+	if f.Date == "" {
+		config.G_LOG.Error("CollyCADFuturesForeignHist Get http data is nil")
+		return
 	}
-	// 查询数据库是否存在最近一个月数据
+	f.Symbol = "CAD"
+	// 查询数据库是否存在最近数据
 	m, err := do.Order(t.Date.Desc()).First()
 	if err != nil {
 		config.G_LOG.Error("CollyCADFuturesForeignHist find db", zap.Error(err))
 		return
 	}
-	if strings.Contains(m.Date, f.Date) {
+	if m.Date == f.Date {
 		config.G_LOG.Debug("CollyCADFuturesForeignHist It already exists in the database", zap.Any("data", m))
 		return
 	}
-	do.Create(f)
-	config.G_LOG.Debug("CollyCADFuturesForeignHist Create successful ", zap.Any("data", *f))
+	do.Create(&f)
+	config.G_LOG.Debug("CollyCADFuturesForeignHist Create successful ", zap.Any("data", f))
 	config.G_LOG.Debug("End CollyCADFuturesForeignHist ")
 }
