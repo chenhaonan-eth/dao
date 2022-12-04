@@ -27,12 +27,12 @@ func newFturesFoewign(db *gorm.DB, opts ...gen.DOOption) fturesFoewign {
 	tableName := _fturesFoewign.fturesFoewignDo.TableName()
 	_fturesFoewign.ALL = field.NewAsterisk(tableName)
 	_fturesFoewign.Date = field.NewString(tableName, "date")
-	_fturesFoewign.Symbol = field.NewString(tableName, "symbol")
 	_fturesFoewign.Open = field.NewString(tableName, "open")
 	_fturesFoewign.High = field.NewString(tableName, "high")
 	_fturesFoewign.Low = field.NewString(tableName, "low")
 	_fturesFoewign.Close = field.NewString(tableName, "close")
 	_fturesFoewign.Volume = field.NewString(tableName, "volume")
+	_fturesFoewign.Symbol = field.NewString(tableName, "symbol")
 
 	_fturesFoewign.fillFieldMap()
 
@@ -44,12 +44,12 @@ type fturesFoewign struct {
 
 	ALL    field.Asterisk
 	Date   field.String
-	Symbol field.String
 	Open   field.String
 	High   field.String
 	Low    field.String
 	Close  field.String
 	Volume field.String
+	Symbol field.String
 
 	fieldMap map[string]field.Expr
 }
@@ -67,12 +67,12 @@ func (f fturesFoewign) As(alias string) *fturesFoewign {
 func (f *fturesFoewign) updateTableName(table string) *fturesFoewign {
 	f.ALL = field.NewAsterisk(table)
 	f.Date = field.NewString(table, "date")
-	f.Symbol = field.NewString(table, "symbol")
 	f.Open = field.NewString(table, "open")
 	f.High = field.NewString(table, "high")
 	f.Low = field.NewString(table, "low")
 	f.Close = field.NewString(table, "close")
 	f.Volume = field.NewString(table, "volume")
+	f.Symbol = field.NewString(table, "symbol")
 
 	f.fillFieldMap()
 
@@ -99,12 +99,12 @@ func (f *fturesFoewign) GetFieldByName(fieldName string) (field.OrderExpr, bool)
 func (f *fturesFoewign) fillFieldMap() {
 	f.fieldMap = make(map[string]field.Expr, 7)
 	f.fieldMap["date"] = f.Date
-	f.fieldMap["symbol"] = f.Symbol
 	f.fieldMap["open"] = f.Open
 	f.fieldMap["high"] = f.High
 	f.fieldMap["low"] = f.Low
 	f.fieldMap["close"] = f.Close
 	f.fieldMap["volume"] = f.Volume
+	f.fieldMap["symbol"] = f.Symbol
 }
 
 func (f fturesFoewign) clone(db *gorm.DB) fturesFoewign {

@@ -27,14 +27,14 @@ func newSocialFinancingFlow(db *gorm.DB, opts ...gen.DOOption) socialFinancingFl
 	tableName := _socialFinancingFlow.socialFinancingFlowDo.TableName()
 	_socialFinancingFlow.ALL = field.NewAsterisk(tableName)
 	_socialFinancingFlow.Date = field.NewString(tableName, "date")
-	_socialFinancingFlow.Ndbab = field.NewFloat32(tableName, "ndbab")
-	_socialFinancingFlow.Entrustloan = field.NewFloat32(tableName, "entrustloan")
-	_socialFinancingFlow.Forcloan = field.NewFloat32(tableName, "forcloan")
-	_socialFinancingFlow.Rmblaon = field.NewFloat32(tableName, "rmblaon")
-	_socialFinancingFlow.Bibae = field.NewFloat32(tableName, "bibae")
 	_socialFinancingFlow.Tiosfs = field.NewFloat32(tableName, "tiosfs")
-	_socialFinancingFlow.Sfinfe = field.NewFloat32(tableName, "sfinfe")
+	_socialFinancingFlow.Rmblaon = field.NewFloat32(tableName, "rmblaon")
+	_socialFinancingFlow.Forcloan = field.NewFloat32(tableName, "forcloan")
+	_socialFinancingFlow.Entrustloan = field.NewFloat32(tableName, "entrustloan")
 	_socialFinancingFlow.Trustloan = field.NewFloat32(tableName, "trustloan")
+	_socialFinancingFlow.Ndbab = field.NewFloat32(tableName, "ndbab")
+	_socialFinancingFlow.Bibae = field.NewFloat32(tableName, "bibae")
+	_socialFinancingFlow.Sfinfe = field.NewFloat32(tableName, "sfinfe")
 
 	_socialFinancingFlow.fillFieldMap()
 
@@ -46,14 +46,14 @@ type socialFinancingFlow struct {
 
 	ALL         field.Asterisk
 	Date        field.String
-	Ndbab       field.Float32
-	Entrustloan field.Float32
-	Forcloan    field.Float32
-	Rmblaon     field.Float32
-	Bibae       field.Float32
 	Tiosfs      field.Float32
-	Sfinfe      field.Float32
+	Rmblaon     field.Float32
+	Forcloan    field.Float32
+	Entrustloan field.Float32
 	Trustloan   field.Float32
+	Ndbab       field.Float32
+	Bibae       field.Float32
+	Sfinfe      field.Float32
 
 	fieldMap map[string]field.Expr
 }
@@ -71,14 +71,14 @@ func (s socialFinancingFlow) As(alias string) *socialFinancingFlow {
 func (s *socialFinancingFlow) updateTableName(table string) *socialFinancingFlow {
 	s.ALL = field.NewAsterisk(table)
 	s.Date = field.NewString(table, "date")
-	s.Ndbab = field.NewFloat32(table, "ndbab")
-	s.Entrustloan = field.NewFloat32(table, "entrustloan")
-	s.Forcloan = field.NewFloat32(table, "forcloan")
-	s.Rmblaon = field.NewFloat32(table, "rmblaon")
-	s.Bibae = field.NewFloat32(table, "bibae")
 	s.Tiosfs = field.NewFloat32(table, "tiosfs")
-	s.Sfinfe = field.NewFloat32(table, "sfinfe")
+	s.Rmblaon = field.NewFloat32(table, "rmblaon")
+	s.Forcloan = field.NewFloat32(table, "forcloan")
+	s.Entrustloan = field.NewFloat32(table, "entrustloan")
 	s.Trustloan = field.NewFloat32(table, "trustloan")
+	s.Ndbab = field.NewFloat32(table, "ndbab")
+	s.Bibae = field.NewFloat32(table, "bibae")
+	s.Sfinfe = field.NewFloat32(table, "sfinfe")
 
 	s.fillFieldMap()
 
@@ -105,14 +105,14 @@ func (s *socialFinancingFlow) GetFieldByName(fieldName string) (field.OrderExpr,
 func (s *socialFinancingFlow) fillFieldMap() {
 	s.fieldMap = make(map[string]field.Expr, 9)
 	s.fieldMap["date"] = s.Date
-	s.fieldMap["ndbab"] = s.Ndbab
-	s.fieldMap["entrustloan"] = s.Entrustloan
-	s.fieldMap["forcloan"] = s.Forcloan
-	s.fieldMap["rmblaon"] = s.Rmblaon
-	s.fieldMap["bibae"] = s.Bibae
 	s.fieldMap["tiosfs"] = s.Tiosfs
-	s.fieldMap["sfinfe"] = s.Sfinfe
+	s.fieldMap["rmblaon"] = s.Rmblaon
+	s.fieldMap["forcloan"] = s.Forcloan
+	s.fieldMap["entrustloan"] = s.Entrustloan
 	s.fieldMap["trustloan"] = s.Trustloan
+	s.fieldMap["ndbab"] = s.Ndbab
+	s.fieldMap["bibae"] = s.Bibae
+	s.fieldMap["sfinfe"] = s.Sfinfe
 }
 
 func (s socialFinancingFlow) clone(db *gorm.DB) socialFinancingFlow {
