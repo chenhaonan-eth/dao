@@ -2,8 +2,6 @@ package spider
 
 import cron "github.com/robfig/cron/v3"
 
-var taskMap map[string][]func()
-
 func StartTask() {
 	crontab := cron.New()
 	task := func() {
@@ -30,11 +28,6 @@ func StartTask() {
 	//1月、4月、7月、10月17日-19 9点半
 	crontab.AddFunc("0 9 17-19 1,4,7,10 *", func() { CollyCNGDP() })
 
-	for k, v := range taskMap {
-		for _, f := range v {
-			crontab.AddFunc(k, f)
-		}
-	}
 	// 启动定时器
 	crontab.Start()
 }
