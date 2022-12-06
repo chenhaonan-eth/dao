@@ -1,7 +1,9 @@
 package utils
 
 import (
+	"strings"
 	"time"
+	"unicode"
 
 	"github.com/noaway/dateparse"
 )
@@ -26,5 +28,27 @@ func LastDayOfLastMonth() string {
 
 // 解析时间
 func ParseTime(datestr string) (time.Time, error) {
+	for _, v := range datestr {
+		if unicode.Is(unicode.Han, v) {
+			str := string(v)
+			if str == "日" {
+				datestr = strings.Replace(datestr, str, "", -1)
+				continue
+			}
+			datestr = strings.Replace(datestr, str, "/", -1)
+		}
+	}
 	return dateparse.ParseAny(datestr)
+}
+
+// 中文index
+func IsChinese(str string) []int {
+	// var count int
+	indexs := make([]int, 0)
+	for i, v := range str {
+		if unicode.Is(unicode.Han, v) {
+			indexs = append(indexs, i)
+		}
+	}
+	return indexs
 }
