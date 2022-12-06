@@ -87,7 +87,7 @@ sudo apt-get install google-chrome-stable
 ### 安装
 
    ```sh
-   go mod download
+   make build
    ```
 
 ### 启动

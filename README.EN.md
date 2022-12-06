@@ -25,7 +25,6 @@ To get a local copy up and running, follow these steps.
 
 In order to run this project you need:
 
-
 install chrome:
 
 ```sh
@@ -61,7 +60,7 @@ Install this project with:
 
 ```sh
   cd dao
-  go mod install
+  make build
 ```
 
 ### Run
@@ -69,7 +68,7 @@ Install this project with:
 To run the project, execute the following command:
 
 ```sh
-    make run
+    make start
 ```
 
 ### Usage
