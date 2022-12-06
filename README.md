@@ -93,7 +93,7 @@ sudo apt-get install google-chrome-stable
 ### 启动
 
    ```sh
-   make run
+   make start
    ```
 
 ### 使用
