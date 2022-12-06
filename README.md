@@ -87,6 +87,10 @@ sudo apt-get install google-chrome-stable
 ### 安装
 
    ```sh
+   git clone https://github.com/chenhaonan-eth/dao.git
+
+   cd dao
+
    make build
    ```
 
