@@ -105,3 +105,11 @@ func TestStockSohuCom(t *testing.T) {
 		t.Error(err)
 	}
 }
+
+func TestGetEastmoney(t *testing.T) {
+	b, err := GetEastmoney("ALL", "1000", "RPT_ECONOMY_CPI")
+	if err != nil {
+		t.Log(err)
+	}
+	t.Log(string(b))
+}

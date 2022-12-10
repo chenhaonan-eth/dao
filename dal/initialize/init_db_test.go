@@ -66,9 +66,10 @@ func TestInitMacroChinaConsumerGoodsRetail(t *testing.T) {
 }
 
 func TestInitMacroCpi(t *testing.T) {
-	dal.DB = dal.ConnectDB("guide_sqlite.db").Debug()
+	dal.DB = dal.ConnectDB("../../dao_sqlite.db").Debug()
 	query.SetDefault(dal.DB)
 	dal.DB.AutoMigrate(&model.ChinaCPI{})
+	// dal.DB.Migrator().DropTable(&model.ChinaCPI{})
 	if err := initMacroChinaCpi(); err != nil {
 		t.Error(err)
 	}

@@ -215,7 +215,7 @@ service Greeter {
   rpc GetFuturesForeignHist(FturesFoewignRequest)
       returns (FturesFoewignResponse) {
     option (google.api.http) = {
-      get : "/v1/macroscopic/FuturesForeignHist/{symbol}"
+      get : "/v1/macroscopic/futures_foreign_hist/{symbol}"
     };
   }
 

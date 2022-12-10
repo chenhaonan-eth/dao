@@ -344,7 +344,7 @@ func CollyCNPPI() {
 	if err := do.Create(res[0]); err != nil {
 		config.G_LOG.Error("CollyCNPPI Create ", zap.Error(err))
 	}
-	config.G_LOG.Debug("End CollyCNPPI ")
+	config.G_LOG.Debug("End CollyCNPPI ", zap.Any("data", *res[0]))
 }
 
 // 社会融资总量
