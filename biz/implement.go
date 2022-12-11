@@ -24,7 +24,7 @@ func (s *server) GetSocialFinancingStock(ctx context.Context, r *emptypb.Empty) 
 	config.G_LOG.Debug("Start GetSocialFinancingStock ...")
 	t := q.SocialFinancingStock
 	do := t.WithContext(context.Background())
-	results, err := do.Find()
+	results, err := do.Order(t.Date.Desc()).Find()
 	if err != nil {
 		config.G_LOG.Error("Find err ", zap.Error(err))
 		return nil, err
@@ -92,7 +92,7 @@ func (s *server) GetPpi(ctx context.Context, r *emptypb.Empty) (*pb.PpiResponse,
 	config.G_LOG.Debug("Start GetPpi ...")
 	t := q.ChinaPPI
 	do := t.WithContext(context.Background())
-	results, err := do.Find()
+	results, err := do.Order(t.Date.Desc()).Find()
 	if err != nil {
 		config.G_LOG.Error("Find err ", zap.Error(err))
 		return nil, err
@@ -116,7 +116,7 @@ func (s *server) GetGdp(ctx context.Context, r *emptypb.Empty) (*pb.GdpResponse,
 	config.G_LOG.Debug("Start GetGdp ...")
 	t := q.ChinaGDP
 	do := t.WithContext(context.Background())
-	results, err := do.Find()
+	results, err := do.Order(t.Date.Desc()).Find()
 	if err != nil {
 		config.G_LOG.Error("Find err ", zap.Error(err))
 		return nil, err
@@ -145,7 +145,7 @@ func (s *server) GetPmi(ctx context.Context, r *emptypb.Empty) (*pb.PmiResponse,
 	config.G_LOG.Debug("Start GetPmi ...")
 	t := q.ChinaPMI
 	do := t.WithContext(context.Background())
-	results, err := do.Find()
+	results, err := do.Order(t.Date.Desc()).Find()
 	if err != nil {
 		config.G_LOG.Error("Find err ", zap.Error(err))
 		return nil, err
@@ -170,7 +170,7 @@ func (s *server) GetCpi(ctx context.Context, r *emptypb.Empty) (*pb.CpiResponse,
 	config.G_LOG.Debug("Start GetCpi ...")
 	t := q.ChinaCPI
 	do := t.WithContext(context.Background())
-	results, err := do.Find()
+	results, err := do.Order(t.Date.Desc()).Find()
 	if err != nil {
 		config.G_LOG.Error("Find err ", zap.Error(err))
 		return nil, err
@@ -233,7 +233,7 @@ func (s *server) GetTotalSocialFlows(ctx context.Context, r *emptypb.Empty) (*pb
 	config.G_LOG.Debug("Start GetTotalSocialFlows ...")
 	t := q.SocialFinancingFlow
 	do := t.WithContext(context.Background())
-	results, err := do.Find()
+	results, err := do.Order(t.Date.Desc()).Find()
 	if err != nil {
 		config.G_LOG.Error("Find err ", zap.Error(err))
 		return nil, err
@@ -288,7 +288,7 @@ func (s *server) GetMoneySupply(ctx context.Context, r *emptypb.Empty) (*pb.Mone
 	config.G_LOG.Debug("Start GetMoneySupply ...")
 	t := q.MacroChinaMoneySupply
 	do := t.WithContext(context.Background())
-	results, err := do.Find()
+	results, err := do.Order(t.Date.Desc()).Find()
 	if err != nil {
 		config.G_LOG.Error("Find err ", zap.Error(err))
 		return nil, err
@@ -316,7 +316,7 @@ func (s *server) GetConsumerGoodsRetail(ctx context.Context, r *emptypb.Empty) (
 	config.G_LOG.Debug("Start GetConsumerGoodsRetail ...")
 	t := q.MacroChinaConsumerGoodsRetail
 	do := t.WithContext(context.Background())
-	results, err := do.Find()
+	results, err := do.Order(t.Date.Desc()).Find()
 	if err != nil {
 		config.G_LOG.Error("Find err ", zap.Error(err))
 		return nil, err

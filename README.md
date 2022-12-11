@@ -104,7 +104,7 @@ sudo apt-get install google-chrome-stable
 
    ```sh
     # HTTP
-    curl -X GET http://localhost:50053/v1/macroscopic/FuturesForeignHist/CAD
+    curl -X GET http://localhost:50053/v1/macroscopic/futures_foreign_hist/CAD
    ```
 
    ```go

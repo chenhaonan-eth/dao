@@ -19,37 +19,6 @@
     "application/json"
   ],
   "paths": {
-    "/v1/macroscopic/FuturesForeignHist/{symbol}": {
-      "get": {
-        "summary": "期货 伦铜:CAD",
-        "operationId": "Greeter_GetFuturesForeignHist",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/serverFturesFoewignResponse"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/rpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "symbol",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "tags": [
-          "Greeter"
-        ]
-      }
-    },
     "/v1/macroscopic/bond_zh_us_rate": {
       "get": {
         "summary": "中美国债2、5、10、30年收益率",
@@ -206,6 +175,37 @@
             }
           }
         },
+        "tags": [
+          "Greeter"
+        ]
+      }
+    },
+    "/v1/macroscopic/futures_foreign_hist/{symbol}": {
+      "get": {
+        "summary": "期货 伦铜:CAD",
+        "operationId": "Greeter_GetFuturesForeignHist",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/serverFturesFoewignResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "symbol",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
         "tags": [
           "Greeter"
         ]
