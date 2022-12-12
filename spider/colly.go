@@ -211,7 +211,7 @@ func CollySH300PE() {
 func CollyCNPMI() {
 	config.G_LOG.Debug("Start CollyCNPMI ")
 	// 计算如果上月时间对比数据如已入库，则取消请求
-	t := q.ChinaGDP
+	t := q.ChinaPMI
 	do := t.WithContext(context.Background())
 	// 查询数据库是否存在最近一个月数据
 	m, err := do.Order(t.Date.Desc()).First()
@@ -223,7 +223,7 @@ func CollyCNPMI() {
 		config.G_LOG.Error("db is exist", zap.Any("date", m.Date))
 		return
 	}
-	res := []*model.ChinaGDP{}
+	res := []*model.ChinaPMI{}
 	b, err := macroscopic.GetEastmoney("ALL", "1", "RPT_ECONOMY_PMI")
 	if err != nil {
 		config.G_LOG.Error("CollyCNPMI HTTP get ", zap.Error(err))
@@ -316,7 +316,7 @@ func CollyCNCPI() {
 func CollyCNPPI() {
 	config.G_LOG.Debug("Start CollyCNPPI ")
 	// 计算如果上月时间对比数据如已入库，则取消请求
-	t := q.ChinaCPI
+	t := q.ChinaPPI
 	do := t.WithContext(context.Background())
 	// 查询数据库是否存在最近一个月数据
 	m, err := do.Order(t.Date.Desc()).First()
@@ -328,7 +328,7 @@ func CollyCNPPI() {
 		config.G_LOG.Error("db is exist", zap.Any("date", m.Date))
 		return
 	}
-	res := []*model.ChinaCPI{}
+	res := []*model.ChinaPPI{}
 	b, err := macroscopic.GetEastmoney("ALL", "1", "RPT_ECONOMY_PPI")
 	if err != nil {
 		config.G_LOG.Error("CollyCNPPI HTTP get ", zap.Error(err))
