@@ -16,4 +16,5 @@ func init() {
 	OpArgsMap["MacroCpi"] = &ChinaCPI{}
 	OpArgsMap["MacroPpi"] = &ChinaPPI{}
 	OpArgsMap["FturesFoewign"] = &FturesFoewign{}
+	OpArgsMap["CxPmi"] = &PmiCx{}
 }

@@ -5,6 +5,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"sort"
 	"strconv"
 	"strings"
 	"time"
@@ -12,6 +13,7 @@ import (
 	"github.com/chenhaonan-eth/dao/dal/model"
 	"github.com/go-resty/resty/v2"
 	"github.com/robertkrimen/otto"
+	"github.com/shopspring/decimal"
 	"github.com/tidwall/gjson"
 )
 
@@ -686,4 +688,66 @@ func GetEastmoney(columns, pageSize, reportName string) ([]byte, error) {
 	}
 	b := resp.Body()
 	return b, nil
+}
+
+// 财新PMI https://s.ccxe.com.cn/indices/pmi
+func PmiCx() ([]*model.PmiCx, error) {
+	result := []*model.PmiCx{}
+	// list := []string{"com", "man", "ser"}
+	resp, err := Client.R().SetQueryParams(map[string]string{"type": "com"}).
+		Get("https://s.ccxe.com.cn/api/index/pro/cxIndexTrendInfo")
+	if err != nil {
+		return result, err
+	}
+	b := resp.Body()
+	v := gjson.GetBytes(b, "data")
+	manufacture := []model.CxPmi{}
+	m := make(map[float64]*model.PmiCx)
+	json.Unmarshal([]byte(v.String()), &manufacture)
+	for _, v := range manufacture {
+		changeRate, _ := decimal.NewFromFloat(v.ChangeRate).Round(2).Float64()
+		m[v.Time] = &model.PmiCx{
+			Date:                    time.UnixMilli(int64(v.Time)).Format("2006-01-02 15:04:05"),
+			Time:                    v.Time,
+			Manufacture:             0,
+			ManufactureYearOverYear: 0,
+			Service:                 0,
+			ServiceYearOverYear:     0,
+			Synthesis:               v.Data,
+			SynthesisYearOverYear:   changeRate,
+		}
+	}
+	resp, err = Client.R().SetQueryParams(map[string]string{"type": "man"}).
+		Get("https://s.ccxe.com.cn/api/index/pro/cxIndexTrendInfo")
+	if err != nil {
+		return result, err
+	}
+	b = resp.Body()
+	v = gjson.GetBytes(b, "data")
+	json.Unmarshal([]byte(v.String()), &manufacture)
+	for _, v := range manufacture {
+		changeRate, _ := decimal.NewFromFloat(v.ChangeRate).Round(2).Float64()
+		m[v.Time].Manufacture = v.Data
+		m[v.Time].ManufactureYearOverYear = changeRate
+	}
+
+	resp, err = Client.R().SetQueryParams(map[string]string{"type": "ser"}).
+		Get("https://s.ccxe.com.cn/api/index/pro/cxIndexTrendInfo")
+	if err != nil {
+		return result, err
+	}
+	b = resp.Body()
+	v = gjson.GetBytes(b, "data")
+	json.Unmarshal([]byte(v.String()), &manufacture)
+	for _, v := range manufacture {
+		changeRate, _ := decimal.NewFromFloat(v.ChangeRate).Round(2).Float64()
+		m[v.Time].Service = v.Data
+		m[v.Time].ServiceYearOverYear = changeRate
+		result = append(result, m[v.Time])
+	}
+	// 排序 -- 升序 由小到大
+	sort.SliceStable(result, func(i int, j int) bool {
+		return result[i].Time > result[j].Time
+	})
+	return result, nil
 }

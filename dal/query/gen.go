@@ -26,6 +26,7 @@ var (
 	MacroChinaConsumerGoodsRetail *macroChinaConsumerGoodsRetail
 	MacroChinaMoneySupply         *macroChinaMoneySupply
 	PePbPsDvTotalmv               *pePbPsDvTotalmv
+	PmiCx                         *pmiCx
 	SH300PE                       *sH300PE
 	SocialFinancingFlow           *socialFinancingFlow
 	SocialFinancingStock          *socialFinancingStock
@@ -42,6 +43,7 @@ func SetDefault(db *gorm.DB, opts ...gen.DOOption) {
 	MacroChinaConsumerGoodsRetail = &Q.MacroChinaConsumerGoodsRetail
 	MacroChinaMoneySupply = &Q.MacroChinaMoneySupply
 	PePbPsDvTotalmv = &Q.PePbPsDvTotalmv
+	PmiCx = &Q.PmiCx
 	SH300PE = &Q.SH300PE
 	SocialFinancingFlow = &Q.SocialFinancingFlow
 	SocialFinancingStock = &Q.SocialFinancingStock
@@ -59,6 +61,7 @@ func Use(db *gorm.DB, opts ...gen.DOOption) *Query {
 		MacroChinaConsumerGoodsRetail: newMacroChinaConsumerGoodsRetail(db, opts...),
 		MacroChinaMoneySupply:         newMacroChinaMoneySupply(db, opts...),
 		PePbPsDvTotalmv:               newPePbPsDvTotalmv(db, opts...),
+		PmiCx:                         newPmiCx(db, opts...),
 		SH300PE:                       newSH300PE(db, opts...),
 		SocialFinancingFlow:           newSocialFinancingFlow(db, opts...),
 		SocialFinancingStock:          newSocialFinancingStock(db, opts...),
@@ -77,6 +80,7 @@ type Query struct {
 	MacroChinaConsumerGoodsRetail macroChinaConsumerGoodsRetail
 	MacroChinaMoneySupply         macroChinaMoneySupply
 	PePbPsDvTotalmv               pePbPsDvTotalmv
+	PmiCx                         pmiCx
 	SH300PE                       sH300PE
 	SocialFinancingFlow           socialFinancingFlow
 	SocialFinancingStock          socialFinancingStock
@@ -96,6 +100,7 @@ func (q *Query) clone(db *gorm.DB) *Query {
 		MacroChinaConsumerGoodsRetail: q.MacroChinaConsumerGoodsRetail.clone(db),
 		MacroChinaMoneySupply:         q.MacroChinaMoneySupply.clone(db),
 		PePbPsDvTotalmv:               q.PePbPsDvTotalmv.clone(db),
+		PmiCx:                         q.PmiCx.clone(db),
 		SH300PE:                       q.SH300PE.clone(db),
 		SocialFinancingFlow:           q.SocialFinancingFlow.clone(db),
 		SocialFinancingStock:          q.SocialFinancingStock.clone(db),
@@ -122,6 +127,7 @@ func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 		MacroChinaConsumerGoodsRetail: q.MacroChinaConsumerGoodsRetail.replaceDB(db),
 		MacroChinaMoneySupply:         q.MacroChinaMoneySupply.replaceDB(db),
 		PePbPsDvTotalmv:               q.PePbPsDvTotalmv.replaceDB(db),
+		PmiCx:                         q.PmiCx.replaceDB(db),
 		SH300PE:                       q.SH300PE.replaceDB(db),
 		SocialFinancingFlow:           q.SocialFinancingFlow.replaceDB(db),
 		SocialFinancingStock:          q.SocialFinancingStock.replaceDB(db),
@@ -138,6 +144,7 @@ type queryCtx struct {
 	MacroChinaConsumerGoodsRetail *macroChinaConsumerGoodsRetailDo
 	MacroChinaMoneySupply         *macroChinaMoneySupplyDo
 	PePbPsDvTotalmv               *pePbPsDvTotalmvDo
+	PmiCx                         *pmiCxDo
 	SH300PE                       *sH300PEDo
 	SocialFinancingFlow           *socialFinancingFlowDo
 	SocialFinancingStock          *socialFinancingStockDo
@@ -154,6 +161,7 @@ func (q *Query) WithContext(ctx context.Context) *queryCtx {
 		MacroChinaConsumerGoodsRetail: q.MacroChinaConsumerGoodsRetail.WithContext(ctx),
 		MacroChinaMoneySupply:         q.MacroChinaMoneySupply.WithContext(ctx),
 		PePbPsDvTotalmv:               q.PePbPsDvTotalmv.WithContext(ctx),
+		PmiCx:                         q.PmiCx.WithContext(ctx),
 		SH300PE:                       q.SH300PE.WithContext(ctx),
 		SocialFinancingFlow:           q.SocialFinancingFlow.WithContext(ctx),
 		SocialFinancingStock:          q.SocialFinancingStock.WithContext(ctx),

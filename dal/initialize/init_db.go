@@ -59,6 +59,7 @@ func Init() {
 		initSH300PE,
 		initBondZhUsRate,
 		initCADFuturesForeignHist,
+		initCXPMI,
 	} {
 		if err := f(); err != nil {
 			if !errors.Is(err, gorm.ErrRecordNotFound) {
@@ -249,6 +250,26 @@ func initMacroChinaMoneySupply() error {
 		err = do.CreateInBatches(v, 5000)
 		if err != nil {
 			config.G_LOG.Error("find initMacroChinaMoneySupply err", zap.Any("err", err))
+			return err
+		}
+	}
+	return err
+}
+
+// 财新pmi
+func initCXPMI() error {
+	t := q.PmiCx
+	do := t.WithContext(context.Background())
+	_, err := do.First()
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		v, err := macroscopic.PmiCx()
+		if err != nil {
+			config.G_LOG.Error("find initCXPMI err", zap.Any("err", err))
+			return err
+		}
+		err = do.CreateInBatches(v, 512)
+		if err != nil {
+			config.G_LOG.Error("find initCXPMI err", zap.Any("err", err))
 			return err
 		}
 	}

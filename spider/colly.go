@@ -74,7 +74,7 @@ func CollyBondZhUsRate() {
 	if err := do.Create(res[0]); err != nil {
 		config.G_LOG.Error("CollyBondZhUsRate Create ", zap.Error(err))
 	}
-	config.G_LOG.Debug("End CollyBondZhUsRate ")
+	config.G_LOG.Debug("End CollyBondZhUsRate ", zap.Any("data", *res[0]))
 }
 
 //社会消费品零售总额
@@ -111,7 +111,7 @@ func CollyMacroChinaConsumerGoodsRetail() {
 	if err := do.Create(res[0]); err != nil {
 		config.G_LOG.Error("CollyMacroChinaConsumerGoodsRetail Create ", zap.Error(err))
 	}
-	config.G_LOG.Debug("End CollyMacroChinaConsumerGoodsRetail ")
+	config.G_LOG.Debug("End CollyMacroChinaConsumerGoodsRetail ", zap.Any("data", *res[0]))
 
 }
 
@@ -149,7 +149,7 @@ func CollyChinaMoneySupply() {
 	if err := do.Create(res[0]); err != nil {
 		config.G_LOG.Error("CollyChinaMoneySupply Create ", zap.Error(err))
 	}
-	config.G_LOG.Debug("End CollyChinaMoneySupply ")
+	config.G_LOG.Debug("End CollyChinaMoneySupply ", zap.Any("data", *res[0]))
 }
 
 // 沪深300市盈率
@@ -239,7 +239,39 @@ func CollyCNPMI() {
 	if err := do.Create(res[0]); err != nil {
 		config.G_LOG.Error("CollyCNPMI Create ", zap.Error(err))
 	}
-	config.G_LOG.Debug("End CollyCNPMI ")
+	config.G_LOG.Debug("End CollyCNPMI ", zap.Any("data", *res[0]))
+}
+
+// CXPMI
+func CollyCXPMI() {
+	config.G_LOG.Debug("CollyCXPMI CollyCNPMI ")
+	// 计算如果上月时间对比数据如已入库，则取消请求
+	t := q.PmiCx
+	do := t.WithContext(context.Background())
+	// 查询数据库是否存在最近一个月数据
+	m, err := do.Order(t.Date.Desc()).First()
+	if err != nil {
+		config.G_LOG.Error(err.Error())
+		return
+	}
+	if m.Date == utils.LastDayOfLastMonth() {
+		config.G_LOG.Error("db is exist", zap.Any("date", m.Date))
+		return
+	}
+	res, err := macroscopic.PmiCx()
+	if err != nil {
+		config.G_LOG.Error("CollyCXPMI HTTP get ", zap.Error(err))
+		return
+	}
+
+	if m.Date == res[0].Date {
+		config.G_LOG.Error("CollyCXPMI The latest data is the same as the database ", zap.Any("date", *res[0]))
+		return
+	}
+	if err := do.Create(res[0]); err != nil {
+		config.G_LOG.Error("CollyCXPMI Create ", zap.Error(err))
+	}
+	config.G_LOG.Debug("End CollyCXPMI ", zap.Any("data", *res[0]))
 }
 
 // 爬取CN GDP
@@ -274,7 +306,7 @@ func CollyCNGDP() {
 	if err := do.Create(res[0]); err != nil {
 		config.G_LOG.Error("CollyCNGDP Create ", zap.Error(err))
 	}
-	config.G_LOG.Debug("End CollyCNGDP ")
+	config.G_LOG.Debug("End CollyCNGDP ", zap.Any("data", *res[0]))
 }
 
 // 爬取CN CPI
@@ -309,7 +341,7 @@ func CollyCNCPI() {
 	if err := do.Create(res[0]); err != nil {
 		config.G_LOG.Error("CollyCNCPI Create ", zap.Error(err))
 	}
-	config.G_LOG.Debug("End CollyCNCPI ")
+	config.G_LOG.Debug("End CollyCNCPI ", zap.Any("data", *res[0]))
 }
 
 // 爬取CN社融ppi，从每月9号开始

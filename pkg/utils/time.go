@@ -19,6 +19,7 @@ func FirstDayOfLastMonth() string {
 	return start
 }
 
+// 上月最后一天
 func LastDayOfLastMonth() string {
 	year, month, _ := time.Now().Date()
 	thisMonth := time.Date(year, month, 1, 0, 0, 0, 0, time.Local)

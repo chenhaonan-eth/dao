@@ -113,3 +113,13 @@ func TestGetEastmoney(t *testing.T) {
 	}
 	t.Log(string(b))
 }
+
+func TestPmiManCx(t *testing.T) {
+	b, err := PmiCx()
+	if err != nil {
+		t.Log(err)
+	}
+	for _, v := range b {
+		t.Logf("%v", *v)
+	}
+}

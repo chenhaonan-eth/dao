@@ -182,3 +182,20 @@ type FturesFoewign struct {
 func (f *FturesFoewign) String() string {
 	return fmt.Sprintf("{date: %v, open: %v, high: %v,low: %v, close: %v, volume: %v}", f.Date, f.Open, f.High, f.Low, f.Close, f.Volume)
 }
+
+type CxPmi struct {
+	Time       float64 `json:"time"`
+	Data       float64 `json:"data"`
+	ChangeRate float64 `json:"changeRate"`
+}
+
+type PmiCx struct {
+	Date                    string `gorm:"index"`
+	Time                    float64
+	Manufacture             float64 //制造业
+	ManufactureYearOverYear float64 //环比
+	Service                 float64 //服务业
+	ServiceYearOverYear     float64 //服务业环比
+	Synthesis               float64 //综合
+	SynthesisYearOverYear   float64 //综合环比
+}
