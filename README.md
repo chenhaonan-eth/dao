@@ -32,9 +32,9 @@
 | CPI                                                                | ✔️        |
 | 国家统计局制造业采购经理人指数 NBS manufacturing PMI                  | ✔️        |
 | 国家统计局非制造业采购经理人指数 NBS non-manufacturing PMI             | ✔️       |
-| 财新制造业采购经理人指数 Caixin manufacturing PMI                     | ⭕        |
-| 财新服务采购经理人指数 Caixin service PM                              | ⭕        |
-| 工业生产 Industrial Production                                       | ⭕        |
+| 财新制造业采购经理人指数 Caixin manufacturing PMI                     | ✔️        |
+| 财新服务采购经理人指数 Caixin service PM                              | ✔️        |
+| 工业生产 Industrial Production                                       | ✔️        |
 | 电力生产与消费 Electricity Production and Consumption                 | ⭕        |
 | 商品贸易 Merchandise Trade                                           | ⭕       |
 | 政府收支及收支平衡 Government Revenue, Expenditure and Balance        | ⭕        |

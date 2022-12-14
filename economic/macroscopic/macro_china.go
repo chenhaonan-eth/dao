@@ -751,3 +751,15 @@ func PmiCx() ([]*model.PmiCx, error) {
 	})
 	return result, nil
 }
+
+// 工业生产增加值
+func ValueAddedOfIndustrialProduction() ([]*model.ValueAddedOfIndustrialProduction, error) {
+	result := []*model.ValueAddedOfIndustrialProduction{}
+	b, err := GetEastmoney("ALL", "1000", "RPT_ECONOMY_INDUS_GROW")
+	if err != nil {
+		return result, err
+	}
+	v := gjson.GetBytes(b, "result.data")
+	json.Unmarshal([]byte(v.String()), &result)
+	return result, nil
+}

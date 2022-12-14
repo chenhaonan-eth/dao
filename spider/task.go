@@ -11,6 +11,7 @@ func StartTask() {
 		CollyChinaMoneySupply()
 		CollyMacroChinaConsumerGoodsRetail()
 		CollyCNSocialFinancingFlow()
+		CollyValueAddedOfIndustrialProduction()
 	}
 
 	FuturesForeignTask := func() {
@@ -20,7 +21,10 @@ func StartTask() {
 	}
 
 	// 月初第一天10点
-	crontab.AddFunc("0 10 1 * *", func() { CollyCNPMI() })
+	crontab.AddFunc("0 10 1 * *", func() {
+		CollyCNPMI()
+		CollyCXPMI()
+	})
 	//每月9-15日上午10:00触发
 	crontab.AddFunc("0 10 9-15 * *", task)
 	// 每日9点

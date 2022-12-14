@@ -45,6 +45,10 @@ type GreeterClient interface {
 	GetMoneySupply(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*MoneySupplyResponse, error)
 	// 社会消费品零售总额
 	GetConsumerGoodsRetail(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*ConsumerGoodsRetailResponse, error)
+	// 财新PMI
+	GetCxPmi(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*CxPmiResponse, error)
+	// 工业生产增加值
+	GetValueAddedOfIndustrialProduction(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*ValueAddedOfIndustrialProductionResponse, error)
 }
 
 type greeterClient struct {
@@ -154,6 +158,24 @@ func (c *greeterClient) GetConsumerGoodsRetail(ctx context.Context, in *emptypb.
 	return out, nil
 }
 
+func (c *greeterClient) GetCxPmi(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*CxPmiResponse, error) {
+	out := new(CxPmiResponse)
+	err := c.cc.Invoke(ctx, "/server.Greeter/GetCxPmi", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *greeterClient) GetValueAddedOfIndustrialProduction(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*ValueAddedOfIndustrialProductionResponse, error) {
+	out := new(ValueAddedOfIndustrialProductionResponse)
+	err := c.cc.Invoke(ctx, "/server.Greeter/GetValueAddedOfIndustrialProduction", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // GreeterServer is the server API for Greeter service.
 // All implementations should embed UnimplementedGreeterServer
 // for forward compatibility
@@ -180,6 +202,10 @@ type GreeterServer interface {
 	GetMoneySupply(context.Context, *emptypb.Empty) (*MoneySupplyResponse, error)
 	// 社会消费品零售总额
 	GetConsumerGoodsRetail(context.Context, *emptypb.Empty) (*ConsumerGoodsRetailResponse, error)
+	// 财新PMI
+	GetCxPmi(context.Context, *emptypb.Empty) (*CxPmiResponse, error)
+	// 工业生产增加值
+	GetValueAddedOfIndustrialProduction(context.Context, *emptypb.Empty) (*ValueAddedOfIndustrialProductionResponse, error)
 }
 
 // UnimplementedGreeterServer should be embedded to have forward compatible implementations.
@@ -218,6 +244,12 @@ func (UnimplementedGreeterServer) GetMoneySupply(context.Context, *emptypb.Empty
 }
 func (UnimplementedGreeterServer) GetConsumerGoodsRetail(context.Context, *emptypb.Empty) (*ConsumerGoodsRetailResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetConsumerGoodsRetail not implemented")
+}
+func (UnimplementedGreeterServer) GetCxPmi(context.Context, *emptypb.Empty) (*CxPmiResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetCxPmi not implemented")
+}
+func (UnimplementedGreeterServer) GetValueAddedOfIndustrialProduction(context.Context, *emptypb.Empty) (*ValueAddedOfIndustrialProductionResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetValueAddedOfIndustrialProduction not implemented")
 }
 
 // UnsafeGreeterServer may be embedded to opt out of forward compatibility for this service.
@@ -429,6 +461,42 @@ func _Greeter_GetConsumerGoodsRetail_Handler(srv interface{}, ctx context.Contex
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Greeter_GetCxPmi_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(emptypb.Empty)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GreeterServer).GetCxPmi(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/server.Greeter/GetCxPmi",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GreeterServer).GetCxPmi(ctx, req.(*emptypb.Empty))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Greeter_GetValueAddedOfIndustrialProduction_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(emptypb.Empty)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GreeterServer).GetValueAddedOfIndustrialProduction(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/server.Greeter/GetValueAddedOfIndustrialProduction",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GreeterServer).GetValueAddedOfIndustrialProduction(ctx, req.(*emptypb.Empty))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Greeter_ServiceDesc is the grpc.ServiceDesc for Greeter service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -479,6 +547,14 @@ var Greeter_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetConsumerGoodsRetail",
 			Handler:    _Greeter_GetConsumerGoodsRetail_Handler,
+		},
+		{
+			MethodName: "GetCxPmi",
+			Handler:    _Greeter_GetCxPmi_Handler,
+		},
+		{
+			MethodName: "GetValueAddedOfIndustrialProduction",
+			Handler:    _Greeter_GetValueAddedOfIndustrialProduction_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

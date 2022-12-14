@@ -336,3 +336,53 @@ func (s *server) GetConsumerGoodsRetail(ctx context.Context, r *emptypb.Empty) (
 	config.G_LOG.Debug("End GetConsumerGoodsRetail ...", zap.Any("len", len(resp.Results)))
 	return resp, nil
 }
+
+func (s *server) GetCxPmi(ctx context.Context, r *emptypb.Empty) (*pb.CxPmiResponse, error) {
+	config.G_LOG.Debug("Start GetCxPmi ...")
+	t := q.PmiCx
+	do := t.WithContext(context.Background())
+	results, err := do.Order(t.Date.Desc()).Find()
+	if err != nil {
+		config.G_LOG.Error("Find err ", zap.Error(err))
+		return nil, err
+	}
+	resp := new(pb.CxPmiResponse)
+	resp.Results = make([]*pb.CxPmi, 0)
+	for _, v := range results {
+		resp.Results = append(resp.Results, &pb.CxPmi{
+			Date:                    v.Date,
+			Time:                    v.Time,
+			Manufacture:             v.Manufacture,
+			ManufactureYearOverYear: v.ManufactureYearOverYear,
+			Service:                 v.Service,
+			ServiceYearOverYear:     v.ServiceYearOverYear,
+			Synthesis:               v.Synthesis,
+			SynthesisYearOverYear:   v.SynthesisYearOverYear,
+		})
+	}
+	config.G_LOG.Debug("End GetCxPmi ...", zap.Any("len", len(resp.Results)))
+	return resp, nil
+}
+
+func (s *server) GetValueAddedOfIndustrialProduction(ctx context.Context, r *emptypb.Empty) (*pb.ValueAddedOfIndustrialProductionResponse, error) {
+	config.G_LOG.Debug("Start GetValueAddedOfIndustrialProduction ...")
+	t := q.ValueAddedOfIndustrialProduction
+	do := t.WithContext(context.Background())
+	results, err := do.Order(t.Date.Desc()).Find()
+	if err != nil {
+		config.G_LOG.Error("Find err ", zap.Error(err))
+		return nil, err
+	}
+	resp := new(pb.ValueAddedOfIndustrialProductionResponse)
+	resp.Results = make([]*pb.ValueAddedOfIndustrialProduction, 0)
+	for _, v := range results {
+		resp.Results = append(resp.Results, &pb.ValueAddedOfIndustrialProduction{
+			Date:             v.Date,
+			Time:             v.Time,
+			YearOnYear:       v.YearOnYear,
+			CumulativeGrowth: v.CumulativeGrowth,
+		})
+	}
+	config.G_LOG.Debug("End GetValueAddedOfIndustrialProduction ...", zap.Any("len", len(resp.Results)))
+	return resp, nil
+}

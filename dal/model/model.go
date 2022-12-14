@@ -199,3 +199,10 @@ type PmiCx struct {
 	Synthesis               float64 //综合
 	SynthesisYearOverYear   float64 //综合环比
 }
+
+type ValueAddedOfIndustrialProduction struct {
+	Date             string  `json:"REPORT_DATE" gorm:"index"` //2022-10-01 00:00:00
+	Time             string  `json:"TIME"`                     //2022年10月份
+	YearOnYear       float64 `json:"BASE_SAME"`                // 同比增长
+	CumulativeGrowth float64 `json:"BASE_ACCUMULATE"`          // 累计增长
+}

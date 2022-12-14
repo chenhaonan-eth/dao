@@ -242,7 +242,7 @@ func CollyCNPMI() {
 	config.G_LOG.Debug("End CollyCNPMI ", zap.Any("data", *res[0]))
 }
 
-// CXPMI
+// CXPMI 1号9：45
 func CollyCXPMI() {
 	config.G_LOG.Debug("CollyCXPMI CollyCNPMI ")
 	// 计算如果上月时间对比数据如已入库，则取消请求
@@ -629,4 +629,38 @@ func CollyCADFuturesForeignHist() {
 	do.Create(&f)
 	config.G_LOG.Debug("CollyCADFuturesForeignHist Create successful ", zap.Any("data", f))
 	config.G_LOG.Debug("End CollyCADFuturesForeignHist ")
+}
+
+func CollyValueAddedOfIndustrialProduction() {
+	config.G_LOG.Debug("Start CollyValueAddedOfIndustrialProduction ")
+	// 计算如果上月时间对比数据如已入库，则取消请求
+	t := q.ValueAddedOfIndustrialProduction
+	do := t.WithContext(context.Background())
+	// 查询数据库是否存在最近一个月数据
+	m, err := do.Order(t.Date.Desc()).First()
+	if err != nil {
+		config.G_LOG.Error(err.Error())
+		return
+	}
+	if m.Date == utils.FirstDayOfLastMonth() {
+		config.G_LOG.Error("db is exist", zap.Any("date", m.Date))
+		return
+	}
+	res := []*model.ValueAddedOfIndustrialProduction{}
+	b, err := macroscopic.GetEastmoney("ALL", "1", "RPT_ECONOMY_INDUS_GROW")
+	if err != nil {
+		config.G_LOG.Error("CollyCNPPI HTTP get ", zap.Error(err))
+		return
+	}
+	v := gjson.GetBytes(b, "result.data")
+	json.Unmarshal([]byte(v.String()), &res)
+
+	if m.Date == res[0].Date {
+		config.G_LOG.Error("CollyCNPPI The latest data is the same as the database ", zap.Any("date", *res[0]))
+		return
+	}
+	if err := do.Create(res[0]); err != nil {
+		config.G_LOG.Error("CollyCNPPI Create ", zap.Error(err))
+	}
+	config.G_LOG.Debug("End CollyCNPPI ", zap.Any("data", *res[0]))
 }

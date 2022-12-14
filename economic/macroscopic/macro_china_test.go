@@ -107,7 +107,7 @@ func TestStockSohuCom(t *testing.T) {
 }
 
 func TestGetEastmoney(t *testing.T) {
-	b, err := GetEastmoney("ALL", "1000", "RPT_ECONOMY_CPI")
+	b, err := GetEastmoney("ALL", "1000", "RPT_ECONOMY_INDUS_GROW")
 	if err != nil {
 		t.Log(err)
 	}
@@ -116,6 +116,16 @@ func TestGetEastmoney(t *testing.T) {
 
 func TestPmiManCx(t *testing.T) {
 	b, err := PmiCx()
+	if err != nil {
+		t.Log(err)
+	}
+	for _, v := range b {
+		t.Logf("%v", *v)
+	}
+}
+
+func TestValueAddedOfIndustrialProduction(t *testing.T) {
+	b, err := ValueAddedOfIndustrialProduction()
 	if err != nil {
 		t.Log(err)
 	}

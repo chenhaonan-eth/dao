@@ -180,6 +180,29 @@
         ]
       }
     },
+    "/v1/macroscopic/cx_pmi": {
+      "get": {
+        "summary": "财新PMI",
+        "operationId": "Greeter_GetCxPmi",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/serverCxPmiResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "tags": [
+          "Greeter"
+        ]
+      }
+    },
     "/v1/macroscopic/futures_foreign_hist/{symbol}": {
       "get": {
         "summary": "期货 伦铜:CAD",
@@ -266,6 +289,29 @@
             "description": "A successful response.",
             "schema": {
               "$ref": "#/definitions/serverSocialFinancingStockResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "tags": [
+          "Greeter"
+        ]
+      }
+    },
+    "/v1/macroscopic/value_added_of_industrial_production": {
+      "get": {
+        "summary": "工业生产增加值",
+        "operationId": "Greeter_GetValueAddedOfIndustrialProduction",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/serverValueAddedOfIndustrialProductionResponse"
             }
           },
           "default": {
@@ -503,6 +549,59 @@
           "type": "array",
           "items": {
             "$ref": "#/definitions/serverCpi"
+          }
+        }
+      }
+    },
+    "serverCxPmi": {
+      "type": "object",
+      "properties": {
+        "date": {
+          "type": "string"
+        },
+        "time": {
+          "type": "number",
+          "format": "double"
+        },
+        "manufacture": {
+          "type": "number",
+          "format": "double",
+          "title": "制造业"
+        },
+        "manufactureYearOverYear": {
+          "type": "number",
+          "format": "double",
+          "title": "环比"
+        },
+        "service": {
+          "type": "number",
+          "format": "double",
+          "title": "服务业"
+        },
+        "serviceYearOverYear": {
+          "type": "number",
+          "format": "double",
+          "title": "服务业环比"
+        },
+        "synthesis": {
+          "type": "number",
+          "format": "double",
+          "title": "综合"
+        },
+        "synthesisYearOverYear": {
+          "type": "number",
+          "format": "double",
+          "title": "综合环比"
+        }
+      }
+    },
+    "serverCxPmiResponse": {
+      "type": "object",
+      "properties": {
+        "results": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/serverCxPmi"
           }
         }
       }
@@ -971,6 +1070,38 @@
           "type": "array",
           "items": {
             "$ref": "#/definitions/serverSocialFinancingStock"
+          }
+        }
+      }
+    },
+    "serverValueAddedOfIndustrialProduction": {
+      "type": "object",
+      "properties": {
+        "date": {
+          "type": "string"
+        },
+        "time": {
+          "type": "string"
+        },
+        "yearOnYear": {
+          "type": "number",
+          "format": "double",
+          "title": "同比增长"
+        },
+        "cumulativeGrowth": {
+          "type": "number",
+          "format": "double",
+          "title": "累计增长"
+        }
+      }
+    },
+    "serverValueAddedOfIndustrialProductionResponse": {
+      "type": "object",
+      "properties": {
+        "results": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/serverValueAddedOfIndustrialProduction"
           }
         }
       }

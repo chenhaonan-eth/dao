@@ -16,20 +16,21 @@ import (
 )
 
 var (
-	Q                             = new(Query)
-	BondZhUsRate                  *bondZhUsRate
-	ChinaCPI                      *chinaCPI
-	ChinaGDP                      *chinaGDP
-	ChinaPMI                      *chinaPMI
-	ChinaPPI                      *chinaPPI
-	FturesFoewign                 *fturesFoewign
-	MacroChinaConsumerGoodsRetail *macroChinaConsumerGoodsRetail
-	MacroChinaMoneySupply         *macroChinaMoneySupply
-	PePbPsDvTotalmv               *pePbPsDvTotalmv
-	PmiCx                         *pmiCx
-	SH300PE                       *sH300PE
-	SocialFinancingFlow           *socialFinancingFlow
-	SocialFinancingStock          *socialFinancingStock
+	Q                                = new(Query)
+	BondZhUsRate                     *bondZhUsRate
+	ChinaCPI                         *chinaCPI
+	ChinaGDP                         *chinaGDP
+	ChinaPMI                         *chinaPMI
+	ChinaPPI                         *chinaPPI
+	FturesFoewign                    *fturesFoewign
+	MacroChinaConsumerGoodsRetail    *macroChinaConsumerGoodsRetail
+	MacroChinaMoneySupply            *macroChinaMoneySupply
+	PePbPsDvTotalmv                  *pePbPsDvTotalmv
+	PmiCx                            *pmiCx
+	SH300PE                          *sH300PE
+	SocialFinancingFlow              *socialFinancingFlow
+	SocialFinancingStock             *socialFinancingStock
+	ValueAddedOfIndustrialProduction *valueAddedOfIndustrialProduction
 )
 
 func SetDefault(db *gorm.DB, opts ...gen.DOOption) {
@@ -47,63 +48,67 @@ func SetDefault(db *gorm.DB, opts ...gen.DOOption) {
 	SH300PE = &Q.SH300PE
 	SocialFinancingFlow = &Q.SocialFinancingFlow
 	SocialFinancingStock = &Q.SocialFinancingStock
+	ValueAddedOfIndustrialProduction = &Q.ValueAddedOfIndustrialProduction
 }
 
 func Use(db *gorm.DB, opts ...gen.DOOption) *Query {
 	return &Query{
-		db:                            db,
-		BondZhUsRate:                  newBondZhUsRate(db, opts...),
-		ChinaCPI:                      newChinaCPI(db, opts...),
-		ChinaGDP:                      newChinaGDP(db, opts...),
-		ChinaPMI:                      newChinaPMI(db, opts...),
-		ChinaPPI:                      newChinaPPI(db, opts...),
-		FturesFoewign:                 newFturesFoewign(db, opts...),
-		MacroChinaConsumerGoodsRetail: newMacroChinaConsumerGoodsRetail(db, opts...),
-		MacroChinaMoneySupply:         newMacroChinaMoneySupply(db, opts...),
-		PePbPsDvTotalmv:               newPePbPsDvTotalmv(db, opts...),
-		PmiCx:                         newPmiCx(db, opts...),
-		SH300PE:                       newSH300PE(db, opts...),
-		SocialFinancingFlow:           newSocialFinancingFlow(db, opts...),
-		SocialFinancingStock:          newSocialFinancingStock(db, opts...),
+		db:                               db,
+		BondZhUsRate:                     newBondZhUsRate(db, opts...),
+		ChinaCPI:                         newChinaCPI(db, opts...),
+		ChinaGDP:                         newChinaGDP(db, opts...),
+		ChinaPMI:                         newChinaPMI(db, opts...),
+		ChinaPPI:                         newChinaPPI(db, opts...),
+		FturesFoewign:                    newFturesFoewign(db, opts...),
+		MacroChinaConsumerGoodsRetail:    newMacroChinaConsumerGoodsRetail(db, opts...),
+		MacroChinaMoneySupply:            newMacroChinaMoneySupply(db, opts...),
+		PePbPsDvTotalmv:                  newPePbPsDvTotalmv(db, opts...),
+		PmiCx:                            newPmiCx(db, opts...),
+		SH300PE:                          newSH300PE(db, opts...),
+		SocialFinancingFlow:              newSocialFinancingFlow(db, opts...),
+		SocialFinancingStock:             newSocialFinancingStock(db, opts...),
+		ValueAddedOfIndustrialProduction: newValueAddedOfIndustrialProduction(db, opts...),
 	}
 }
 
 type Query struct {
 	db *gorm.DB
 
-	BondZhUsRate                  bondZhUsRate
-	ChinaCPI                      chinaCPI
-	ChinaGDP                      chinaGDP
-	ChinaPMI                      chinaPMI
-	ChinaPPI                      chinaPPI
-	FturesFoewign                 fturesFoewign
-	MacroChinaConsumerGoodsRetail macroChinaConsumerGoodsRetail
-	MacroChinaMoneySupply         macroChinaMoneySupply
-	PePbPsDvTotalmv               pePbPsDvTotalmv
-	PmiCx                         pmiCx
-	SH300PE                       sH300PE
-	SocialFinancingFlow           socialFinancingFlow
-	SocialFinancingStock          socialFinancingStock
+	BondZhUsRate                     bondZhUsRate
+	ChinaCPI                         chinaCPI
+	ChinaGDP                         chinaGDP
+	ChinaPMI                         chinaPMI
+	ChinaPPI                         chinaPPI
+	FturesFoewign                    fturesFoewign
+	MacroChinaConsumerGoodsRetail    macroChinaConsumerGoodsRetail
+	MacroChinaMoneySupply            macroChinaMoneySupply
+	PePbPsDvTotalmv                  pePbPsDvTotalmv
+	PmiCx                            pmiCx
+	SH300PE                          sH300PE
+	SocialFinancingFlow              socialFinancingFlow
+	SocialFinancingStock             socialFinancingStock
+	ValueAddedOfIndustrialProduction valueAddedOfIndustrialProduction
 }
 
 func (q *Query) Available() bool { return q.db != nil }
 
 func (q *Query) clone(db *gorm.DB) *Query {
 	return &Query{
-		db:                            db,
-		BondZhUsRate:                  q.BondZhUsRate.clone(db),
-		ChinaCPI:                      q.ChinaCPI.clone(db),
-		ChinaGDP:                      q.ChinaGDP.clone(db),
-		ChinaPMI:                      q.ChinaPMI.clone(db),
-		ChinaPPI:                      q.ChinaPPI.clone(db),
-		FturesFoewign:                 q.FturesFoewign.clone(db),
-		MacroChinaConsumerGoodsRetail: q.MacroChinaConsumerGoodsRetail.clone(db),
-		MacroChinaMoneySupply:         q.MacroChinaMoneySupply.clone(db),
-		PePbPsDvTotalmv:               q.PePbPsDvTotalmv.clone(db),
-		PmiCx:                         q.PmiCx.clone(db),
-		SH300PE:                       q.SH300PE.clone(db),
-		SocialFinancingFlow:           q.SocialFinancingFlow.clone(db),
-		SocialFinancingStock:          q.SocialFinancingStock.clone(db),
+		db:                               db,
+		BondZhUsRate:                     q.BondZhUsRate.clone(db),
+		ChinaCPI:                         q.ChinaCPI.clone(db),
+		ChinaGDP:                         q.ChinaGDP.clone(db),
+		ChinaPMI:                         q.ChinaPMI.clone(db),
+		ChinaPPI:                         q.ChinaPPI.clone(db),
+		FturesFoewign:                    q.FturesFoewign.clone(db),
+		MacroChinaConsumerGoodsRetail:    q.MacroChinaConsumerGoodsRetail.clone(db),
+		MacroChinaMoneySupply:            q.MacroChinaMoneySupply.clone(db),
+		PePbPsDvTotalmv:                  q.PePbPsDvTotalmv.clone(db),
+		PmiCx:                            q.PmiCx.clone(db),
+		SH300PE:                          q.SH300PE.clone(db),
+		SocialFinancingFlow:              q.SocialFinancingFlow.clone(db),
+		SocialFinancingStock:             q.SocialFinancingStock.clone(db),
+		ValueAddedOfIndustrialProduction: q.ValueAddedOfIndustrialProduction.clone(db),
 	}
 }
 
@@ -117,54 +122,57 @@ func (q *Query) WriteDB() *Query {
 
 func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 	return &Query{
-		db:                            db,
-		BondZhUsRate:                  q.BondZhUsRate.replaceDB(db),
-		ChinaCPI:                      q.ChinaCPI.replaceDB(db),
-		ChinaGDP:                      q.ChinaGDP.replaceDB(db),
-		ChinaPMI:                      q.ChinaPMI.replaceDB(db),
-		ChinaPPI:                      q.ChinaPPI.replaceDB(db),
-		FturesFoewign:                 q.FturesFoewign.replaceDB(db),
-		MacroChinaConsumerGoodsRetail: q.MacroChinaConsumerGoodsRetail.replaceDB(db),
-		MacroChinaMoneySupply:         q.MacroChinaMoneySupply.replaceDB(db),
-		PePbPsDvTotalmv:               q.PePbPsDvTotalmv.replaceDB(db),
-		PmiCx:                         q.PmiCx.replaceDB(db),
-		SH300PE:                       q.SH300PE.replaceDB(db),
-		SocialFinancingFlow:           q.SocialFinancingFlow.replaceDB(db),
-		SocialFinancingStock:          q.SocialFinancingStock.replaceDB(db),
+		db:                               db,
+		BondZhUsRate:                     q.BondZhUsRate.replaceDB(db),
+		ChinaCPI:                         q.ChinaCPI.replaceDB(db),
+		ChinaGDP:                         q.ChinaGDP.replaceDB(db),
+		ChinaPMI:                         q.ChinaPMI.replaceDB(db),
+		ChinaPPI:                         q.ChinaPPI.replaceDB(db),
+		FturesFoewign:                    q.FturesFoewign.replaceDB(db),
+		MacroChinaConsumerGoodsRetail:    q.MacroChinaConsumerGoodsRetail.replaceDB(db),
+		MacroChinaMoneySupply:            q.MacroChinaMoneySupply.replaceDB(db),
+		PePbPsDvTotalmv:                  q.PePbPsDvTotalmv.replaceDB(db),
+		PmiCx:                            q.PmiCx.replaceDB(db),
+		SH300PE:                          q.SH300PE.replaceDB(db),
+		SocialFinancingFlow:              q.SocialFinancingFlow.replaceDB(db),
+		SocialFinancingStock:             q.SocialFinancingStock.replaceDB(db),
+		ValueAddedOfIndustrialProduction: q.ValueAddedOfIndustrialProduction.replaceDB(db),
 	}
 }
 
 type queryCtx struct {
-	BondZhUsRate                  *bondZhUsRateDo
-	ChinaCPI                      *chinaCPIDo
-	ChinaGDP                      *chinaGDPDo
-	ChinaPMI                      *chinaPMIDo
-	ChinaPPI                      *chinaPPIDo
-	FturesFoewign                 *fturesFoewignDo
-	MacroChinaConsumerGoodsRetail *macroChinaConsumerGoodsRetailDo
-	MacroChinaMoneySupply         *macroChinaMoneySupplyDo
-	PePbPsDvTotalmv               *pePbPsDvTotalmvDo
-	PmiCx                         *pmiCxDo
-	SH300PE                       *sH300PEDo
-	SocialFinancingFlow           *socialFinancingFlowDo
-	SocialFinancingStock          *socialFinancingStockDo
+	BondZhUsRate                     *bondZhUsRateDo
+	ChinaCPI                         *chinaCPIDo
+	ChinaGDP                         *chinaGDPDo
+	ChinaPMI                         *chinaPMIDo
+	ChinaPPI                         *chinaPPIDo
+	FturesFoewign                    *fturesFoewignDo
+	MacroChinaConsumerGoodsRetail    *macroChinaConsumerGoodsRetailDo
+	MacroChinaMoneySupply            *macroChinaMoneySupplyDo
+	PePbPsDvTotalmv                  *pePbPsDvTotalmvDo
+	PmiCx                            *pmiCxDo
+	SH300PE                          *sH300PEDo
+	SocialFinancingFlow              *socialFinancingFlowDo
+	SocialFinancingStock             *socialFinancingStockDo
+	ValueAddedOfIndustrialProduction *valueAddedOfIndustrialProductionDo
 }
 
 func (q *Query) WithContext(ctx context.Context) *queryCtx {
 	return &queryCtx{
-		BondZhUsRate:                  q.BondZhUsRate.WithContext(ctx),
-		ChinaCPI:                      q.ChinaCPI.WithContext(ctx),
-		ChinaGDP:                      q.ChinaGDP.WithContext(ctx),
-		ChinaPMI:                      q.ChinaPMI.WithContext(ctx),
-		ChinaPPI:                      q.ChinaPPI.WithContext(ctx),
-		FturesFoewign:                 q.FturesFoewign.WithContext(ctx),
-		MacroChinaConsumerGoodsRetail: q.MacroChinaConsumerGoodsRetail.WithContext(ctx),
-		MacroChinaMoneySupply:         q.MacroChinaMoneySupply.WithContext(ctx),
-		PePbPsDvTotalmv:               q.PePbPsDvTotalmv.WithContext(ctx),
-		PmiCx:                         q.PmiCx.WithContext(ctx),
-		SH300PE:                       q.SH300PE.WithContext(ctx),
-		SocialFinancingFlow:           q.SocialFinancingFlow.WithContext(ctx),
-		SocialFinancingStock:          q.SocialFinancingStock.WithContext(ctx),
+		BondZhUsRate:                     q.BondZhUsRate.WithContext(ctx),
+		ChinaCPI:                         q.ChinaCPI.WithContext(ctx),
+		ChinaGDP:                         q.ChinaGDP.WithContext(ctx),
+		ChinaPMI:                         q.ChinaPMI.WithContext(ctx),
+		ChinaPPI:                         q.ChinaPPI.WithContext(ctx),
+		FturesFoewign:                    q.FturesFoewign.WithContext(ctx),
+		MacroChinaConsumerGoodsRetail:    q.MacroChinaConsumerGoodsRetail.WithContext(ctx),
+		MacroChinaMoneySupply:            q.MacroChinaMoneySupply.WithContext(ctx),
+		PePbPsDvTotalmv:                  q.PePbPsDvTotalmv.WithContext(ctx),
+		PmiCx:                            q.PmiCx.WithContext(ctx),
+		SH300PE:                          q.SH300PE.WithContext(ctx),
+		SocialFinancingFlow:              q.SocialFinancingFlow.WithContext(ctx),
+		SocialFinancingStock:             q.SocialFinancingStock.WithContext(ctx),
+		ValueAddedOfIndustrialProduction: q.ValueAddedOfIndustrialProduction.WithContext(ctx),
 	}
 }
 

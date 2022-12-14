@@ -60,6 +60,7 @@ func Init() {
 		initBondZhUsRate,
 		initCADFuturesForeignHist,
 		initCXPMI,
+		initValueAddedOfIndustrialProduction,
 	} {
 		if err := f(); err != nil {
 			if !errors.Is(err, gorm.ErrRecordNotFound) {
@@ -402,6 +403,27 @@ func initMacroPpi() error {
 		err = do.CreateInBatches(v, 1024)
 		if err != nil {
 			config.G_LOG.Error("CreateInBatches initMacroPpi err", zap.Any("err", err))
+			return err
+		}
+	}
+	return err
+}
+
+//	工业生产增加值
+func initValueAddedOfIndustrialProduction() error {
+	t := q.ValueAddedOfIndustrialProduction
+	do := t.WithContext(context.Background())
+
+	_, err := do.First()
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		v, err := macroscopic.ValueAddedOfIndustrialProduction()
+		if err != nil {
+			config.G_LOG.Error("find initValueAddedOfIndustrialProduction err", zap.Any("err", err))
+			return err
+		}
+		err = do.CreateInBatches(v, 512)
+		if err != nil {
+			config.G_LOG.Error("CreateInBatches initValueAddedOfIndustrialProduction err", zap.Any("err", err))
 			return err
 		}
 	}

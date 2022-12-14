@@ -79,7 +79,8 @@ message Gdp {
   double primaryIndustry = 5; // 第一产业增加值（亿元）
   double primaryIndustryYearOnYear = 6; // 第一产业增加值季度累计同比增长（%）
   double secondaryIndustries = 7; // 第二产业增加值（亿元）
-  double secondaryIndustriesYearOnYear = 8; // 第二产业增加值季度累计同比增长（%）
+  double secondaryIndustriesYearOnYear =
+      8; // 第二产业增加值季度累计同比增长（%）
   double tertiaryIndustry = 9; // 第三产业增加值（亿元）
   double tertiaryIndustryYearOnYear = 10; // 第三产业增加值季度累计同比增长（%）
 }
@@ -105,11 +106,11 @@ message Cpi {
   double city = 7;                 // 城市当月
   double cityYearOnYear = 8;       // 城市同比增加(%)
   double cityYearOverYear = 9;     // 城市环比增长(%)
-  double cityAccumulative = 10;     // 城市累计
-  double rural = 11;                // 农村当月
-  double ruralYearOnYear = 12;      // 农村同比增加(%)
-  double ruralYearOverYear = 13;    // 农村环比增长(%)
-  double ruralAccumulative = 14;    // 农村累计
+  double cityAccumulative = 10;    // 城市累计
+  double rural = 11;               // 农村当月
+  double ruralYearOnYear = 12;     // 农村同比增加(%)
+  double ruralYearOverYear = 13;   // 农村环比增长(%)
+  double ruralAccumulative = 14;   // 农村累计
 }
 
 // 中美国债
@@ -145,7 +146,7 @@ message SocialFinancingFlow {
 }
 message SH300PEResponse { repeated SH300PE results = 1; }
 message SH300PE {
-  double date = 1;        // 时间
+  double date = 1; // 时间
   string time = 2;
   double middleLyrPe = 3; //沪深300静态市盈率中位数
   double lyrPe = 4;       //沪深300静态市盈率等权平均
@@ -180,6 +181,29 @@ message ConsumerGoodsRetail {
   double totalAccumulation = 5;           // 累计/ %
   double totalAccumulationYearOnYear = 6; // 累计同比增长/ %
 }
+
+message CxPmiResponse { repeated CxPmi results = 1; }
+message CxPmi {
+  string date = 1;
+  double time = 2;
+  double manufacture = 3;             //制造业
+  double manufactureYearOverYear = 4; //环比
+  double service = 5;                 //服务业
+  double serviceYearOverYear = 6;     //服务业环比
+  double synthesis = 7;               //综合
+  double synthesisYearOverYear = 8;   //综合环比
+}
+
+message ValueAddedOfIndustrialProductionResponse {
+  repeated ValueAddedOfIndustrialProduction results = 1;
+}
+message ValueAddedOfIndustrialProduction {
+  string date = 1;
+  string time = 2;
+  double yearOnYear = 3;       // 同比增长
+  double cumulativeGrowth = 4; // 累计增长
+}
+
 service Greeter {
   // 沪深300市盈率
   rpc GetSH300PE(google.protobuf.Empty) returns (SH300PEResponse) {
@@ -259,6 +283,21 @@ service Greeter {
       returns (ConsumerGoodsRetailResponse) {
     option (google.api.http) = {
       get : "/v1/macroscopic/consumer_goods_retail"
+    };
+  }
+
+  // 财新PMI
+  rpc GetCxPmi(google.protobuf.Empty) returns (CxPmiResponse) {
+    option (google.api.http) = {
+      get : "/v1/macroscopic/cx_pmi"
+    };
+  }
+
+  // 工业生产增加值
+  rpc GetValueAddedOfIndustrialProduction(google.protobuf.Empty)
+      returns (ValueAddedOfIndustrialProductionResponse) {
+    option (google.api.http) = {
+      get : "/v1/macroscopic/value_added_of_industrial_production"
     };
   }
 }
