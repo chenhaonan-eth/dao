@@ -28,6 +28,7 @@ var (
 	PePbPsDvTotalmv                  *pePbPsDvTotalmv
 	PmiCx                            *pmiCx
 	SH300PE                          *sH300PE
+	SocialElectricityConsumption     *socialElectricityConsumption
 	SocialFinancingFlow              *socialFinancingFlow
 	SocialFinancingStock             *socialFinancingStock
 	ValueAddedOfIndustrialProduction *valueAddedOfIndustrialProduction
@@ -46,6 +47,7 @@ func SetDefault(db *gorm.DB, opts ...gen.DOOption) {
 	PePbPsDvTotalmv = &Q.PePbPsDvTotalmv
 	PmiCx = &Q.PmiCx
 	SH300PE = &Q.SH300PE
+	SocialElectricityConsumption = &Q.SocialElectricityConsumption
 	SocialFinancingFlow = &Q.SocialFinancingFlow
 	SocialFinancingStock = &Q.SocialFinancingStock
 	ValueAddedOfIndustrialProduction = &Q.ValueAddedOfIndustrialProduction
@@ -65,6 +67,7 @@ func Use(db *gorm.DB, opts ...gen.DOOption) *Query {
 		PePbPsDvTotalmv:                  newPePbPsDvTotalmv(db, opts...),
 		PmiCx:                            newPmiCx(db, opts...),
 		SH300PE:                          newSH300PE(db, opts...),
+		SocialElectricityConsumption:     newSocialElectricityConsumption(db, opts...),
 		SocialFinancingFlow:              newSocialFinancingFlow(db, opts...),
 		SocialFinancingStock:             newSocialFinancingStock(db, opts...),
 		ValueAddedOfIndustrialProduction: newValueAddedOfIndustrialProduction(db, opts...),
@@ -85,6 +88,7 @@ type Query struct {
 	PePbPsDvTotalmv                  pePbPsDvTotalmv
 	PmiCx                            pmiCx
 	SH300PE                          sH300PE
+	SocialElectricityConsumption     socialElectricityConsumption
 	SocialFinancingFlow              socialFinancingFlow
 	SocialFinancingStock             socialFinancingStock
 	ValueAddedOfIndustrialProduction valueAddedOfIndustrialProduction
@@ -106,6 +110,7 @@ func (q *Query) clone(db *gorm.DB) *Query {
 		PePbPsDvTotalmv:                  q.PePbPsDvTotalmv.clone(db),
 		PmiCx:                            q.PmiCx.clone(db),
 		SH300PE:                          q.SH300PE.clone(db),
+		SocialElectricityConsumption:     q.SocialElectricityConsumption.clone(db),
 		SocialFinancingFlow:              q.SocialFinancingFlow.clone(db),
 		SocialFinancingStock:             q.SocialFinancingStock.clone(db),
 		ValueAddedOfIndustrialProduction: q.ValueAddedOfIndustrialProduction.clone(db),
@@ -134,6 +139,7 @@ func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 		PePbPsDvTotalmv:                  q.PePbPsDvTotalmv.replaceDB(db),
 		PmiCx:                            q.PmiCx.replaceDB(db),
 		SH300PE:                          q.SH300PE.replaceDB(db),
+		SocialElectricityConsumption:     q.SocialElectricityConsumption.replaceDB(db),
 		SocialFinancingFlow:              q.SocialFinancingFlow.replaceDB(db),
 		SocialFinancingStock:             q.SocialFinancingStock.replaceDB(db),
 		ValueAddedOfIndustrialProduction: q.ValueAddedOfIndustrialProduction.replaceDB(db),
@@ -152,6 +158,7 @@ type queryCtx struct {
 	PePbPsDvTotalmv                  *pePbPsDvTotalmvDo
 	PmiCx                            *pmiCxDo
 	SH300PE                          *sH300PEDo
+	SocialElectricityConsumption     *socialElectricityConsumptionDo
 	SocialFinancingFlow              *socialFinancingFlowDo
 	SocialFinancingStock             *socialFinancingStockDo
 	ValueAddedOfIndustrialProduction *valueAddedOfIndustrialProductionDo
@@ -170,6 +177,7 @@ func (q *Query) WithContext(ctx context.Context) *queryCtx {
 		PePbPsDvTotalmv:                  q.PePbPsDvTotalmv.WithContext(ctx),
 		PmiCx:                            q.PmiCx.WithContext(ctx),
 		SH300PE:                          q.SH300PE.WithContext(ctx),
+		SocialElectricityConsumption:     q.SocialElectricityConsumption.WithContext(ctx),
 		SocialFinancingFlow:              q.SocialFinancingFlow.WithContext(ctx),
 		SocialFinancingStock:             q.SocialFinancingStock.WithContext(ctx),
 		ValueAddedOfIndustrialProduction: q.ValueAddedOfIndustrialProduction.WithContext(ctx),

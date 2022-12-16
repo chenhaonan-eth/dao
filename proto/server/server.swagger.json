@@ -257,6 +257,29 @@
         ]
       }
     },
+    "/v1/macroscopic/social_electricity_consumption": {
+      "get": {
+        "summary": "工业生产增加值",
+        "operationId": "Greeter_GetSocialElectricityConsumption",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/serverSocialElectricityConsumptionResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "tags": [
+          "Greeter"
+        ]
+      }
+    },
     "/v1/macroscopic/social_financing_flows": {
       "get": {
         "summary": "社会融资总量",
@@ -912,6 +935,89 @@
           "type": "array",
           "items": {
             "$ref": "#/definitions/serverSH300PE"
+          }
+        }
+      }
+    },
+    "serverSocialElectricityConsumption": {
+      "type": "object",
+      "properties": {
+        "date": {
+          "type": "string"
+        },
+        "wholeSociety": {
+          "type": "string",
+          "title": "全社会用电量/万千瓦时"
+        },
+        "wholeSocietyYearOnYear": {
+          "type": "string",
+          "title": "全社会用电量同比 %"
+        },
+        "allIndustries": {
+          "type": "string",
+          "title": "各行业用电量合计/万千瓦时"
+        },
+        "allIndustriesYearOnYear": {
+          "type": "string",
+          "title": "各行业用电量合计同比 %"
+        },
+        "primaryIndustry": {
+          "type": "string",
+          "title": "第一产业用电量 万千瓦时"
+        },
+        "primaryIndustryYearOnYear": {
+          "type": "string",
+          "title": "第一产业用电量同比%"
+        },
+        "secondaryIndustry": {
+          "type": "string",
+          "title": "第二产业用电量 万千瓦时"
+        },
+        "secondaryIndustryYearOnYear": {
+          "type": "string",
+          "title": "第二产业用电量同比%"
+        },
+        "tertiaryIndustry": {
+          "type": "string",
+          "title": "第三产业用电量万千瓦时"
+        },
+        "tertiaryIndustryYearOnYear": {
+          "type": "string",
+          "title": "第三产业用电量同比%"
+        },
+        "citiesAndVillages": {
+          "type": "string",
+          "title": "城乡居民生活用电量合计/ 万千瓦时"
+        },
+        "citiesAndVillagesYearOnYear": {
+          "type": "string",
+          "title": "城乡居民生活用电量合计同比 %"
+        },
+        "cities": {
+          "type": "string",
+          "title": "城镇居民用电量 万千瓦时"
+        },
+        "citiesYearOnYear": {
+          "type": "string",
+          "title": "城镇居民用电量同比%"
+        },
+        "villages": {
+          "type": "string",
+          "title": "乡村居民用电量 万千瓦时"
+        },
+        "villagesYearOnYear": {
+          "type": "string",
+          "title": "乡村居民用电量同比 %"
+        }
+      }
+    },
+    "serverSocialElectricityConsumptionResponse": {
+      "type": "object",
+      "properties": {
+        "results": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/serverSocialElectricityConsumption"
           }
         }
       }

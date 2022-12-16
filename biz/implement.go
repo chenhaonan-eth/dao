@@ -386,3 +386,40 @@ func (s *server) GetValueAddedOfIndustrialProduction(ctx context.Context, r *emp
 	config.G_LOG.Debug("End GetValueAddedOfIndustrialProduction ...", zap.Any("len", len(resp.Results)))
 	return resp, nil
 }
+
+func (s *server) GetSocialElectricityConsumption(ctx context.Context, r *emptypb.Empty) (*pb.SocialElectricityConsumptionResponse, error) {
+	config.G_LOG.Debug("Start GetSocialElectricityConsumption ...")
+	t := q.SocialElectricityConsumption
+	do := t.WithContext(context.Background())
+	results, err := do.Order(t.Date.Desc()).Find()
+	if err != nil {
+		config.G_LOG.Error("Find err ", zap.Error(err))
+		return nil, err
+	}
+	resp := new(pb.SocialElectricityConsumptionResponse)
+	resp.Results = make([]*pb.SocialElectricityConsumption, 0)
+	for _, v := range results {
+		resp.Results = append(resp.Results, &pb.SocialElectricityConsumption{
+			Date:                        v.Date,
+			WholeSociety:                v.WholeSociety,
+			WholeSocietyYearOnYear:      v.WholeSocietyYearOnYear,
+			AllIndustries:               v.AllIndustries,               //各行业用电量
+			AllIndustriesYearOnYear:     v.AllIndustriesYearOnYear,     //各行业用电量合计同比 %
+			PrimaryIndustry:             v.PrimaryIndustry,             //第一产业用电量 万千瓦时
+			PrimaryIndustryYearOnYear:   v.PrimaryIndustryYearOnYear,   //第一产业用电量同比%
+			SecondaryIndustry:           v.SecondaryIndustry,           //第二产业用电量 万千瓦时
+			SecondaryIndustryYearOnYear: v.SecondaryIndustryYearOnYear, //第二产业用电量同比%
+			TertiaryIndustry:            v.TertiaryIndustry,            //第三产业用电量万千瓦时
+			TertiaryIndustryYearOnYear:  v.TertiaryIndustryYearOnYear,  //第三产业用电量同比%
+			CitiesAndVillages:           v.CitiesAndVillages,           //城乡居民生活用电量合计/ 万千瓦时
+			CitiesAndVillagesYearOnYear: v.CitiesAndVillagesYearOnYear, //城乡居民生活用电量合计同比 %
+			Cities:                      v.Cities,                      //城镇居民用电量 万千瓦时
+			CitiesYearOnYear:            v.CitiesYearOnYear,            //城镇居民用电量同比%
+			Villages:                    v.Villages,                    //乡村居民用电量 万千瓦时
+			VillagesYearOnYear:          v.VillagesYearOnYear,          //乡村居民用电量同比 %
+
+		})
+	}
+	config.G_LOG.Debug("End GetSocialElectricityConsumption ...", zap.Any("len", len(resp.Results)))
+	return resp, nil
+}

@@ -5,12 +5,15 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"log"
+	"reflect"
 	"sort"
 	"strconv"
 	"strings"
 	"time"
 
 	"github.com/chenhaonan-eth/dao/dal/model"
+	"github.com/chenhaonan-eth/dao/pkg/utils"
 	"github.com/go-resty/resty/v2"
 	"github.com/robertkrimen/otto"
 	"github.com/shopspring/decimal"
@@ -762,4 +765,80 @@ func ValueAddedOfIndustrialProduction() ([]*model.ValueAddedOfIndustrialProducti
 	v := gjson.GetBytes(b, "result.data")
 	json.Unmarshal([]byte(v.String()), &result)
 	return result, nil
+}
+
+func GetSocialElectricityConsumption(num, from string) ([]byte, error) {
+	t := time.Now().UnixMilli()
+	st := strconv.FormatInt(t, 10)
+	resp, err := Client.R().
+		SetQueryParams(map[string]string{
+			"cate":      "industry",
+			"event":     "6",
+			"from":      from,
+			"num":       num,
+			"condition": "",
+			"_":         st,
+		}).
+		Get("https://quotes.sina.cn/mac/api/jsonp_v3.php/SINAREMOTECALLCALLBACK1671102964958/MacPage_Service.get_pagedata")
+	if err != nil {
+		return resp.Body(), err
+	}
+	byBody := resp.Body()
+	return byBody, nil
+}
+
+// 全社会用电
+func SocialElectricityConsumption() ([]*model.SocialElectricityConsumption, error) {
+	listVal := []*model.SocialElectricityConsumption{}
+	byBody, err := GetSocialElectricityConsumption("1", "0")
+	if err != nil {
+		return listVal, err
+	}
+	b := byBody[bytes.LastIndexAny([]byte(byBody), "c")+7 : bytes.LastIndexAny([]byte(byBody), "da")-5]
+	aByteToInt, err := strconv.Atoi(string(b))
+	if err != nil {
+		return listVal, err
+	}
+	// 获取数据总数量
+	for i := 0; i <= aByteToInt/31; i++ {
+		form := fmt.Sprintf("%d", i*31)
+		byBody, err = GetSocialElectricityConsumption("31", form)
+		if err != nil {
+			return listVal, err
+		}
+		b = byBody[bytes.LastIndexAny([]byte(byBody), "data:")+1 : bytes.LastIndexAny([]byte(byBody), "}")]
+		strList := make([][]string, 0)
+		err = json.Unmarshal([]byte(b), &strList)
+		if err != nil {
+			return listVal, nil
+		}
+		for _, v := range strList {
+			m := model.SocialElectricityConsumption{}
+			ivalue := reflect.ValueOf(&m).Elem()
+			for i, v := range v {
+				if i == 0 {
+					elem := ivalue.Field(0)
+					var ti time.Time
+					if len(v) == 7 {
+						ti, err = time.Parse("2006.01", v)
+						if err != nil {
+							log.Println(err)
+						}
+					} else {
+						ti, err = time.Parse("2006.1", v)
+						if err != nil {
+							log.Println(err)
+						}
+					}
+					elem.SetString(ti.Format(utils.DATE_FORMAT))
+					continue
+				}
+				elem := ivalue.Field(i)
+				elem.SetString(strings.TrimSpace(v))
+			}
+			listVal = append(listVal, &m)
+		}
+	}
+
+	return listVal, nil
 }

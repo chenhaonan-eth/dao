@@ -206,3 +206,23 @@ type ValueAddedOfIndustrialProduction struct {
 	YearOnYear       float64 `json:"BASE_SAME"`                // 同比增长
 	CumulativeGrowth float64 `json:"BASE_ACCUMULATE"`          // 累计增长
 }
+
+type SocialElectricityConsumption struct {
+	Date                        string `gorm:"index"`
+	WholeSociety                string //全社会用电量/万千瓦时
+	WholeSocietyYearOnYear      string //全社会用电量同比 %
+	AllIndustries               string //各行业用电量合计/万千瓦时
+	AllIndustriesYearOnYear     string //各行业用电量合计同比 %
+	PrimaryIndustry             string //第一产业用电量 万千瓦时
+	PrimaryIndustryYearOnYear   string //第一产业用电量同比%
+	SecondaryIndustry           string //第二产业用电量 万千瓦时
+	SecondaryIndustryYearOnYear string //第二产业用电量同比%
+	TertiaryIndustry            string //第三产业用电量万千瓦时
+	TertiaryIndustryYearOnYear  string //第三产业用电量同比%
+	CitiesAndVillages           string //城乡居民生活用电量合计/ 万千瓦时
+	CitiesAndVillagesYearOnYear string //城乡居民生活用电量合计同比 %
+	Cities                      string //城镇居民用电量 万千瓦时
+	CitiesYearOnYear            string //城镇居民用电量同比%
+	Villages                    string //乡村居民用电量 万千瓦时
+	VillagesYearOnYear          string //乡村居民用电量同比 %
+}

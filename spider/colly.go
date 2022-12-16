@@ -1,6 +1,7 @@
 package spider
 
 import (
+	"bytes"
 	"context"
 	"encoding/json"
 	"errors"
@@ -631,6 +632,7 @@ func CollyCADFuturesForeignHist() {
 	config.G_LOG.Debug("End CollyCADFuturesForeignHist ")
 }
 
+//工业生产增加值
 func CollyValueAddedOfIndustrialProduction() {
 	config.G_LOG.Debug("Start CollyValueAddedOfIndustrialProduction ")
 	// 计算如果上月时间对比数据如已入库，则取消请求
@@ -663,4 +665,69 @@ func CollyValueAddedOfIndustrialProduction() {
 		config.G_LOG.Error("CollyCNPPI Create ", zap.Error(err))
 	}
 	config.G_LOG.Debug("End CollyCNPPI ", zap.Any("data", *res[0]))
+}
+
+// 全社会用电
+func CollySocialElectricityConsumption() {
+	config.G_LOG.Debug("Start CollySocialElectricityConsumption ")
+	// 计算如果上月时间对比数据如已入库，则取消请求
+	t := q.SocialElectricityConsumption
+	do := t.WithContext(context.Background())
+	// 查询数据库是否存在最近一个月数据
+	m, err := do.Order(t.Date.Desc()).First()
+	if err != nil {
+		config.G_LOG.Error(err.Error())
+		return
+	}
+	if m.Date == utils.FirstDayOfLastMonth() {
+		config.G_LOG.Error("db is exist", zap.Any("date", m.Date))
+		return
+	}
+	res := []*model.SocialElectricityConsumption{}
+	byBody, err := macroscopic.GetSocialElectricityConsumption("1", "0")
+	if err != nil {
+		config.G_LOG.Error("CollySocialElectricityConsumption HTTP get ", zap.Error(err))
+		return
+	}
+	b := byBody[bytes.LastIndexAny([]byte(byBody), "data:")+1 : bytes.LastIndexAny([]byte(byBody), "}")]
+	strList := make([][]string, 0)
+	err = json.Unmarshal([]byte(b), &strList)
+	if err != nil {
+		config.G_LOG.Error("CollySocialElectricityConsumption ", zap.Error(err))
+		return
+	}
+	for _, v := range strList {
+		m := model.SocialElectricityConsumption{}
+		ivalue := reflect.ValueOf(&m).Elem()
+		for i, v := range v {
+			if i == 0 {
+				elem := ivalue.Field(0)
+				var ti time.Time
+				if len(v) == 7 {
+					ti, err = time.Parse("2006.01", v)
+					if err != nil {
+						log.Println(err)
+					}
+				} else {
+					ti, err = time.Parse("2006.1", v)
+					if err != nil {
+						log.Println(err)
+					}
+				}
+				elem.SetString(ti.Format(utils.DATE_FORMAT))
+				continue
+			}
+			elem := ivalue.Field(i)
+			elem.SetString(strings.TrimSpace(v))
+		}
+		res = append(res, &m)
+	}
+	if m.Date == res[0].Date {
+		config.G_LOG.Error("CollySocialElectricityConsumption The latest data is the same as the database ", zap.Any("date", *res[0]))
+		return
+	}
+	if err := do.Create(res[0]); err != nil {
+		config.G_LOG.Error("CollySocialElectricityConsumption Create ", zap.Error(err))
+	}
+	config.G_LOG.Debug("End CollySocialElectricityConsumption ", zap.Any("data", *res[0]))
 }

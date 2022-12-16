@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"log"
+	"math/rand"
 	"reflect"
 	"strconv"
 	"strings"
@@ -61,7 +62,11 @@ func Init() {
 		initCADFuturesForeignHist,
 		initCXPMI,
 		initValueAddedOfIndustrialProduction,
+		initSocialElectricityConsumption,
 	} {
+		// 加入延迟请求
+		num := rand.Int31n(100)
+		time.Sleep(time.Duration(num) * time.Millisecond)
 		if err := f(); err != nil {
 			if !errors.Is(err, gorm.ErrRecordNotFound) {
 				config.G_LOG.Error("init db ", zap.Error(err))
@@ -403,6 +408,27 @@ func initMacroPpi() error {
 		err = do.CreateInBatches(v, 1024)
 		if err != nil {
 			config.G_LOG.Error("CreateInBatches initMacroPpi err", zap.Any("err", err))
+			return err
+		}
+	}
+	return err
+}
+
+//	全社会用电
+func initSocialElectricityConsumption() error {
+	t := q.SocialElectricityConsumption
+	do := t.WithContext(context.Background())
+
+	_, err := do.First()
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		v, err := macroscopic.SocialElectricityConsumption()
+		if err != nil {
+			config.G_LOG.Error("find initSocialElectricityConsumption err", zap.Any("err", err))
+			return err
+		}
+		err = do.CreateInBatches(v, 1024)
+		if err != nil {
+			config.G_LOG.Error("CreateInBatches initSocialElectricityConsumption err", zap.Any("err", err))
 			return err
 		}
 	}

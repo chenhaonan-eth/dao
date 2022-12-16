@@ -203,6 +203,30 @@ message ValueAddedOfIndustrialProduction {
   double yearOnYear = 3;       // 同比增长
   double cumulativeGrowth = 4; // 累计增长
 }
+message SocialElectricityConsumptionResponse {
+  repeated SocialElectricityConsumption results = 1;
+}
+message SocialElectricityConsumption{
+	string date                 = 1;        
+	string wholeSociety          = 2;       //全社会用电量/万千瓦时
+	string wholeSocietyYearOnYear   = 3;    //全社会用电量同比 %
+	string allIndustries             = 4;   //各行业用电量合计/万千瓦时
+	string allIndustriesYearOnYear  = 5;    //各行业用电量合计同比 %
+	string primaryIndustry           = 6;   //第一产业用电量 万千瓦时
+	string primaryIndustryYearOnYear = 7;   //第一产业用电量同比%
+	string secondaryIndustry          = 8;  //第二产业用电量 万千瓦时
+	string secondaryIndustryYearOnYear = 9; //第二产业用电量同比%
+	string tertiaryIndustry            = 10; //第三产业用电量万千瓦时
+	string tertiaryIndustryYearOnYear  = 11; //第三产业用电量同比%
+	string citiesAndVillages           = 12; //城乡居民生活用电量合计/ 万千瓦时
+	string citiesAndVillagesYearOnYear = 13; //城乡居民生活用电量合计同比 %
+	string cities                       = 14;//城镇居民用电量 万千瓦时
+	string citiesYearOnYear            = 15; //城镇居民用电量同比%
+	string villages                    = 16; //乡村居民用电量 万千瓦时
+	string villagesYearOnYear          = 17; //乡村居民用电量同比 %
+
+}
+
 
 service Greeter {
   // 沪深300市盈率
@@ -298,6 +322,14 @@ service Greeter {
       returns (ValueAddedOfIndustrialProductionResponse) {
     option (google.api.http) = {
       get : "/v1/macroscopic/value_added_of_industrial_production"
+    };
+  }
+
+  // 工业生产增加值
+  rpc GetSocialElectricityConsumption(google.protobuf.Empty)
+      returns (SocialElectricityConsumptionResponse) {
+    option (google.api.http) = {
+      get : "/v1/macroscopic/social_electricity_consumption"
     };
   }
 }
