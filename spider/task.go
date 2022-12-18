@@ -22,6 +22,7 @@ func StartTask() {
 		CollyCNSocialFinancingFlow()
 		CollyValueAddedOfIndustrialProduction()
 		CollySocialElectricityConsumption()
+		CollyPassengerAndFreightTraffic()
 	}
 
 	FuturesForeignTask := func() {

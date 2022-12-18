@@ -18,6 +18,7 @@ import (
 	"github.com/robertkrimen/otto"
 	"github.com/shopspring/decimal"
 	"github.com/tidwall/gjson"
+	"golang.org/x/text/encoding/simplifiedchinese"
 )
 
 var Client = resty.New()
@@ -794,7 +795,7 @@ func SocialElectricityConsumption() ([]*model.SocialElectricityConsumption, erro
 	if err != nil {
 		return listVal, err
 	}
-	b := byBody[bytes.LastIndexAny([]byte(byBody), "c")+7 : bytes.LastIndexAny([]byte(byBody), "da")-5]
+	b := byBody[bytes.LastIndexAny(byBody, "c")+7 : bytes.LastIndexAny(byBody, "da")-5]
 	aByteToInt, err := strconv.Atoi(string(b))
 	if err != nil {
 		return listVal, err
@@ -806,7 +807,7 @@ func SocialElectricityConsumption() ([]*model.SocialElectricityConsumption, erro
 		if err != nil {
 			return listVal, err
 		}
-		b = byBody[bytes.LastIndexAny([]byte(byBody), "data:")+1 : bytes.LastIndexAny([]byte(byBody), "}")]
+		b = byBody[bytes.LastIndexAny(byBody, "data:")+1 : bytes.LastIndexAny(byBody, "}")]
 		strList := make([][]string, 0)
 		err = json.Unmarshal([]byte(b), &strList)
 		if err != nil {
@@ -840,5 +841,104 @@ func SocialElectricityConsumption() ([]*model.SocialElectricityConsumption, erro
 		}
 	}
 
+	return listVal, nil
+}
+
+func GetPassengerAndFreightTraffic(num, from string) ([]byte, error) {
+	t := time.Now().UnixMilli()
+	st := strconv.FormatInt(t, 10)
+	resp, err := Client.R().
+		SetQueryParams(map[string]string{
+			"cate":      "industry",
+			"event":     "10",
+			"from":      from,
+			"num":       num,
+			"condition": "",
+			"_":         st,
+		}).
+		Get("https://quotes.sina.cn/mac/api/jsonp_v3.php/SINAREMOTECALLCALLBACK1671270562484/MacPage_Service.get_pagedata")
+	if err != nil {
+		return resp.Body(), err
+	}
+	byBody := resp.Body()
+	return byBody, nil
+}
+
+// 全社会客货运输量
+func PassengerAndFreightTraffic() ([]*model.PassengerAndFreightTraffic, error) {
+	listVal := []*model.PassengerAndFreightTraffic{}
+	// 获取数据总数量
+	for i := 0; i <= 1; i++ {
+		form := fmt.Sprintf("%d", i*1000)
+		byBody, err := GetPassengerAndFreightTraffic("1000", form)
+		if err != nil {
+			return listVal, err
+		}
+		// fmt.Println("isGBK:", utils.IsGBK(byBody))
+		utf8Data, _ := simplifiedchinese.GBK.NewDecoder().Bytes(byBody)
+		strBody := string(utf8Data)
+		b := strBody[strings.LastIndex(strBody, "'非累计':")+12 : strings.LastIndex(strBody, ",'累计")]
+		strList := make([][]string, 0)
+		err = json.Unmarshal([]byte(b), &strList)
+		if err != nil {
+			return listVal, nil
+		}
+		for _, v := range strList {
+			m := model.PassengerAndFreightTraffic{}
+			ivalue := reflect.ValueOf(&m).Elem()
+			for i, v := range v {
+				elem := ivalue.Field(i)
+				if i == 0 {
+					// elem := ivalue.Field(0)
+					var ti time.Time
+					if len(v) == 7 {
+						ti, err = time.Parse("2006.01", v)
+						if err != nil {
+							log.Println(err)
+						}
+					} else {
+						ti, err = time.Parse("2006.1", v)
+						if err != nil {
+							log.Println(err)
+						}
+					}
+					elem.SetString(ti.Format(utils.DATE_FORMAT))
+					continue
+				} else if i == 1 {
+					// elem := ivalue.Field(i)
+					switch v {
+					case "国际航线":
+						elem.SetInt(int64(model.CategoryOfTraffic_InternationalService))
+						continue
+					case "港澳地区航线":
+						elem.SetInt(int64(model.CategoryOfTraffic_HongKongMacaoRegionalRoute))
+						continue
+					case "国内航线":
+						elem.SetInt(int64(model.CategoryOfTraffic_DomesticAirline))
+						continue
+					case "民航":
+						elem.SetInt(int64(model.CategoryOfTraffic_CivilAviation))
+						continue
+					case "水运":
+						elem.SetInt(int64(model.CategoryOfTraffic_WaterTransport))
+						continue
+					case "公路":
+						elem.SetInt(int64(model.CategoryOfTraffic_Highway))
+						continue
+					case "铁路":
+						elem.SetInt(int64(model.CategoryOfTraffic_Railway))
+						continue
+					case "合计":
+						elem.SetInt(int64(model.CategoryOfTraffic_Total))
+						continue
+					default:
+						continue
+					}
+				}
+				elem.SetString(strings.TrimSpace(v))
+			}
+			listVal = append(listVal, &m)
+		}
+	}
 	return listVal, nil
 }

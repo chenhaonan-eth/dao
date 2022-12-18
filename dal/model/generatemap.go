@@ -19,4 +19,6 @@ func init() {
 	OpArgsMap["CxPmi"] = &PmiCx{}
 	OpArgsMap["ValueAddedOfIndustrialProduction"] = &ValueAddedOfIndustrialProduction{}
 	OpArgsMap["	SocialElectricityConsumption"] = &SocialElectricityConsumption{}
+	OpArgsMap["	PassengerAndFreightTraffic"] = &PassengerAndFreightTraffic{}
+
 }

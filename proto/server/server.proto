@@ -79,8 +79,7 @@ message Gdp {
   double primaryIndustry = 5; // 第一产业增加值（亿元）
   double primaryIndustryYearOnYear = 6; // 第一产业增加值季度累计同比增长（%）
   double secondaryIndustries = 7; // 第二产业增加值（亿元）
-  double secondaryIndustriesYearOnYear =
-      8; // 第二产业增加值季度累计同比增长（%）
+  double secondaryIndustriesYearOnYear =8; // 第二产业增加值季度累计同比增长（%）
   double tertiaryIndustry = 9; // 第三产业增加值（亿元）
   double tertiaryIndustryYearOnYear = 10; // 第三产业增加值季度累计同比增长（%）
 }
@@ -206,27 +205,57 @@ message ValueAddedOfIndustrialProduction {
 message SocialElectricityConsumptionResponse {
   repeated SocialElectricityConsumption results = 1;
 }
-message SocialElectricityConsumption{
-	string date                 = 1;        
-	string wholeSociety          = 2;       //全社会用电量/万千瓦时
-	string wholeSocietyYearOnYear   = 3;    //全社会用电量同比 %
-	string allIndustries             = 4;   //各行业用电量合计/万千瓦时
-	string allIndustriesYearOnYear  = 5;    //各行业用电量合计同比 %
-	string primaryIndustry           = 6;   //第一产业用电量 万千瓦时
-	string primaryIndustryYearOnYear = 7;   //第一产业用电量同比%
-	string secondaryIndustry          = 8;  //第二产业用电量 万千瓦时
-	string secondaryIndustryYearOnYear = 9; //第二产业用电量同比%
-	string tertiaryIndustry            = 10; //第三产业用电量万千瓦时
-	string tertiaryIndustryYearOnYear  = 11; //第三产业用电量同比%
-	string citiesAndVillages           = 12; //城乡居民生活用电量合计/ 万千瓦时
-	string citiesAndVillagesYearOnYear = 13; //城乡居民生活用电量合计同比 %
-	string cities                       = 14;//城镇居民用电量 万千瓦时
-	string citiesYearOnYear            = 15; //城镇居民用电量同比%
-	string villages                    = 16; //乡村居民用电量 万千瓦时
-	string villagesYearOnYear          = 17; //乡村居民用电量同比 %
-
+message SocialElectricityConsumption {
+  string date = 1;
+  string wholeSociety = 2;              //全社会用电量/万千瓦时
+  string wholeSocietyYearOnYear = 3;    //全社会用电量同比 %
+  string allIndustries = 4;             //各行业用电量合计/万千瓦时
+  string allIndustriesYearOnYear = 5;   //各行业用电量合计同比 %
+  string primaryIndustry = 6;           //第一产业用电量 万千瓦时
+  string primaryIndustryYearOnYear = 7; //第一产业用电量同比%
+  string secondaryIndustry = 8;         //第二产业用电量 万千瓦时
+  string secondaryIndustryYearOnYear = 9; //第二产业用电量同比%
+  string tertiaryIndustry = 10;           //第三产业用电量万千瓦时
+  string tertiaryIndustryYearOnYear = 11; //第三产业用电量同比%
+  string citiesAndVillages = 12; //城乡居民生活用电量合计/ 万千瓦时
+  string citiesAndVillagesYearOnYear = 13; //城乡居民生活用电量合计同比 %
+  string cities = 14;                      //城镇居民用电量 万千瓦时
+  string citiesYearOnYear = 15;            //城镇居民用电量同比%
+  string villages = 16;                    //乡村居民用电量 万千瓦时
+  string villagesYearOnYear = 17;          //乡村居民用电量同比 %
 }
 
+message PassengerAndFreightTrafficResponse {
+  repeated PassengerAndFreightTraffic results = 1;
+}
+enum CategoryOfTraffic {
+  InternationalService = 0;       //国际航线
+  HongKongMacaoRegionalRoute = 1; //港澳地区航线
+  DomesticAirline = 2;            //国内航线
+  CivilAviation = 3;              //民航
+  WaterTransport = 4;             //水运
+  Highway = 5;                    //公路
+  Railway = 6;                    //铁路
+  Total = 7;                      //合计
+}
+message PassengerAndFreightTraffic {
+  string date = 1;
+  CategoryOfTraffic class = 2;             //运输种类
+  string freightVolume = 3;                //货运量/亿吨
+  string freightVolumeYearOnYear = 4;      //货运量同比增长 %
+  string freightTurnover = 5;              //货物周转量/亿
+  string freightTurnoverYearOnYear = 6;    //公里货物周转量同比增长 %
+  string passengerCapacity = 7;            //客运量/亿人
+  string passengerCapacityYearOnYear = 8;  //客运量同比增长 %
+  string passengerTurnover = 9;            //旅客周转量/亿
+  string passengerTurnoverYearOnYear = 10; //公里旅客周转量同比增长/%
+  string cargoThroughputOfMajorCoastalPorts = 11; //沿海主要港口货物吞吐量/亿吨
+  string cargoThroughputOfMajorCoastalPortsYearOnYear =12; //沿海主要港口货物吞吐量同比增长 %
+  string foreignTradeCargoThroughput = 13; //其中:外贸货物吞吐量 /亿吨
+  string foreignTradeCargoThroughputYearOnYear =14; //其中:外贸货物吞吐量同比增长 %
+  string totalTurnoverOfCivilAviation = 15;   //民航总周转量 /亿
+  string kmTotalTurnoverOfCivilAviation = 16; //公里民航总周转/%
+}
 
 service Greeter {
   // 沪深300市盈率
@@ -325,11 +354,19 @@ service Greeter {
     };
   }
 
-  // 工业生产增加值
+  // 全社会用电
   rpc GetSocialElectricityConsumption(google.protobuf.Empty)
       returns (SocialElectricityConsumptionResponse) {
     option (google.api.http) = {
       get : "/v1/macroscopic/social_electricity_consumption"
+    };
+  }
+
+  // 全社会客货运输量
+  rpc GetPassengerAndFreightTraffic(google.protobuf.Empty)
+      returns (PassengerAndFreightTrafficResponse) {
+    option (google.api.http) = {
+      get : "/v1/macroscopic/passenger_and_freight_traffic"
     };
   }
 }

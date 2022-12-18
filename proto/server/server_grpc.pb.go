@@ -49,8 +49,10 @@ type GreeterClient interface {
 	GetCxPmi(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*CxPmiResponse, error)
 	// 工业生产增加值
 	GetValueAddedOfIndustrialProduction(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*ValueAddedOfIndustrialProductionResponse, error)
-	// 工业生产增加值
+	// 全社会用电
 	GetSocialElectricityConsumption(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*SocialElectricityConsumptionResponse, error)
+	// 全社会客货运输量
+	GetPassengerAndFreightTraffic(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*PassengerAndFreightTrafficResponse, error)
 }
 
 type greeterClient struct {
@@ -187,6 +189,15 @@ func (c *greeterClient) GetSocialElectricityConsumption(ctx context.Context, in 
 	return out, nil
 }
 
+func (c *greeterClient) GetPassengerAndFreightTraffic(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*PassengerAndFreightTrafficResponse, error) {
+	out := new(PassengerAndFreightTrafficResponse)
+	err := c.cc.Invoke(ctx, "/server.Greeter/GetPassengerAndFreightTraffic", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // GreeterServer is the server API for Greeter service.
 // All implementations should embed UnimplementedGreeterServer
 // for forward compatibility
@@ -217,8 +228,10 @@ type GreeterServer interface {
 	GetCxPmi(context.Context, *emptypb.Empty) (*CxPmiResponse, error)
 	// 工业生产增加值
 	GetValueAddedOfIndustrialProduction(context.Context, *emptypb.Empty) (*ValueAddedOfIndustrialProductionResponse, error)
-	// 工业生产增加值
+	// 全社会用电
 	GetSocialElectricityConsumption(context.Context, *emptypb.Empty) (*SocialElectricityConsumptionResponse, error)
+	// 全社会客货运输量
+	GetPassengerAndFreightTraffic(context.Context, *emptypb.Empty) (*PassengerAndFreightTrafficResponse, error)
 }
 
 // UnimplementedGreeterServer should be embedded to have forward compatible implementations.
@@ -266,6 +279,9 @@ func (UnimplementedGreeterServer) GetValueAddedOfIndustrialProduction(context.Co
 }
 func (UnimplementedGreeterServer) GetSocialElectricityConsumption(context.Context, *emptypb.Empty) (*SocialElectricityConsumptionResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetSocialElectricityConsumption not implemented")
+}
+func (UnimplementedGreeterServer) GetPassengerAndFreightTraffic(context.Context, *emptypb.Empty) (*PassengerAndFreightTrafficResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetPassengerAndFreightTraffic not implemented")
 }
 
 // UnsafeGreeterServer may be embedded to opt out of forward compatibility for this service.
@@ -531,6 +547,24 @@ func _Greeter_GetSocialElectricityConsumption_Handler(srv interface{}, ctx conte
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Greeter_GetPassengerAndFreightTraffic_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(emptypb.Empty)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GreeterServer).GetPassengerAndFreightTraffic(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/server.Greeter/GetPassengerAndFreightTraffic",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GreeterServer).GetPassengerAndFreightTraffic(ctx, req.(*emptypb.Empty))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Greeter_ServiceDesc is the grpc.ServiceDesc for Greeter service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -593,6 +627,10 @@ var Greeter_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetSocialElectricityConsumption",
 			Handler:    _Greeter_GetSocialElectricityConsumption_Handler,
+		},
+		{
+			MethodName: "GetPassengerAndFreightTraffic",
+			Handler:    _Greeter_GetPassengerAndFreightTraffic_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

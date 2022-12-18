@@ -151,3 +151,15 @@ func TestSocialElectricityConsumption(t *testing.T) {
 func TestMacroChinaGdpYearlyJin10(t *testing.T) {
 	MacroChinaGdpYearlyJin10()
 }
+
+func TestPassengerAndFreightTraffic(t *testing.T) {
+
+	b, err := PassengerAndFreightTraffic()
+	if err != nil {
+		t.Log(err)
+	}
+	for _, v := range b {
+		t.Logf("%+v", *v)
+	}
+
+}

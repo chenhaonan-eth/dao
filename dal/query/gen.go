@@ -25,6 +25,7 @@ var (
 	FturesFoewign                    *fturesFoewign
 	MacroChinaConsumerGoodsRetail    *macroChinaConsumerGoodsRetail
 	MacroChinaMoneySupply            *macroChinaMoneySupply
+	PassengerAndFreightTraffic       *passengerAndFreightTraffic
 	PePbPsDvTotalmv                  *pePbPsDvTotalmv
 	PmiCx                            *pmiCx
 	SH300PE                          *sH300PE
@@ -44,6 +45,7 @@ func SetDefault(db *gorm.DB, opts ...gen.DOOption) {
 	FturesFoewign = &Q.FturesFoewign
 	MacroChinaConsumerGoodsRetail = &Q.MacroChinaConsumerGoodsRetail
 	MacroChinaMoneySupply = &Q.MacroChinaMoneySupply
+	PassengerAndFreightTraffic = &Q.PassengerAndFreightTraffic
 	PePbPsDvTotalmv = &Q.PePbPsDvTotalmv
 	PmiCx = &Q.PmiCx
 	SH300PE = &Q.SH300PE
@@ -64,6 +66,7 @@ func Use(db *gorm.DB, opts ...gen.DOOption) *Query {
 		FturesFoewign:                    newFturesFoewign(db, opts...),
 		MacroChinaConsumerGoodsRetail:    newMacroChinaConsumerGoodsRetail(db, opts...),
 		MacroChinaMoneySupply:            newMacroChinaMoneySupply(db, opts...),
+		PassengerAndFreightTraffic:       newPassengerAndFreightTraffic(db, opts...),
 		PePbPsDvTotalmv:                  newPePbPsDvTotalmv(db, opts...),
 		PmiCx:                            newPmiCx(db, opts...),
 		SH300PE:                          newSH300PE(db, opts...),
@@ -85,6 +88,7 @@ type Query struct {
 	FturesFoewign                    fturesFoewign
 	MacroChinaConsumerGoodsRetail    macroChinaConsumerGoodsRetail
 	MacroChinaMoneySupply            macroChinaMoneySupply
+	PassengerAndFreightTraffic       passengerAndFreightTraffic
 	PePbPsDvTotalmv                  pePbPsDvTotalmv
 	PmiCx                            pmiCx
 	SH300PE                          sH300PE
@@ -107,6 +111,7 @@ func (q *Query) clone(db *gorm.DB) *Query {
 		FturesFoewign:                    q.FturesFoewign.clone(db),
 		MacroChinaConsumerGoodsRetail:    q.MacroChinaConsumerGoodsRetail.clone(db),
 		MacroChinaMoneySupply:            q.MacroChinaMoneySupply.clone(db),
+		PassengerAndFreightTraffic:       q.PassengerAndFreightTraffic.clone(db),
 		PePbPsDvTotalmv:                  q.PePbPsDvTotalmv.clone(db),
 		PmiCx:                            q.PmiCx.clone(db),
 		SH300PE:                          q.SH300PE.clone(db),
@@ -136,6 +141,7 @@ func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 		FturesFoewign:                    q.FturesFoewign.replaceDB(db),
 		MacroChinaConsumerGoodsRetail:    q.MacroChinaConsumerGoodsRetail.replaceDB(db),
 		MacroChinaMoneySupply:            q.MacroChinaMoneySupply.replaceDB(db),
+		PassengerAndFreightTraffic:       q.PassengerAndFreightTraffic.replaceDB(db),
 		PePbPsDvTotalmv:                  q.PePbPsDvTotalmv.replaceDB(db),
 		PmiCx:                            q.PmiCx.replaceDB(db),
 		SH300PE:                          q.SH300PE.replaceDB(db),
@@ -155,6 +161,7 @@ type queryCtx struct {
 	FturesFoewign                    *fturesFoewignDo
 	MacroChinaConsumerGoodsRetail    *macroChinaConsumerGoodsRetailDo
 	MacroChinaMoneySupply            *macroChinaMoneySupplyDo
+	PassengerAndFreightTraffic       *passengerAndFreightTrafficDo
 	PePbPsDvTotalmv                  *pePbPsDvTotalmvDo
 	PmiCx                            *pmiCxDo
 	SH300PE                          *sH300PEDo
@@ -174,6 +181,7 @@ func (q *Query) WithContext(ctx context.Context) *queryCtx {
 		FturesFoewign:                    q.FturesFoewign.WithContext(ctx),
 		MacroChinaConsumerGoodsRetail:    q.MacroChinaConsumerGoodsRetail.WithContext(ctx),
 		MacroChinaMoneySupply:            q.MacroChinaMoneySupply.WithContext(ctx),
+		PassengerAndFreightTraffic:       q.PassengerAndFreightTraffic.WithContext(ctx),
 		PePbPsDvTotalmv:                  q.PePbPsDvTotalmv.WithContext(ctx),
 		PmiCx:                            q.PmiCx.WithContext(ctx),
 		SH300PE:                          q.SH300PE.WithContext(ctx),

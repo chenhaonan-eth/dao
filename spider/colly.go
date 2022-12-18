@@ -21,6 +21,7 @@ import (
 	"github.com/chenhaonan-eth/dao/pkg/utils"
 	"github.com/chromedp/chromedp"
 	"go.uber.org/zap"
+	"golang.org/x/text/encoding/simplifiedchinese"
 	"gorm.io/gorm"
 
 	"github.com/go-resty/resty/v2"
@@ -630,6 +631,103 @@ func CollyCADFuturesForeignHist() {
 	do.Create(&f)
 	config.G_LOG.Debug("CollyCADFuturesForeignHist Create successful ", zap.Any("data", f))
 	config.G_LOG.Debug("End CollyCADFuturesForeignHist ")
+}
+
+//全社会客货运输
+func CollyPassengerAndFreightTraffic() {
+	config.G_LOG.Debug("Start CollyPassengerAndFreightTraffic ")
+	// 计算如果上月时间对比数据如已入库，则取消请求
+	t := q.PassengerAndFreightTraffic
+	do := t.WithContext(context.Background())
+	// 查询数据库是否存在最近一个月数据
+	m, err := do.Order(t.Date.Desc()).First()
+	if err != nil {
+		config.G_LOG.Error(err.Error())
+		return
+	}
+	if m.Date == utils.FirstDayOfLastMonth() {
+		config.G_LOG.Error("db is exist", zap.Any("date", m.Date))
+		return
+	}
+	listVal := []*model.PassengerAndFreightTraffic{}
+	byBody, err := macroscopic.GetPassengerAndFreightTraffic("0", "8")
+	if err != nil {
+		config.G_LOG.Error("CollyPassengerAndFreightTraffic HTTP get ", zap.Error(err))
+		return
+	}
+	utf8Data, _ := simplifiedchinese.GBK.NewDecoder().Bytes(byBody)
+	strBody := string(utf8Data)
+	b := strBody[strings.LastIndex(strBody, "'非累计':")+12 : strings.LastIndex(strBody, ",'累计")]
+	strList := make([][]string, 0)
+	err = json.Unmarshal([]byte(b), &strList)
+	if err != nil {
+		config.G_LOG.Error("CollyPassengerAndFreightTraffic HTTP get ", zap.Error(err))
+		return
+	}
+	for _, v := range strList {
+		m := model.PassengerAndFreightTraffic{}
+		ivalue := reflect.ValueOf(&m).Elem()
+		for i, v := range v {
+			elem := ivalue.Field(i)
+			if i == 0 {
+				// elem := ivalue.Field(0)
+				var ti time.Time
+				if len(v) == 7 {
+					ti, err = time.Parse("2006.01", v)
+					if err != nil {
+						log.Println(err)
+					}
+				} else {
+					ti, err = time.Parse("2006.1", v)
+					if err != nil {
+						log.Println(err)
+					}
+				}
+				elem.SetString(ti.Format(utils.DATE_FORMAT))
+				continue
+			} else if i == 1 {
+				// elem := ivalue.Field(i)
+				switch v {
+				case "国际航线":
+					elem.SetInt(int64(model.CategoryOfTraffic_InternationalService))
+					continue
+				case "港澳地区航线":
+					elem.SetInt(int64(model.CategoryOfTraffic_HongKongMacaoRegionalRoute))
+					continue
+				case "国内航线":
+					elem.SetInt(int64(model.CategoryOfTraffic_DomesticAirline))
+					continue
+				case "民航":
+					elem.SetInt(int64(model.CategoryOfTraffic_CivilAviation))
+					continue
+				case "水运":
+					elem.SetInt(int64(model.CategoryOfTraffic_WaterTransport))
+					continue
+				case "公路":
+					elem.SetInt(int64(model.CategoryOfTraffic_Highway))
+					continue
+				case "铁路":
+					elem.SetInt(int64(model.CategoryOfTraffic_Railway))
+					continue
+				case "合计":
+					elem.SetInt(int64(model.CategoryOfTraffic_Total))
+					continue
+				default:
+					continue
+				}
+			}
+			elem.SetString(strings.TrimSpace(v))
+		}
+		listVal = append(listVal, &m)
+	}
+	if m.Date == listVal[0].Date {
+		config.G_LOG.Error("CollyPassengerAndFreightTraffic The latest data is the same as the database ", zap.Any("date", *listVal[0]))
+		return
+	}
+	if err := do.CreateInBatches(listVal, 10); err != nil {
+		config.G_LOG.Error("CollyPassengerAndFreightTraffic Create ", zap.Error(err))
+	}
+	config.G_LOG.Debug("End CollyPassengerAndFreightTraffic ", zap.Any("data", *listVal[0]))
 }
 
 //工业生产增加值

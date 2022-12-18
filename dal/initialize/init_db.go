@@ -63,6 +63,7 @@ func Init() {
 		initCXPMI,
 		initValueAddedOfIndustrialProduction,
 		initSocialElectricityConsumption,
+		initPassengerAndFreightTraffic,
 	} {
 		// 加入延迟请求
 		num := rand.Int31n(100)
@@ -429,6 +430,27 @@ func initSocialElectricityConsumption() error {
 		err = do.CreateInBatches(v, 1024)
 		if err != nil {
 			config.G_LOG.Error("CreateInBatches initSocialElectricityConsumption err", zap.Any("err", err))
+			return err
+		}
+	}
+	return err
+}
+
+//	全社会客货运输量
+func initPassengerAndFreightTraffic() error {
+	t := q.PassengerAndFreightTraffic
+	do := t.WithContext(context.Background())
+
+	_, err := do.First()
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		v, err := macroscopic.PassengerAndFreightTraffic()
+		if err != nil {
+			config.G_LOG.Error("find initPassengerAndFreightTraffic err", zap.Any("err", err))
+			return err
+		}
+		err = do.CreateInBatches(v, 2048)
+		if err != nil {
+			config.G_LOG.Error("CreateInBatches initPassengerAndFreightTraffic err", zap.Any("err", err))
 			return err
 		}
 	}

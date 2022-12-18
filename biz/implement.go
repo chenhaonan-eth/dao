@@ -423,3 +423,37 @@ func (s *server) GetSocialElectricityConsumption(ctx context.Context, r *emptypb
 	config.G_LOG.Debug("End GetSocialElectricityConsumption ...", zap.Any("len", len(resp.Results)))
 	return resp, nil
 }
+func (s *server) GetPassengerAndFreightTraffic(ctx context.Context, r *emptypb.Empty) (*pb.PassengerAndFreightTrafficResponse, error) {
+	config.G_LOG.Debug("Start GetPassengerAndFreightTraffic ...")
+	t := q.PassengerAndFreightTraffic
+	do := t.WithContext(context.Background())
+	results, err := do.Order(t.Date.Desc()).Find()
+	if err != nil {
+		config.G_LOG.Error("Find err ", zap.Error(err))
+		return nil, err
+	}
+	resp := new(pb.PassengerAndFreightTrafficResponse)
+	resp.Results = make([]*pb.PassengerAndFreightTraffic, 0)
+	for _, v := range results {
+		resp.Results = append(resp.Results, &pb.PassengerAndFreightTraffic{
+			Date:                               v.Date,
+			Class:                              pb.CategoryOfTraffic(v.Class),        //运输种类
+			FreightVolume:                      v.FreightVolume,                      //货运量/亿吨
+			FreightVolumeYearOnYear:            v.FreightVolumeYearOnYear,            //货运量同比增长 %
+			FreightTurnover:                    v.FreightTurnover,                    //货物周转量/亿
+			FreightTurnoverYearOnYear:          v.FreightTurnoverYearOnYear,          //公里货物周转量同比增长 %
+			PassengerCapacity:                  v.PassengerCapacity,                  //客运量/亿人
+			PassengerCapacityYearOnYear:        v.PassengerCapacityYearOnYear,        //客运量同比增长 %
+			PassengerTurnover:                  v.PassengerTurnover,                  //旅客周转量/亿
+			PassengerTurnoverYearOnYear:        v.PassengerTurnoverYearOnYear,        //公里旅客周转量同比增长/%
+			CargoThroughputOfMajorCoastalPorts: v.CargoThroughputOfMajorCoastalPorts, //沿海主要港口货物吞吐量/亿吨
+			CargoThroughputOfMajorCoastalPortsYearOnYear: v.CargoThroughputOfMajorCoastalPortsYearOnYear, //沿海主要港口货物吞吐量同比增长 %
+			ForeignTradeCargoThroughput:                  v.ForeignTradeCargoThroughput,                  //其中:外贸货物吞吐量 /亿吨
+			ForeignTradeCargoThroughputYearOnYear:        v.ForeignTradeCargoThroughputYearOnYear,        //其中:外贸货物吞吐量同比增长 %
+			TotalTurnoverOfCivilAviation:                 v.TotalTurnoverOfCivilAviation,                 //民航总周转量 /亿
+			KmTotalTurnoverOfCivilAviation:               v.KmTotalTurnoverOfCivilAviation,               //公里民航总周转/%
+		})
+	}
+	config.G_LOG.Debug("End GetPassengerAndFreightTraffic ...", zap.Any("len", len(resp.Results)))
+	return resp, nil
+}

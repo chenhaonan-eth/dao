@@ -234,6 +234,29 @@
         ]
       }
     },
+    "/v1/macroscopic/passenger_and_freight_traffic": {
+      "get": {
+        "summary": "全社会客货运输量",
+        "operationId": "Greeter_GetPassengerAndFreightTraffic",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/serverPassengerAndFreightTrafficResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "tags": [
+          "Greeter"
+        ]
+      }
+    },
     "/v1/macroscopic/sh300pe": {
       "get": {
         "summary": "沪深300市盈率",
@@ -259,7 +282,7 @@
     },
     "/v1/macroscopic/social_electricity_consumption": {
       "get": {
-        "summary": "工业生产增加值",
+        "summary": "全社会用电",
         "operationId": "Greeter_GetSocialElectricityConsumption",
         "responses": {
           "200": {
@@ -447,6 +470,21 @@
         }
       },
       "title": "中美国债"
+    },
+    "serverCategoryOfTraffic": {
+      "type": "string",
+      "enum": [
+        "InternationalService",
+        "HongKongMacaoRegionalRoute",
+        "DomesticAirline",
+        "CivilAviation",
+        "WaterTransport",
+        "Highway",
+        "Railway",
+        "Total"
+      ],
+      "default": "InternationalService",
+      "title": "- InternationalService: 国际航线\n - HongKongMacaoRegionalRoute: 港澳地区航线\n - DomesticAirline: 国内航线\n - CivilAviation: 民航\n - WaterTransport: 水运\n - Highway: 公路\n - Railway: 铁路\n - Total: 合计"
     },
     "serverConsumerGoodsRetail": {
       "type": "object",
@@ -798,6 +836,85 @@
           "type": "array",
           "items": {
             "$ref": "#/definitions/serverMoneySupply"
+          }
+        }
+      }
+    },
+    "serverPassengerAndFreightTraffic": {
+      "type": "object",
+      "properties": {
+        "date": {
+          "type": "string"
+        },
+        "class": {
+          "$ref": "#/definitions/serverCategoryOfTraffic",
+          "title": "运输种类"
+        },
+        "freightVolume": {
+          "type": "string",
+          "title": "货运量/亿吨"
+        },
+        "freightVolumeYearOnYear": {
+          "type": "string",
+          "title": "货运量同比增长 %"
+        },
+        "freightTurnover": {
+          "type": "string",
+          "title": "货物周转量/亿"
+        },
+        "freightTurnoverYearOnYear": {
+          "type": "string",
+          "title": "公里货物周转量同比增长 %"
+        },
+        "passengerCapacity": {
+          "type": "string",
+          "title": "客运量/亿人"
+        },
+        "passengerCapacityYearOnYear": {
+          "type": "string",
+          "title": "客运量同比增长 %"
+        },
+        "passengerTurnover": {
+          "type": "string",
+          "title": "旅客周转量/亿"
+        },
+        "passengerTurnoverYearOnYear": {
+          "type": "string",
+          "title": "公里旅客周转量同比增长/%"
+        },
+        "cargoThroughputOfMajorCoastalPorts": {
+          "type": "string",
+          "title": "沿海主要港口货物吞吐量/亿吨"
+        },
+        "cargoThroughputOfMajorCoastalPortsYearOnYear": {
+          "type": "string",
+          "title": "沿海主要港口货物吞吐量同比增长 %"
+        },
+        "foreignTradeCargoThroughput": {
+          "type": "string",
+          "title": "其中:外贸货物吞吐量 /亿吨"
+        },
+        "foreignTradeCargoThroughputYearOnYear": {
+          "type": "string",
+          "title": "其中:外贸货物吞吐量同比增长 %"
+        },
+        "totalTurnoverOfCivilAviation": {
+          "type": "string",
+          "title": "民航总周转量 /亿"
+        },
+        "kmTotalTurnoverOfCivilAviation": {
+          "type": "string",
+          "title": "公里民航总周转/%"
+        }
+      }
+    },
+    "serverPassengerAndFreightTrafficResponse": {
+      "type": "object",
+      "properties": {
+        "results": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/serverPassengerAndFreightTraffic"
           }
         }
       }

@@ -226,3 +226,47 @@ type SocialElectricityConsumption struct {
 	Villages                    string //乡村居民用电量 万千瓦时
 	VillagesYearOnYear          string //乡村居民用电量同比 %
 }
+
+const (
+	InternationalService       = iota //国际航线
+	HongKongMacaoRegionalRoute        //港澳地区航线
+	DomesticAirline                   //国内航线
+	CivilAviation                     //民航
+	WaterTransport                    //水运
+	Highway                           //公路
+	Railway                           //铁路
+	Total                             //合计
+
+)
+
+type CategoryOfTraffic int32
+
+const (
+	CategoryOfTraffic_InternationalService       CategoryOfTraffic = iota //国际航线
+	CategoryOfTraffic_HongKongMacaoRegionalRoute                          //港澳地区航线
+	CategoryOfTraffic_DomesticAirline                                     //国内航线
+	CategoryOfTraffic_CivilAviation                                       //民航
+	CategoryOfTraffic_WaterTransport                                      //水运
+	CategoryOfTraffic_Highway                                             //公路
+	CategoryOfTraffic_Railway                                             //铁路
+	CategoryOfTraffic_Total                                               //合计
+)
+
+type PassengerAndFreightTraffic struct {
+	Date                                         string
+	Class                                        CategoryOfTraffic //运输种类
+	FreightVolume                                string            //货运量/亿吨
+	FreightVolumeYearOnYear                      string            //货运量同比增长 %
+	FreightTurnover                              string            //货物周转量/亿
+	FreightTurnoverYearOnYear                    string            //公里货物周转量同比增长 %
+	PassengerCapacity                            string            //客运量/亿人
+	PassengerCapacityYearOnYear                  string            //客运量同比增长 %
+	PassengerTurnover                            string            //旅客周转量/亿
+	PassengerTurnoverYearOnYear                  string            //公里旅客周转量同比增长/%
+	CargoThroughputOfMajorCoastalPorts           string            //沿海主要港口货物吞吐量/亿吨
+	CargoThroughputOfMajorCoastalPortsYearOnYear string            //沿海主要港口货物吞吐量同比增长 %
+	ForeignTradeCargoThroughput                  string            //其中:外贸货物吞吐量 /亿吨
+	ForeignTradeCargoThroughputYearOnYear        string            //其中:外贸货物吞吐量同比增长 %
+	TotalTurnoverOfCivilAviation                 string            //民航总周转量 /亿
+	KmTotalTurnoverOfCivilAviation               string            //公里民航总周转/%
+}
