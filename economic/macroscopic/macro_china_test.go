@@ -153,7 +153,6 @@ func TestMacroChinaGdpYearlyJin10(t *testing.T) {
 }
 
 func TestPassengerAndFreightTraffic(t *testing.T) {
-
 	b, err := PassengerAndFreightTraffic()
 	if err != nil {
 		t.Log(err)
@@ -161,5 +160,24 @@ func TestPassengerAndFreightTraffic(t *testing.T) {
 	for _, v := range b {
 		t.Logf("%+v", *v)
 	}
+}
 
+func TestChinaNewFinancialCredit(t *testing.T) {
+	b, err := ChinaNewFinancialCredit()
+	if err != nil {
+		t.Log(err)
+	}
+	for _, v := range b {
+		t.Logf("%+v", *v)
+	}
+}
+
+func TestForeignReserveAndGold(t *testing.T) {
+	b, err := ForeignReserveAndGold("500")
+	if err != nil {
+		t.Log(err)
+	}
+	for _, v := range b {
+		t.Logf("%+v", *v)
+	}
 }

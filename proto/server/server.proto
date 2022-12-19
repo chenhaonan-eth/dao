@@ -257,6 +257,30 @@ message PassengerAndFreightTraffic {
   string kmTotalTurnoverOfCivilAviation = 16; //公里民航总周转/%
 }
 
+message NewFinancialCreditResponse {
+  repeated NewFinancialCredit results = 1;
+}
+// 中国新增信贷数据
+message NewFinancialCredit {
+  string date = 1;
+  string time = 2;
+  double loany = 3;                   //当月(亿元)
+  double loanYearOnYear = 4;          // 同比增长(%)
+  double loanyYearOverYear = 5;       // 环比增长
+  double loanyAcc = 6;                // 累计(亿元
+  double loanyAccYearOnYear = 7;      // 同比增长(%)
+}
+
+message ForeignReserveAndGoldResponse {
+  repeated ForeignReserveAndGold results = 1;
+}
+// 中国新增信贷数据
+message ForeignReserveAndGold {
+  string date = 1;
+  string gold = 2;                   //黄金储备 万盎司
+  string foreignReserve = 3;          // 外汇储备 亿美元
+}
+
 service Greeter {
   // 沪深300市盈率
   rpc GetSH300PE(google.protobuf.Empty) returns (SH300PEResponse) {
@@ -369,4 +393,20 @@ service Greeter {
       get : "/v1/macroscopic/passenger_and_freight_traffic"
     };
   }
+
+  // 中国新增信贷数据
+  rpc GetNewFinancialCredit(google.protobuf.Empty)
+      returns (NewFinancialCreditResponse) {
+    option (google.api.http) = {
+      get : "/v1/macroscopic/new_financial_credit"
+    };
+  }
+
+    // 外汇储备与黄金
+    rpc GetForeignReserveAndGold(google.protobuf.Empty)
+    returns (ForeignReserveAndGoldResponse) {
+  option (google.api.http) = {
+    get : "/v1/macroscopic/foreign_reserve_and_gold"
+  };
+}
 }

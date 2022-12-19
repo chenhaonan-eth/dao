@@ -27,7 +27,7 @@ func newPassengerAndFreightTraffic(db *gorm.DB, opts ...gen.DOOption) passengerA
 	tableName := _passengerAndFreightTraffic.passengerAndFreightTrafficDo.TableName()
 	_passengerAndFreightTraffic.ALL = field.NewAsterisk(tableName)
 	_passengerAndFreightTraffic.Date = field.NewString(tableName, "date")
-	_passengerAndFreightTraffic.Class = field.NewInt64(tableName, "class")
+	_passengerAndFreightTraffic.Class = field.NewInt32(tableName, "class")
 	_passengerAndFreightTraffic.FreightVolume = field.NewString(tableName, "freight_volume")
 	_passengerAndFreightTraffic.FreightVolumeYearOnYear = field.NewString(tableName, "freight_volume_year_on_year")
 	_passengerAndFreightTraffic.FreightTurnover = field.NewString(tableName, "freight_turnover")
@@ -53,7 +53,7 @@ type passengerAndFreightTraffic struct {
 
 	ALL                                          field.Asterisk
 	Date                                         field.String
-	Class                                        field.Int64
+	Class                                        field.Int32
 	FreightVolume                                field.String
 	FreightVolumeYearOnYear                      field.String
 	FreightTurnover                              field.String
@@ -85,7 +85,7 @@ func (p passengerAndFreightTraffic) As(alias string) *passengerAndFreightTraffic
 func (p *passengerAndFreightTraffic) updateTableName(table string) *passengerAndFreightTraffic {
 	p.ALL = field.NewAsterisk(table)
 	p.Date = field.NewString(table, "date")
-	p.Class = field.NewInt64(table, "class")
+	p.Class = field.NewInt32(table, "class")
 	p.FreightVolume = field.NewString(table, "freight_volume")
 	p.FreightVolumeYearOnYear = field.NewString(table, "freight_volume_year_on_year")
 	p.FreightTurnover = field.NewString(table, "freight_turnover")

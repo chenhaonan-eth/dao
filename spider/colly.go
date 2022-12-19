@@ -33,6 +33,73 @@ var (
 	q      = query.Q
 )
 
+// 外汇储备与黄金
+func CollyForeignReserveAndGold() {
+	config.G_LOG.Debug("Start CollyChinaNewFinancialCredit ")
+	// 计算如果上月时间对比数据如已入库，则取消请求
+	t := q.ForeignReserveAndGold
+	do := t.WithContext(context.Background())
+	// 查询数据库是否存在最近一个月数据
+	m, err := do.Order(t.Date.Desc()).First()
+	if err != nil {
+		config.G_LOG.Error(err.Error())
+		return
+	}
+	if m.Date == utils.FirstDayOfLastMonth() {
+		config.G_LOG.Error("db is exist", zap.Any("date", m.Date))
+		return
+	}
+	res, err := macroscopic.ForeignReserveAndGold("1")
+	if err != nil {
+		config.G_LOG.Error("CollyChinaNewFinancialCredit HTTP get ", zap.Error(err))
+		return
+	}
+
+	if m.Date == res[0].Date {
+		config.G_LOG.Error("CollyChinaNewFinancialCredit The latest data is the same as the database ", zap.Any("date", *res[0]))
+		return
+	}
+	if err := do.Create(res[0]); err != nil {
+		config.G_LOG.Error("CollyChinaNewFinancialCredit Create ", zap.Error(err))
+	}
+	config.G_LOG.Debug("End CollyChinaNewFinancialCredit ", zap.Any("data", *res[0]))
+}
+
+// 中国新增信贷数据
+func CollyChinaNewFinancialCredit() {
+	config.G_LOG.Debug("Start CollyChinaNewFinancialCredit ")
+	// 计算如果上月时间对比数据如已入库，则取消请求
+	t := q.NewFinancialCredit
+	do := t.WithContext(context.Background())
+	// 查询数据库是否存在最近一个月数据
+	m, err := do.Order(t.Date.Desc()).First()
+	if err != nil {
+		config.G_LOG.Error(err.Error())
+		return
+	}
+	if m.Date == utils.FirstDayOfLastMonth() {
+		config.G_LOG.Error("db is exist", zap.Any("date", m.Date))
+		return
+	}
+	res := []*model.NewFinancialCredit{}
+	b, err := macroscopic.GetEastmoney("ALL", "1", "RPT_ECONOMY_RMB_LOAN")
+	if err != nil {
+		config.G_LOG.Error("CollyChinaNewFinancialCredit HTTP get ", zap.Error(err))
+		return
+	}
+	v := gjson.GetBytes(b, "result.data")
+	json.Unmarshal([]byte(v.String()), &res)
+
+	if m.Date == res[0].Date {
+		config.G_LOG.Error("CollyChinaNewFinancialCredit The latest data is the same as the database ", zap.Any("date", *res[0]))
+		return
+	}
+	if err := do.Create(res[0]); err != nil {
+		config.G_LOG.Error("CollyChinaNewFinancialCredit Create ", zap.Error(err))
+	}
+	config.G_LOG.Debug("End CollyChinaNewFinancialCredit ", zap.Any("data", *res[0]))
+}
+
 //中美国债收益率
 func CollyBondZhUsRate() {
 	config.G_LOG.Debug("Start CollyBondZhUsRate ")
@@ -650,7 +717,7 @@ func CollyPassengerAndFreightTraffic() {
 		return
 	}
 	listVal := []*model.PassengerAndFreightTraffic{}
-	byBody, err := macroscopic.GetPassengerAndFreightTraffic("0", "8")
+	byBody, err := macroscopic.GetPassengerAndFreightTraffic("8", "0")
 	if err != nil {
 		config.G_LOG.Error("CollyPassengerAndFreightTraffic HTTP get ", zap.Error(err))
 		return

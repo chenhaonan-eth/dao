@@ -457,3 +457,51 @@ func (s *server) GetPassengerAndFreightTraffic(ctx context.Context, r *emptypb.E
 	config.G_LOG.Debug("End GetPassengerAndFreightTraffic ...", zap.Any("len", len(resp.Results)))
 	return resp, nil
 }
+
+func (s *server) GetNewFinancialCredit(ctx context.Context, r *emptypb.Empty) (*pb.NewFinancialCreditResponse, error) {
+	config.G_LOG.Debug("Start GetNewFinancialCredit ...")
+	t := q.NewFinancialCredit
+	do := t.WithContext(context.Background())
+	results, err := do.Order(t.Date.Desc()).Find()
+	if err != nil {
+		config.G_LOG.Error("Find err ", zap.Error(err))
+		return nil, err
+	}
+	resp := new(pb.NewFinancialCreditResponse)
+	resp.Results = make([]*pb.NewFinancialCredit, 0)
+	for _, v := range results {
+		resp.Results = append(resp.Results, &pb.NewFinancialCredit{
+			Date:               v.Date,
+			Time:               v.Time,
+			Loany:              v.Loany,
+			LoanYearOnYear:     v.LoanYearOnYear,
+			LoanyYearOverYear:  v.LoanyYearOverYear,
+			LoanyAcc:           v.LoanyAcc,
+			LoanyAccYearOnYear: v.LoanyAccYearOnYear,
+		})
+	}
+	config.G_LOG.Debug("End GetNewFinancialCredit ...", zap.Any("len", len(resp.Results)))
+	return resp, nil
+}
+
+func (s *server) GetForeignReserveAndGold(ctx context.Context, r *emptypb.Empty) (*pb.ForeignReserveAndGoldResponse, error) {
+	config.G_LOG.Debug("Start GetNewFinancialCredit ...")
+	t := q.ForeignReserveAndGold
+	do := t.WithContext(context.Background())
+	results, err := do.Order(t.Date.Desc()).Find()
+	if err != nil {
+		config.G_LOG.Error("Find err ", zap.Error(err))
+		return nil, err
+	}
+	resp := new(pb.ForeignReserveAndGoldResponse)
+	resp.Results = make([]*pb.ForeignReserveAndGold, 0)
+	for _, v := range results {
+		resp.Results = append(resp.Results, &pb.ForeignReserveAndGold{
+			Date:           v.Date,
+			Gold:           v.Gold,
+			ForeignReserve: v.ForeignReserve,
+		})
+	}
+	config.G_LOG.Debug("End GetNewFinancialCredit ...", zap.Any("len", len(resp.Results)))
+	return resp, nil
+}

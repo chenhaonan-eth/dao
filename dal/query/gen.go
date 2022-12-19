@@ -22,9 +22,11 @@ var (
 	ChinaGDP                         *chinaGDP
 	ChinaPMI                         *chinaPMI
 	ChinaPPI                         *chinaPPI
+	ForeignReserveAndGold            *foreignReserveAndGold
 	FturesFoewign                    *fturesFoewign
 	MacroChinaConsumerGoodsRetail    *macroChinaConsumerGoodsRetail
 	MacroChinaMoneySupply            *macroChinaMoneySupply
+	NewFinancialCredit               *newFinancialCredit
 	PassengerAndFreightTraffic       *passengerAndFreightTraffic
 	PePbPsDvTotalmv                  *pePbPsDvTotalmv
 	PmiCx                            *pmiCx
@@ -42,9 +44,11 @@ func SetDefault(db *gorm.DB, opts ...gen.DOOption) {
 	ChinaGDP = &Q.ChinaGDP
 	ChinaPMI = &Q.ChinaPMI
 	ChinaPPI = &Q.ChinaPPI
+	ForeignReserveAndGold = &Q.ForeignReserveAndGold
 	FturesFoewign = &Q.FturesFoewign
 	MacroChinaConsumerGoodsRetail = &Q.MacroChinaConsumerGoodsRetail
 	MacroChinaMoneySupply = &Q.MacroChinaMoneySupply
+	NewFinancialCredit = &Q.NewFinancialCredit
 	PassengerAndFreightTraffic = &Q.PassengerAndFreightTraffic
 	PePbPsDvTotalmv = &Q.PePbPsDvTotalmv
 	PmiCx = &Q.PmiCx
@@ -63,9 +67,11 @@ func Use(db *gorm.DB, opts ...gen.DOOption) *Query {
 		ChinaGDP:                         newChinaGDP(db, opts...),
 		ChinaPMI:                         newChinaPMI(db, opts...),
 		ChinaPPI:                         newChinaPPI(db, opts...),
+		ForeignReserveAndGold:            newForeignReserveAndGold(db, opts...),
 		FturesFoewign:                    newFturesFoewign(db, opts...),
 		MacroChinaConsumerGoodsRetail:    newMacroChinaConsumerGoodsRetail(db, opts...),
 		MacroChinaMoneySupply:            newMacroChinaMoneySupply(db, opts...),
+		NewFinancialCredit:               newNewFinancialCredit(db, opts...),
 		PassengerAndFreightTraffic:       newPassengerAndFreightTraffic(db, opts...),
 		PePbPsDvTotalmv:                  newPePbPsDvTotalmv(db, opts...),
 		PmiCx:                            newPmiCx(db, opts...),
@@ -85,9 +91,11 @@ type Query struct {
 	ChinaGDP                         chinaGDP
 	ChinaPMI                         chinaPMI
 	ChinaPPI                         chinaPPI
+	ForeignReserveAndGold            foreignReserveAndGold
 	FturesFoewign                    fturesFoewign
 	MacroChinaConsumerGoodsRetail    macroChinaConsumerGoodsRetail
 	MacroChinaMoneySupply            macroChinaMoneySupply
+	NewFinancialCredit               newFinancialCredit
 	PassengerAndFreightTraffic       passengerAndFreightTraffic
 	PePbPsDvTotalmv                  pePbPsDvTotalmv
 	PmiCx                            pmiCx
@@ -108,9 +116,11 @@ func (q *Query) clone(db *gorm.DB) *Query {
 		ChinaGDP:                         q.ChinaGDP.clone(db),
 		ChinaPMI:                         q.ChinaPMI.clone(db),
 		ChinaPPI:                         q.ChinaPPI.clone(db),
+		ForeignReserveAndGold:            q.ForeignReserveAndGold.clone(db),
 		FturesFoewign:                    q.FturesFoewign.clone(db),
 		MacroChinaConsumerGoodsRetail:    q.MacroChinaConsumerGoodsRetail.clone(db),
 		MacroChinaMoneySupply:            q.MacroChinaMoneySupply.clone(db),
+		NewFinancialCredit:               q.NewFinancialCredit.clone(db),
 		PassengerAndFreightTraffic:       q.PassengerAndFreightTraffic.clone(db),
 		PePbPsDvTotalmv:                  q.PePbPsDvTotalmv.clone(db),
 		PmiCx:                            q.PmiCx.clone(db),
@@ -138,9 +148,11 @@ func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 		ChinaGDP:                         q.ChinaGDP.replaceDB(db),
 		ChinaPMI:                         q.ChinaPMI.replaceDB(db),
 		ChinaPPI:                         q.ChinaPPI.replaceDB(db),
+		ForeignReserveAndGold:            q.ForeignReserveAndGold.replaceDB(db),
 		FturesFoewign:                    q.FturesFoewign.replaceDB(db),
 		MacroChinaConsumerGoodsRetail:    q.MacroChinaConsumerGoodsRetail.replaceDB(db),
 		MacroChinaMoneySupply:            q.MacroChinaMoneySupply.replaceDB(db),
+		NewFinancialCredit:               q.NewFinancialCredit.replaceDB(db),
 		PassengerAndFreightTraffic:       q.PassengerAndFreightTraffic.replaceDB(db),
 		PePbPsDvTotalmv:                  q.PePbPsDvTotalmv.replaceDB(db),
 		PmiCx:                            q.PmiCx.replaceDB(db),
@@ -158,9 +170,11 @@ type queryCtx struct {
 	ChinaGDP                         *chinaGDPDo
 	ChinaPMI                         *chinaPMIDo
 	ChinaPPI                         *chinaPPIDo
+	ForeignReserveAndGold            *foreignReserveAndGoldDo
 	FturesFoewign                    *fturesFoewignDo
 	MacroChinaConsumerGoodsRetail    *macroChinaConsumerGoodsRetailDo
 	MacroChinaMoneySupply            *macroChinaMoneySupplyDo
+	NewFinancialCredit               *newFinancialCreditDo
 	PassengerAndFreightTraffic       *passengerAndFreightTrafficDo
 	PePbPsDvTotalmv                  *pePbPsDvTotalmvDo
 	PmiCx                            *pmiCxDo
@@ -178,9 +192,11 @@ func (q *Query) WithContext(ctx context.Context) *queryCtx {
 		ChinaGDP:                         q.ChinaGDP.WithContext(ctx),
 		ChinaPMI:                         q.ChinaPMI.WithContext(ctx),
 		ChinaPPI:                         q.ChinaPPI.WithContext(ctx),
+		ForeignReserveAndGold:            q.ForeignReserveAndGold.WithContext(ctx),
 		FturesFoewign:                    q.FturesFoewign.WithContext(ctx),
 		MacroChinaConsumerGoodsRetail:    q.MacroChinaConsumerGoodsRetail.WithContext(ctx),
 		MacroChinaMoneySupply:            q.MacroChinaMoneySupply.WithContext(ctx),
+		NewFinancialCredit:               q.NewFinancialCredit.WithContext(ctx),
 		PassengerAndFreightTraffic:       q.PassengerAndFreightTraffic.WithContext(ctx),
 		PePbPsDvTotalmv:                  q.PePbPsDvTotalmv.WithContext(ctx),
 		PmiCx:                            q.PmiCx.WithContext(ctx),

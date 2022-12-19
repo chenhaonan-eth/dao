@@ -203,6 +203,29 @@
         ]
       }
     },
+    "/v1/macroscopic/foreign_reserve_and_gold": {
+      "get": {
+        "summary": "外汇储备与黄金",
+        "operationId": "Greeter_GetForeignReserveAndGold",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/serverForeignReserveAndGoldResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "tags": [
+          "Greeter"
+        ]
+      }
+    },
     "/v1/macroscopic/futures_foreign_hist/{symbol}": {
       "get": {
         "summary": "期货 伦铜:CAD",
@@ -229,6 +252,29 @@
             "type": "string"
           }
         ],
+        "tags": [
+          "Greeter"
+        ]
+      }
+    },
+    "/v1/macroscopic/new_financial_credit": {
+      "get": {
+        "summary": "中国新增信贷数据",
+        "operationId": "Greeter_GetNewFinancialCredit",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/serverNewFinancialCreditResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
         "tags": [
           "Greeter"
         ]
@@ -667,6 +713,34 @@
         }
       }
     },
+    "serverForeignReserveAndGold": {
+      "type": "object",
+      "properties": {
+        "date": {
+          "type": "string"
+        },
+        "gold": {
+          "type": "string",
+          "title": "黄金储备 万盎司"
+        },
+        "foreignReserve": {
+          "type": "string",
+          "title": "外汇储备 亿美元"
+        }
+      },
+      "title": "中国新增信贷数据"
+    },
+    "serverForeignReserveAndGoldResponse": {
+      "type": "object",
+      "properties": {
+        "results": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/serverForeignReserveAndGold"
+          }
+        }
+      }
+    },
     "serverFturesFoewign": {
       "type": "object",
       "properties": {
@@ -836,6 +910,54 @@
           "type": "array",
           "items": {
             "$ref": "#/definitions/serverMoneySupply"
+          }
+        }
+      }
+    },
+    "serverNewFinancialCredit": {
+      "type": "object",
+      "properties": {
+        "date": {
+          "type": "string"
+        },
+        "time": {
+          "type": "string"
+        },
+        "loany": {
+          "type": "number",
+          "format": "double",
+          "title": "当月(亿元)"
+        },
+        "loanYearOnYear": {
+          "type": "number",
+          "format": "double",
+          "title": "同比增长(%)"
+        },
+        "loanyYearOverYear": {
+          "type": "number",
+          "format": "double",
+          "title": "环比增长"
+        },
+        "loanyAcc": {
+          "type": "number",
+          "format": "double",
+          "title": "累计(亿元"
+        },
+        "loanyAccYearOnYear": {
+          "type": "number",
+          "format": "double",
+          "title": "同比增长(%)"
+        }
+      },
+      "title": "中国新增信贷数据"
+    },
+    "serverNewFinancialCreditResponse": {
+      "type": "object",
+      "properties": {
+        "results": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/serverNewFinancialCredit"
           }
         }
       }

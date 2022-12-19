@@ -270,3 +270,23 @@ type PassengerAndFreightTraffic struct {
 	TotalTurnoverOfCivilAviation                 string            //民航总周转量 /亿
 	KmTotalTurnoverOfCivilAviation               string            //公里民航总周转/%
 }
+
+// 中国新增信贷数据
+type NewFinancialCredit struct {
+	Date               string  `json:"REPORT_DATE" gorm:"index"` //2022-10-01 00:00:00
+	Time               string  `json:"TIME"`                     //2022年10月份
+	Loany              float64 `json:"RMB_LOAN"`                 // 当月(亿元)
+	LoanYearOnYear     float64 `json:"RMB_LOAN_SAME"`            // 同比增长(%)
+	LoanyYearOverYear  float64 `json:"RMB_LOAN_SEQUENTIAL"`      // 环比增长
+	LoanyAcc           float64 `json:"RMB_LOAN_ACCUMULATE"`      // 累计(亿元)
+	LoanyAccYearOnYear float64 `json:"LOAN_ACCUMULATE_SAME"`     // 同比增长(%)
+}
+
+// 外汇储备与黄金
+type ForeignReserveAndGold struct {
+	Date string `gorm:"index"` //2022-10-01 00:00:00
+	Gold string //黄金(万盎司)
+	// GoldYearOnYear           float64 //黄金同比%
+	ForeignReserve string //外汇储备(亿美元)
+	// ForeignReserveYearOnYear float64 //外汇储备同比%
+}

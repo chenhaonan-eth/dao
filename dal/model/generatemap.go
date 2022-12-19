@@ -18,7 +18,8 @@ func init() {
 	OpArgsMap["FturesFoewign"] = &FturesFoewign{}
 	OpArgsMap["CxPmi"] = &PmiCx{}
 	OpArgsMap["ValueAddedOfIndustrialProduction"] = &ValueAddedOfIndustrialProduction{}
-	OpArgsMap["	SocialElectricityConsumption"] = &SocialElectricityConsumption{}
-	OpArgsMap["	PassengerAndFreightTraffic"] = &PassengerAndFreightTraffic{}
-
+	OpArgsMap["SocialElectricityConsumption"] = &SocialElectricityConsumption{}
+	OpArgsMap["PassengerAndFreightTraffic"] = &PassengerAndFreightTraffic{}
+	OpArgsMap["NewFinancialCredit"] = &NewFinancialCredit{}
+	OpArgsMap["ForeignReserveAndGold"] = &ForeignReserveAndGold{}
 }

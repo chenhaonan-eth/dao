@@ -64,6 +64,8 @@ func Init() {
 		initValueAddedOfIndustrialProduction,
 		initSocialElectricityConsumption,
 		initPassengerAndFreightTraffic,
+		initChinaNewFinancialCredit,
+		initForeignReserveAndGold,
 	} {
 		// 加入延迟请求
 		num := rand.Int31n(100)
@@ -74,6 +76,48 @@ func Init() {
 			}
 		}
 	}
+}
+
+// 外汇储备与黄金
+func initForeignReserveAndGold() error {
+	t := q.ForeignReserveAndGold
+	do := t.WithContext(context.Background())
+
+	_, err := do.First()
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		v, err := macroscopic.ForeignReserveAndGold("500")
+		if err != nil {
+			config.G_LOG.Error("find initForeignReserveAndGold err", zap.Any("err", err))
+			return err
+		}
+		err = do.CreateInBatches(v, 512)
+		if err != nil {
+			config.G_LOG.Error("CreateInBatches initForeignReserveAndGold err", zap.Any("err", err))
+			return err
+		}
+	}
+	return err
+}
+
+// 中国新增信贷数据
+func initChinaNewFinancialCredit() error {
+	t := q.NewFinancialCredit
+	do := t.WithContext(context.Background())
+
+	_, err := do.First()
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		v, err := macroscopic.ChinaNewFinancialCredit()
+		if err != nil {
+			config.G_LOG.Error("find ChinaNewFinancialCredit err", zap.Any("err", err))
+			return err
+		}
+		err = do.CreateInBatches(v, 1024)
+		if err != nil {
+			config.G_LOG.Error("CreateInBatches ChinaNewFinancialCredit err", zap.Any("err", err))
+			return err
+		}
+	}
+	return err
 }
 
 // 外盘期货 铜
