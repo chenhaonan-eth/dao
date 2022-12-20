@@ -24,6 +24,7 @@ var (
 	ChinaPPI                         *chinaPPI
 	ForeignReserveAndGold            *foreignReserveAndGold
 	FturesFoewign                    *fturesFoewign
+	InvestmentInFixedAssets          *investmentInFixedAssets
 	MacroChinaConsumerGoodsRetail    *macroChinaConsumerGoodsRetail
 	MacroChinaMoneySupply            *macroChinaMoneySupply
 	NewFinancialCredit               *newFinancialCredit
@@ -46,6 +47,7 @@ func SetDefault(db *gorm.DB, opts ...gen.DOOption) {
 	ChinaPPI = &Q.ChinaPPI
 	ForeignReserveAndGold = &Q.ForeignReserveAndGold
 	FturesFoewign = &Q.FturesFoewign
+	InvestmentInFixedAssets = &Q.InvestmentInFixedAssets
 	MacroChinaConsumerGoodsRetail = &Q.MacroChinaConsumerGoodsRetail
 	MacroChinaMoneySupply = &Q.MacroChinaMoneySupply
 	NewFinancialCredit = &Q.NewFinancialCredit
@@ -69,6 +71,7 @@ func Use(db *gorm.DB, opts ...gen.DOOption) *Query {
 		ChinaPPI:                         newChinaPPI(db, opts...),
 		ForeignReserveAndGold:            newForeignReserveAndGold(db, opts...),
 		FturesFoewign:                    newFturesFoewign(db, opts...),
+		InvestmentInFixedAssets:          newInvestmentInFixedAssets(db, opts...),
 		MacroChinaConsumerGoodsRetail:    newMacroChinaConsumerGoodsRetail(db, opts...),
 		MacroChinaMoneySupply:            newMacroChinaMoneySupply(db, opts...),
 		NewFinancialCredit:               newNewFinancialCredit(db, opts...),
@@ -93,6 +96,7 @@ type Query struct {
 	ChinaPPI                         chinaPPI
 	ForeignReserveAndGold            foreignReserveAndGold
 	FturesFoewign                    fturesFoewign
+	InvestmentInFixedAssets          investmentInFixedAssets
 	MacroChinaConsumerGoodsRetail    macroChinaConsumerGoodsRetail
 	MacroChinaMoneySupply            macroChinaMoneySupply
 	NewFinancialCredit               newFinancialCredit
@@ -118,6 +122,7 @@ func (q *Query) clone(db *gorm.DB) *Query {
 		ChinaPPI:                         q.ChinaPPI.clone(db),
 		ForeignReserveAndGold:            q.ForeignReserveAndGold.clone(db),
 		FturesFoewign:                    q.FturesFoewign.clone(db),
+		InvestmentInFixedAssets:          q.InvestmentInFixedAssets.clone(db),
 		MacroChinaConsumerGoodsRetail:    q.MacroChinaConsumerGoodsRetail.clone(db),
 		MacroChinaMoneySupply:            q.MacroChinaMoneySupply.clone(db),
 		NewFinancialCredit:               q.NewFinancialCredit.clone(db),
@@ -150,6 +155,7 @@ func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 		ChinaPPI:                         q.ChinaPPI.replaceDB(db),
 		ForeignReserveAndGold:            q.ForeignReserveAndGold.replaceDB(db),
 		FturesFoewign:                    q.FturesFoewign.replaceDB(db),
+		InvestmentInFixedAssets:          q.InvestmentInFixedAssets.replaceDB(db),
 		MacroChinaConsumerGoodsRetail:    q.MacroChinaConsumerGoodsRetail.replaceDB(db),
 		MacroChinaMoneySupply:            q.MacroChinaMoneySupply.replaceDB(db),
 		NewFinancialCredit:               q.NewFinancialCredit.replaceDB(db),
@@ -172,6 +178,7 @@ type queryCtx struct {
 	ChinaPPI                         *chinaPPIDo
 	ForeignReserveAndGold            *foreignReserveAndGoldDo
 	FturesFoewign                    *fturesFoewignDo
+	InvestmentInFixedAssets          *investmentInFixedAssetsDo
 	MacroChinaConsumerGoodsRetail    *macroChinaConsumerGoodsRetailDo
 	MacroChinaMoneySupply            *macroChinaMoneySupplyDo
 	NewFinancialCredit               *newFinancialCreditDo
@@ -194,6 +201,7 @@ func (q *Query) WithContext(ctx context.Context) *queryCtx {
 		ChinaPPI:                         q.ChinaPPI.WithContext(ctx),
 		ForeignReserveAndGold:            q.ForeignReserveAndGold.WithContext(ctx),
 		FturesFoewign:                    q.FturesFoewign.WithContext(ctx),
+		InvestmentInFixedAssets:          q.InvestmentInFixedAssets.WithContext(ctx),
 		MacroChinaConsumerGoodsRetail:    q.MacroChinaConsumerGoodsRetail.WithContext(ctx),
 		MacroChinaMoneySupply:            q.MacroChinaMoneySupply.WithContext(ctx),
 		NewFinancialCredit:               q.NewFinancialCredit.WithContext(ctx),

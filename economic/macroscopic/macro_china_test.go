@@ -181,3 +181,13 @@ func TestForeignReserveAndGold(t *testing.T) {
 		t.Logf("%+v", *v)
 	}
 }
+
+func TestInvestmentInFixedAssets(t *testing.T) {
+	b, err := InvestmentInFixedAssets("500")
+	if err != nil {
+		t.Log(err)
+	}
+	for _, v := range b {
+		t.Logf("%+v", *v)
+	}
+}

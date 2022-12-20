@@ -290,3 +290,18 @@ type ForeignReserveAndGold struct {
 	ForeignReserve string //外汇储备(亿美元)
 	// ForeignReserveYearOnYear float64 //外汇储备同比%
 }
+
+// 固定资产投资
+type InvestmentInFixedAssets struct {
+	Date                                string `gorm:"index"` //2022-10-01 00:00:00
+	InvestmentCompletedAmount           string //投资完成额(亿元)
+	InvestmentCompletedAmountYearOnYear string //投资完成额同比增长(%)
+	PrimaryIndustry                     string //第一产业(亿元)
+	PrimaryIndustryYearOnYear           string //第一产业用同比%
+	SecondaryIndustry                   string //第二产业
+	SecondaryIndustryYearOnYear         string //第二产业同比%
+	TertiaryIndustry                    string //第三产业
+	TertiaryIndustryYearOnYear          string //第三产业同比%
+	RealEstateDevelopment               string //房地产开发(亿元)
+	RealEstateDevelopmentYearOnYear     string //房地产开发同比增长(%)
+}

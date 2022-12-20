@@ -372,6 +372,24 @@ func local_request_Greeter_GetForeignReserveAndGold_0(ctx context.Context, marsh
 
 }
 
+func request_Greeter_GetInvestmentInFixedAssets_0(ctx context.Context, marshaler runtime.Marshaler, client GreeterClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var protoReq emptypb.Empty
+	var metadata runtime.ServerMetadata
+
+	msg, err := client.GetInvestmentInFixedAssets(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
+	return msg, metadata, err
+
+}
+
+func local_request_Greeter_GetInvestmentInFixedAssets_0(ctx context.Context, marshaler runtime.Marshaler, server GreeterServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var protoReq emptypb.Empty
+	var metadata runtime.ServerMetadata
+
+	msg, err := server.GetInvestmentInFixedAssets(ctx, &protoReq)
+	return msg, metadata, err
+
+}
+
 // RegisterGreeterHandlerServer registers the http handlers for service Greeter to "mux".
 // UnaryRPC     :call GreeterServer directly.
 // StreamingRPC :currently unsupported pending https://github.com/grpc/grpc-go/issues/906.
@@ -803,6 +821,31 @@ func RegisterGreeterHandlerServer(ctx context.Context, mux *runtime.ServeMux, se
 
 	})
 
+	mux.Handle("GET", pattern_Greeter_GetInvestmentInFixedAssets_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+		ctx, cancel := context.WithCancel(req.Context())
+		defer cancel()
+		var stream runtime.ServerTransportStream
+		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
+		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
+		var err error
+		var annotatedContext context.Context
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/server.Greeter/GetInvestmentInFixedAssets", runtime.WithHTTPPathPattern("/v1/macroscopic/investment_in_fixed_assets"))
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		resp, md, err := local_request_Greeter_GetInvestmentInFixedAssets_0(annotatedContext, inboundMarshaler, server, req, pathParams)
+		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
+		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
+		if err != nil {
+			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
+			return
+		}
+
+		forward_Greeter_GetInvestmentInFixedAssets_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+
+	})
+
 	return nil
 }
 
@@ -1218,6 +1261,28 @@ func RegisterGreeterHandlerClient(ctx context.Context, mux *runtime.ServeMux, cl
 
 	})
 
+	mux.Handle("GET", pattern_Greeter_GetInvestmentInFixedAssets_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+		ctx, cancel := context.WithCancel(req.Context())
+		defer cancel()
+		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
+		var err error
+		var annotatedContext context.Context
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/server.Greeter/GetInvestmentInFixedAssets", runtime.WithHTTPPathPattern("/v1/macroscopic/investment_in_fixed_assets"))
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		resp, md, err := request_Greeter_GetInvestmentInFixedAssets_0(annotatedContext, inboundMarshaler, client, req, pathParams)
+		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
+		if err != nil {
+			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
+			return
+		}
+
+		forward_Greeter_GetInvestmentInFixedAssets_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+
+	})
+
 	return nil
 }
 
@@ -1255,6 +1320,8 @@ var (
 	pattern_Greeter_GetNewFinancialCredit_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"v1", "macroscopic", "new_financial_credit"}, ""))
 
 	pattern_Greeter_GetForeignReserveAndGold_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"v1", "macroscopic", "foreign_reserve_and_gold"}, ""))
+
+	pattern_Greeter_GetInvestmentInFixedAssets_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"v1", "macroscopic", "investment_in_fixed_assets"}, ""))
 )
 
 var (
@@ -1291,4 +1358,6 @@ var (
 	forward_Greeter_GetNewFinancialCredit_0 = runtime.ForwardResponseMessage
 
 	forward_Greeter_GetForeignReserveAndGold_0 = runtime.ForwardResponseMessage
+
+	forward_Greeter_GetInvestmentInFixedAssets_0 = runtime.ForwardResponseMessage
 )

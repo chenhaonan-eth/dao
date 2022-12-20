@@ -36,24 +36,24 @@
 | 财新服务采购经理人指数 Caixin service PM                              | ✔️        |
 | 工业生产 Industrial Production                                       | ✔️        |
 | 电力生产与消费 Electricity Production and Consumption                 | ✔️        |
-| 商品贸易 Merchandise Trade                                           | ⭕       |
-| 政府收支及收支平衡 Government Revenue, Expenditure and Balance        | ⭕        |
-| 国际收支平衡 Balance of Payments                                      | ⭕        |
 | 存贷款 Loan and Deposit                                               | ✔️        |
-| 房屋销售 Home Sales                                                   | ⭕        |
 | 外汇储备 Foreign Exchange Reseres                                     | ✔️        |
 | 铁路货运 Rail Freight Traffic                                         | ✔️        |
 | 服务贸易 Service Trade                                                | ⭕        |
 | 工业利润 Industrial profits                                           | ⭕        |
 | 国内生产总值平减指数 GDP Deflator                                       | ⭕        |
+| 商品贸易 Merchandise Trade                                           | ⭕       |
+| 政府收支及收支平衡 Government Revenue, Expenditure and Balance        | ⭕        |
+| 国际收支平衡 Balance of Payments                                      | ⭕        |
 | 库存房 Home inventory                                                  | ⭕       |
+| 房屋销售 Home Sales                                                   | ⭕        |
 | 房屋开工、在建和竣工 Housing Starts, Under Construction and Completion  | ⭕        |
 | 土地收购、交易和发展 Land Acquisition, Transaction and Development      | ⭕        |
 | 地价指数 Land Price Indices                                           | ⭕        |
-| 固定资产投资 Fixed Asset Investment                                   | ⭕       |
+| 房地产开发投资 Investment in Real Estate Development                  | ✔️       |
+| 固定资产投资 Fixed Asset Investment                                   | ✔️       |
 | 汽车销售 Auto Sales                                                   | ⭕        |
 | 物业价格指数 Property Price Index                                     | ⭕        |
-| 房地产开发投资 Investment in Real Estate Development                  | ⭕       |
 | 家庭收入调查 Household Income Survey                                  | ⭕        |
 | 家庭支出调查 Household Expenditure Survey                             | ⭕        |
 | 国家外债 External Debt                                                | ⭕        |

@@ -505,3 +505,33 @@ func (s *server) GetForeignReserveAndGold(ctx context.Context, r *emptypb.Empty)
 	config.G_LOG.Debug("End GetNewFinancialCredit ...", zap.Any("len", len(resp.Results)))
 	return resp, nil
 }
+
+func (s *server) GetInvestmentInFixedAssets(ctx context.Context, r *emptypb.Empty) (*pb.InvestmentInFixedAssetsResponse, error) {
+	config.G_LOG.Debug("Start GetInvestmentInFixedAssets ...")
+	t := q.InvestmentInFixedAssets
+	do := t.WithContext(context.Background())
+	results, err := do.Order(t.Date.Desc()).Find()
+	if err != nil {
+		config.G_LOG.Error("Find err ", zap.Error(err))
+		return nil, err
+	}
+	resp := new(pb.InvestmentInFixedAssetsResponse)
+	resp.Results = make([]*pb.InvestmentInFixedAssets, 0)
+	for _, v := range results {
+		resp.Results = append(resp.Results, &pb.InvestmentInFixedAssets{
+			Date:                                v.Date,
+			InvestmentCompletedAmount:           v.InvestmentCompletedAmount,           //投资完成额(亿元)
+			InvestmentCompletedAmountYearOnYear: v.InvestmentCompletedAmountYearOnYear, //投资完成额同比增长(%)
+			PrimaryIndustry:                     v.PrimaryIndustry,                     //第一产业(亿元)
+			PrimaryIndustryYearOnYear:           v.PrimaryIndustryYearOnYear,           //第一产业用同比%
+			SecondaryIndustry:                   v.SecondaryIndustry,                   //第二产业
+			SecondaryIndustryYearOnYear:         v.SecondaryIndustryYearOnYear,         //第二产业同比%
+			TertiaryIndustry:                    v.TertiaryIndustry,                    //第三产业
+			TertiaryIndustryYearOnYear:          v.TertiaryIndustryYearOnYear,          //第三产业同比%
+			RealEstateDevelopment:               v.RealEstateDevelopment,               //房地产开发(亿元)
+			RealEstateDevelopmentYearOnYear:     v.RealEstateDevelopmentYearOnYear,     //房地产开发同比增长(%)
+		})
+	}
+	config.G_LOG.Debug("End GetInvestmentInFixedAssets ...", zap.Any("len", len(resp.Results)))
+	return resp, nil
+}

@@ -57,6 +57,8 @@ type GreeterClient interface {
 	GetNewFinancialCredit(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*NewFinancialCreditResponse, error)
 	// 外汇储备与黄金
 	GetForeignReserveAndGold(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*ForeignReserveAndGoldResponse, error)
+	// 固定资产投资 (房地产、第一、二、三产业)
+	GetInvestmentInFixedAssets(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*InvestmentInFixedAssetsResponse, error)
 }
 
 type greeterClient struct {
@@ -220,6 +222,15 @@ func (c *greeterClient) GetForeignReserveAndGold(ctx context.Context, in *emptyp
 	return out, nil
 }
 
+func (c *greeterClient) GetInvestmentInFixedAssets(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*InvestmentInFixedAssetsResponse, error) {
+	out := new(InvestmentInFixedAssetsResponse)
+	err := c.cc.Invoke(ctx, "/server.Greeter/GetInvestmentInFixedAssets", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // GreeterServer is the server API for Greeter service.
 // All implementations should embed UnimplementedGreeterServer
 // for forward compatibility
@@ -258,6 +269,8 @@ type GreeterServer interface {
 	GetNewFinancialCredit(context.Context, *emptypb.Empty) (*NewFinancialCreditResponse, error)
 	// 外汇储备与黄金
 	GetForeignReserveAndGold(context.Context, *emptypb.Empty) (*ForeignReserveAndGoldResponse, error)
+	// 固定资产投资 (房地产、第一、二、三产业)
+	GetInvestmentInFixedAssets(context.Context, *emptypb.Empty) (*InvestmentInFixedAssetsResponse, error)
 }
 
 // UnimplementedGreeterServer should be embedded to have forward compatible implementations.
@@ -314,6 +327,9 @@ func (UnimplementedGreeterServer) GetNewFinancialCredit(context.Context, *emptyp
 }
 func (UnimplementedGreeterServer) GetForeignReserveAndGold(context.Context, *emptypb.Empty) (*ForeignReserveAndGoldResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetForeignReserveAndGold not implemented")
+}
+func (UnimplementedGreeterServer) GetInvestmentInFixedAssets(context.Context, *emptypb.Empty) (*InvestmentInFixedAssetsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetInvestmentInFixedAssets not implemented")
 }
 
 // UnsafeGreeterServer may be embedded to opt out of forward compatibility for this service.
@@ -633,6 +649,24 @@ func _Greeter_GetForeignReserveAndGold_Handler(srv interface{}, ctx context.Cont
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Greeter_GetInvestmentInFixedAssets_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(emptypb.Empty)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GreeterServer).GetInvestmentInFixedAssets(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/server.Greeter/GetInvestmentInFixedAssets",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GreeterServer).GetInvestmentInFixedAssets(ctx, req.(*emptypb.Empty))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Greeter_ServiceDesc is the grpc.ServiceDesc for Greeter service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -707,6 +741,10 @@ var Greeter_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetForeignReserveAndGold",
 			Handler:    _Greeter_GetForeignReserveAndGold_Handler,
+		},
+		{
+			MethodName: "GetInvestmentInFixedAssets",
+			Handler:    _Greeter_GetInvestmentInFixedAssets_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

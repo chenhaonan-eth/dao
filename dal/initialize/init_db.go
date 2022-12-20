@@ -66,9 +66,10 @@ func Init() {
 		initPassengerAndFreightTraffic,
 		initChinaNewFinancialCredit,
 		initForeignReserveAndGold,
+		initInvestmentInFixedAssets,
 	} {
 		// 加入延迟请求
-		num := rand.Int31n(100)
+		num := rand.Int31n(500)
 		time.Sleep(time.Duration(num) * time.Millisecond)
 		if err := f(); err != nil {
 			if !errors.Is(err, gorm.ErrRecordNotFound) {
@@ -76,6 +77,27 @@ func Init() {
 			}
 		}
 	}
+}
+
+// 外汇储备与黄金
+func initInvestmentInFixedAssets() error {
+	t := q.InvestmentInFixedAssets
+	do := t.WithContext(context.Background())
+
+	_, err := do.First()
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		v, err := macroscopic.InvestmentInFixedAssets("500")
+		if err != nil {
+			config.G_LOG.Error("find initInvestmentInFixedAssets err", zap.Any("err", err))
+			return err
+		}
+		err = do.CreateInBatches(v, 512)
+		if err != nil {
+			config.G_LOG.Error("CreateInBatches initInvestmentInFixedAssets err", zap.Any("err", err))
+			return err
+		}
+	}
+	return err
 }
 
 // 外汇储备与黄金

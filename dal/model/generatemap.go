@@ -22,4 +22,5 @@ func init() {
 	OpArgsMap["PassengerAndFreightTraffic"] = &PassengerAndFreightTraffic{}
 	OpArgsMap["NewFinancialCredit"] = &NewFinancialCredit{}
 	OpArgsMap["ForeignReserveAndGold"] = &ForeignReserveAndGold{}
+	OpArgsMap["InvestmentInFixedAssets"] = &InvestmentInFixedAssets{}
 }

@@ -257,18 +257,16 @@ message PassengerAndFreightTraffic {
   string kmTotalTurnoverOfCivilAviation = 16; //公里民航总周转/%
 }
 
-message NewFinancialCreditResponse {
-  repeated NewFinancialCredit results = 1;
-}
+message NewFinancialCreditResponse { repeated NewFinancialCredit results = 1; }
 // 中国新增信贷数据
 message NewFinancialCredit {
   string date = 1;
   string time = 2;
-  double loany = 3;                   //当月(亿元)
-  double loanYearOnYear = 4;          // 同比增长(%)
-  double loanyYearOverYear = 5;       // 环比增长
-  double loanyAcc = 6;                // 累计(亿元
-  double loanyAccYearOnYear = 7;      // 同比增长(%)
+  double loany = 3;              //当月(亿元)
+  double loanYearOnYear = 4;     // 同比增长(%)
+  double loanyYearOverYear = 5;  // 环比增长
+  double loanyAcc = 6;           // 累计(亿元
+  double loanyAccYearOnYear = 7; // 同比增长(%)
 }
 
 message ForeignReserveAndGoldResponse {
@@ -277,8 +275,26 @@ message ForeignReserveAndGoldResponse {
 // 中国新增信贷数据
 message ForeignReserveAndGold {
   string date = 1;
-  string gold = 2;                   //黄金储备 万盎司
-  string foreignReserve = 3;          // 外汇储备 亿美元
+  string gold = 2;           //黄金储备 万盎司
+  string foreignReserve = 3; // 外汇储备 亿美元
+}
+
+// 固定资产投资
+message InvestmentInFixedAssetsResponse {
+  repeated InvestmentInFixedAssets results = 1;
+}
+message InvestmentInFixedAssets {
+  string date = 1;
+  string investmentCompletedAmount = 2;           //投资完成额(亿元)
+  string investmentCompletedAmountYearOnYear = 3; //投资完成额同比增长(%)
+  string primaryIndustry = 4;                     //第一产业(亿元)
+  string primaryIndustryYearOnYear = 5;           //第一产业用同比%
+  string secondaryIndustry = 6;                   //第二产业
+  string secondaryIndustryYearOnYear = 7;         //第二产业同比%
+  string tertiaryIndustry = 8;                    //第三产业
+  string tertiaryIndustryYearOnYear = 9;          //第三产业同比%
+  string realEstateDevelopment = 10;              //房地产开发(亿元)
+  string realEstateDevelopmentYearOnYear = 11;    //房地产开发同比增长(%)
 }
 
 service Greeter {
@@ -402,11 +418,19 @@ service Greeter {
     };
   }
 
-    // 外汇储备与黄金
-    rpc GetForeignReserveAndGold(google.protobuf.Empty)
-    returns (ForeignReserveAndGoldResponse) {
-  option (google.api.http) = {
-    get : "/v1/macroscopic/foreign_reserve_and_gold"
-  };
-}
+  // 外汇储备与黄金
+  rpc GetForeignReserveAndGold(google.protobuf.Empty)
+      returns (ForeignReserveAndGoldResponse) {
+    option (google.api.http) = {
+      get : "/v1/macroscopic/foreign_reserve_and_gold"
+    };
+  }
+  
+  // 固定资产投资 (房地产、第一、二、三产业)
+  rpc GetInvestmentInFixedAssets(google.protobuf.Empty)
+      returns (InvestmentInFixedAssetsResponse) {
+    option (google.api.http) = {
+      get : "/v1/macroscopic/investment_in_fixed_assets"
+    };
+  }
 }

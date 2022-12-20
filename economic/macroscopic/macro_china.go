@@ -1008,3 +1008,61 @@ func ForeignReserveAndGold(num string) ([]*model.ForeignReserveAndGold, error) {
 	}
 	return result, nil
 }
+
+// 固定资产投资
+func InvestmentInFixedAssets(num string) ([]*model.InvestmentInFixedAssets, error) {
+	result := []*model.InvestmentInFixedAssets{}
+	t := time.Now().UnixMilli()
+	st := strconv.FormatInt(t, 10)
+	resp, err := Client.R().
+		SetQueryParams(map[string]string{
+			"cate":      "fixed",
+			"event":     "1",
+			"from":      "0",
+			"num":       num,
+			"condition": "",
+			"_":         st,
+		}).
+		Get("https://quotes.sina.cn/mac/api/jsonp_v3.php/SINAREMOTECALLCALLBACK1671538840147/MacPage_Service.get_pagedata")
+	if err != nil {
+		return result, err
+	}
+	byBody := resp.Body()
+	b := byBody[bytes.LastIndexAny(byBody, "data:")+1 : bytes.LastIndexAny(byBody, "}")]
+	strList := make([][]string, 0)
+	err = json.Unmarshal([]byte(b), &strList)
+	if err != nil {
+		return result, nil
+	}
+	for _, v := range strList {
+		var ti time.Time
+		if len(v[0]) == 7 {
+			ti, err = time.Parse("2006.01", v[0])
+			if err != nil {
+				log.Println(err)
+			}
+		} else {
+			ti, err = time.Parse("2006.1", v[0])
+			if err != nil {
+				log.Println(err)
+			}
+		}
+		date := ti.Format(utils.DATE_FORMAT)
+		m := &model.InvestmentInFixedAssets{
+			Date:                                date,
+			InvestmentCompletedAmount:           v[1],  //投资完成额(亿元)
+			InvestmentCompletedAmountYearOnYear: v[2],  //投资完成额同比增长(%)
+			PrimaryIndustry:                     v[7],  //第一产业(亿元)
+			PrimaryIndustryYearOnYear:           v[8],  //第一产业用同比%
+			SecondaryIndustry:                   v[9],  //第二产业
+			SecondaryIndustryYearOnYear:         v[10], //第二产业同比%
+			TertiaryIndustry:                    v[11], //第三产业
+			TertiaryIndustryYearOnYear:          v[12], //第三产业同比%
+			RealEstateDevelopment:               v[45], //房地产开发(亿元)
+			RealEstateDevelopmentYearOnYear:     v[46], //房地产开发同比增长(%)
+		}
+
+		result = append(result, m)
+	}
+	return result, nil
+}

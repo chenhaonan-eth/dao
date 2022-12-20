@@ -33,6 +33,38 @@ var (
 	q      = query.Q
 )
 
+// 固定资产投资
+func CollyInvestmentInFixedAssets() {
+	config.G_LOG.Debug("Start CollyInvestmentInFixedAssets ")
+	// 计算如果上月时间对比数据如已入库，则取消请求
+	t := q.InvestmentInFixedAssets
+	do := t.WithContext(context.Background())
+	// 查询数据库是否存在最近一个月数据
+	m, err := do.Order(t.Date.Desc()).First()
+	if err != nil {
+		config.G_LOG.Error(err.Error())
+		return
+	}
+	if m.Date == utils.FirstDayOfLastMonth() {
+		config.G_LOG.Error("db is exist", zap.Any("date", m.Date))
+		return
+	}
+	res, err := macroscopic.InvestmentInFixedAssets("1")
+	if err != nil {
+		config.G_LOG.Error("CollyInvestmentInFixedAssets HTTP get ", zap.Error(err))
+		return
+	}
+
+	if m.Date == res[0].Date {
+		config.G_LOG.Error("CollyInvestmentInFixedAssets  Database already exists", zap.Any("date", *res[0]))
+		return
+	}
+	if err := do.Create(res[0]); err != nil {
+		config.G_LOG.Error("CollyChinaNewFinancialCredit Create ", zap.Error(err))
+	}
+	config.G_LOG.Debug("End CollyChinaNewFinancialCredit ", zap.Any("data", *res[0]))
+}
+
 // 外汇储备与黄金
 func CollyForeignReserveAndGold() {
 	config.G_LOG.Debug("Start CollyChinaNewFinancialCredit ")
@@ -56,7 +88,7 @@ func CollyForeignReserveAndGold() {
 	}
 
 	if m.Date == res[0].Date {
-		config.G_LOG.Error("CollyChinaNewFinancialCredit The latest data is the same as the database ", zap.Any("date", *res[0]))
+		config.G_LOG.Error("CollyChinaNewFinancialCredit  Database already exists", zap.Any("date", *res[0]))
 		return
 	}
 	if err := do.Create(res[0]); err != nil {
@@ -91,7 +123,7 @@ func CollyChinaNewFinancialCredit() {
 	json.Unmarshal([]byte(v.String()), &res)
 
 	if m.Date == res[0].Date {
-		config.G_LOG.Error("CollyChinaNewFinancialCredit The latest data is the same as the database ", zap.Any("date", *res[0]))
+		config.G_LOG.Error("CollyChinaNewFinancialCredit  Database already exists", zap.Any("date", *res[0]))
 		return
 	}
 	if err := do.Create(res[0]); err != nil {
@@ -137,7 +169,7 @@ func CollyBondZhUsRate() {
 	json.Unmarshal([]byte(v.String()), &res)
 
 	if m.Date == res[0].Date {
-		config.G_LOG.Error("CollyBondZhUsRate The latest data is the same as the database ", zap.Any("date", *res[0]))
+		config.G_LOG.Error("CollyBondZhUsRate  Database already exists", zap.Any("date", *res[0]))
 		return
 	}
 	if err := do.Create(res[0]); err != nil {
@@ -174,7 +206,7 @@ func CollyMacroChinaConsumerGoodsRetail() {
 	json.Unmarshal([]byte(v.String()), &res)
 
 	if m.Date == res[0].Date {
-		config.G_LOG.Error("CollyMacroChinaConsumerGoodsRetail The latest data is the same as the database ", zap.Any("date", *res[0]))
+		config.G_LOG.Error("CollyMacroChinaConsumerGoodsRetail  Database already exists", zap.Any("date", *res[0]))
 		return
 	}
 	if err := do.Create(res[0]); err != nil {
@@ -212,7 +244,7 @@ func CollyChinaMoneySupply() {
 	json.Unmarshal([]byte(v.String()), &res)
 
 	if m.Date == res[0].Date {
-		config.G_LOG.Error("CollyChinaMoneySupply The latest data is the same as the database ", zap.Any("date", *res[0]))
+		config.G_LOG.Error("CollyChinaMoneySupply  Database already exists", zap.Any("date", *res[0]))
 		return
 	}
 	if err := do.Create(res[0]); err != nil {
@@ -302,7 +334,7 @@ func CollyCNPMI() {
 	json.Unmarshal([]byte(v.String()), &res)
 
 	if m.Date == res[0].Date {
-		config.G_LOG.Error("CollyCNPMI The latest data is the same as the database ", zap.Any("date", *res[0]))
+		config.G_LOG.Error("CollyCNPMI  Database already exists", zap.Any("date", *res[0]))
 		return
 	}
 	if err := do.Create(res[0]); err != nil {
@@ -334,7 +366,7 @@ func CollyCXPMI() {
 	}
 
 	if m.Date == res[0].Date {
-		config.G_LOG.Error("CollyCXPMI The latest data is the same as the database ", zap.Any("date", *res[0]))
+		config.G_LOG.Error("CollyCXPMI  Database already exists", zap.Any("date", *res[0]))
 		return
 	}
 	if err := do.Create(res[0]); err != nil {
@@ -369,7 +401,7 @@ func CollyCNGDP() {
 	json.Unmarshal([]byte(v.String()), &res)
 
 	if m.Date == res[0].Date {
-		config.G_LOG.Error("CollyCNGDP The latest data is the same as the database ", zap.Any("date", *res[0]))
+		config.G_LOG.Error("CollyCNGDP  Database already exists", zap.Any("date", *res[0]))
 		return
 	}
 	if err := do.Create(res[0]); err != nil {
@@ -404,7 +436,7 @@ func CollyCNCPI() {
 	json.Unmarshal([]byte(v.String()), &res)
 
 	if m.Date == res[0].Date {
-		config.G_LOG.Error("CollyCNCPI The latest data is the same as the database ", zap.Any("date", *res[0]))
+		config.G_LOG.Error("CollyCNCPI  Database already exists", zap.Any("date", *res[0]))
 		return
 	}
 	if err := do.Create(res[0]); err != nil {
@@ -439,7 +471,7 @@ func CollyCNPPI() {
 	json.Unmarshal([]byte(v.String()), &res)
 
 	if m.Date == res[0].Date {
-		config.G_LOG.Error("CollyCNPPI The latest data is the same as the database ", zap.Any("date", *res[0]))
+		config.G_LOG.Error("CollyCNPPI  Database already exists", zap.Any("date", *res[0]))
 		return
 	}
 	if err := do.Create(res[0]); err != nil {
@@ -788,7 +820,7 @@ func CollyPassengerAndFreightTraffic() {
 		listVal = append(listVal, &m)
 	}
 	if m.Date == listVal[0].Date {
-		config.G_LOG.Error("CollyPassengerAndFreightTraffic The latest data is the same as the database ", zap.Any("date", *listVal[0]))
+		config.G_LOG.Error("CollyPassengerAndFreightTraffic  Database already exists", zap.Any("date", *listVal[0]))
 		return
 	}
 	if err := do.CreateInBatches(listVal, 10); err != nil {
@@ -823,7 +855,7 @@ func CollyValueAddedOfIndustrialProduction() {
 	json.Unmarshal([]byte(v.String()), &res)
 
 	if m.Date == res[0].Date {
-		config.G_LOG.Error("CollyCNPPI The latest data is the same as the database ", zap.Any("date", *res[0]))
+		config.G_LOG.Error("CollyCNPPI  Database already exists", zap.Any("date", *res[0]))
 		return
 	}
 	if err := do.Create(res[0]); err != nil {
@@ -888,7 +920,7 @@ func CollySocialElectricityConsumption() {
 		res = append(res, &m)
 	}
 	if m.Date == res[0].Date {
-		config.G_LOG.Error("CollySocialElectricityConsumption The latest data is the same as the database ", zap.Any("date", *res[0]))
+		config.G_LOG.Error("CollySocialElectricityConsumption  Database already exists", zap.Any("date", *res[0]))
 		return
 	}
 	if err := do.Create(res[0]); err != nil {
