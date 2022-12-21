@@ -56,7 +56,7 @@
 | 物业价格指数 Property Price Index                                     | ⭕        |
 | 家庭收入调查 Household Income Survey                                  | ⭕        |
 | 家庭支出调查 Household Expenditure Survey                             | ⭕        |
-| 国家外债 External Debt                                                | ⭕        |
+| 国家外债 External Debt                                                | ✔️        |
 | 就业总人数 Total Employment                                           | ⭕       |
 | 城镇登记失业率 Urban Registered Unemployment Rate                     | ⭕        |
 | 城镇单位职工平均/总工资 Average/total wage of Employees in Urban Units | ⭕        |

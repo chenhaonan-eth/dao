@@ -26,6 +26,7 @@ func StartTask() {
 		CollyChinaNewFinancialCredit()
 		CollyForeignReserveAndGold()
 		CollyInvestmentInFixedAssets()
+		CollyCentralBankMonetaryAuthorityAssetsAndLiabilities()
 	}
 
 	FuturesForeignTask := func() {

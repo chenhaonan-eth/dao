@@ -191,3 +191,12 @@ func TestInvestmentInFixedAssets(t *testing.T) {
 		t.Logf("%+v", *v)
 	}
 }
+func TestCentralBankMonetaryAuthorityAssetsAndLiabilities(t *testing.T) {
+	b, err := CentralBankMonetaryAuthorityAssetsAndLiabilities("500")
+	if err != nil {
+		t.Log(err)
+	}
+	for _, v := range b {
+		t.Logf("%+v", *v)
+	}
+}

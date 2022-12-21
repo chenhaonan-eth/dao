@@ -305,3 +305,35 @@ type InvestmentInFixedAssets struct {
 	RealEstateDevelopment               string //房地产开发(亿元)
 	RealEstateDevelopmentYearOnYear     string //房地产开发同比增长(%)
 }
+
+// 央行货币当局资产负债
+type CentralBankMonetaryAuthorityAssetsAndLiabilities struct {
+	Date                                     string `gorm:"index"` //2022-10-01 00:00:00
+	ExternalAssets                           string //国外资产 亿元
+	Forex                                    string //外汇 亿元
+	MonetaryGold                             string //货币黄金 亿元
+	OtherForeignAssets                       string //其他国外资产 亿元
+	ClaimOnTheGovernment                     string // 对政府债权 亿元
+	TheCentralGovernment                     string //其中:中央政府 亿元
+	ClaimsOnOtherDepositoryCompanies         string //对其他存款性公司债权 亿元
+	ClaimsOnOtherFinancialCompanies          string //对其他金融性公司债权 亿元
+	ClaimsOnNonMonetaryFinancialInstitutions string //对非货币金融机构债权 亿元
+	ClaimsOnNonFinancialCorporations         string //对非金融性公司债权 亿元
+	AllOtherAssets                           string //其他资产 亿元
+	TotalAssets                              string //总资产 亿元
+	ReserveCurrency                          string //储备货币 亿元
+	IssueCurrency                            string //发行货币 亿元
+	FinancialCompanyDeposits                 string //金融性公司存款 亿元
+	OtherDepositoryCompanies                 string //其他存款性公司 亿元
+	OtherFinancialCompanies                  string //其他金融性公司 亿元
+	LiabilitiesToFinancialInstitutions       string //对金融机构负债 亿元
+	ReserveDeposit                           string //准备金存款 亿元
+	NonFinancialCorporateDeposits            string //非金融性公司存款 亿元
+	CurrentDeposit                           string //活期存款 亿元
+	Bond                                     string //债券 亿元
+	ForeignLiabilities                       string //国外负债 亿元
+	PublicDeposit                            string //政府存款 亿元
+	EquityFund                               string //自有资金 亿元
+	OtherLiabilities                         string //其他负债 亿元
+	GrossLiability                           string //总负债 亿元
+}

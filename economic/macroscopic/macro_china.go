@@ -1066,3 +1066,57 @@ func InvestmentInFixedAssets(num string) ([]*model.InvestmentInFixedAssets, erro
 	}
 	return result, nil
 }
+
+// 央行货币当局资产负债
+func CentralBankMonetaryAuthorityAssetsAndLiabilities(num string) ([]*model.CentralBankMonetaryAuthorityAssetsAndLiabilities, error) {
+	result := []*model.CentralBankMonetaryAuthorityAssetsAndLiabilities{}
+	t := time.Now().UnixMilli()
+	st := strconv.FormatInt(t, 10)
+	resp, err := Client.R().
+		SetQueryParams(map[string]string{
+			"cate":      "fininfo",
+			"event":     "8",
+			"from":      "0",
+			"num":       num,
+			"condition": "",
+			"_":         st,
+		}).
+		Get("https://quotes.sina.cn/mac/api/jsonp_v3.php/SINAREMOTECALLCALLBACK1671456338405/MacPage_Service.get_pagedata")
+	if err != nil {
+		return result, err
+	}
+	byBody := resp.Body()
+	b := byBody[bytes.LastIndexAny(byBody, "data:")+1 : bytes.LastIndexAny(byBody, "}")]
+	strList := make([][]string, 0)
+	err = json.Unmarshal([]byte(b), &strList)
+	if err != nil {
+		return result, nil
+	}
+	for _, v := range strList {
+		m := model.CentralBankMonetaryAuthorityAssetsAndLiabilities{}
+		ivalue := reflect.ValueOf(&m).Elem()
+		for i, v := range v {
+			if i == 0 {
+				elem := ivalue.Field(0)
+				var ti time.Time
+				if len(v) == 7 {
+					ti, err = time.Parse("2006.01", v)
+					if err != nil {
+						log.Println(err)
+					}
+				} else {
+					ti, err = time.Parse("2006.1", v)
+					if err != nil {
+						log.Println(err)
+					}
+				}
+				elem.SetString(ti.Format(utils.DATE_FORMAT))
+				continue
+			}
+			elem := ivalue.Field(i)
+			elem.SetString(strings.TrimSpace(v))
+		}
+		result = append(result, &m)
+	}
+	return result, nil
+}

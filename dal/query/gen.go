@@ -16,31 +16,33 @@ import (
 )
 
 var (
-	Q                                = new(Query)
-	BondZhUsRate                     *bondZhUsRate
-	ChinaCPI                         *chinaCPI
-	ChinaGDP                         *chinaGDP
-	ChinaPMI                         *chinaPMI
-	ChinaPPI                         *chinaPPI
-	ForeignReserveAndGold            *foreignReserveAndGold
-	FturesFoewign                    *fturesFoewign
-	InvestmentInFixedAssets          *investmentInFixedAssets
-	MacroChinaConsumerGoodsRetail    *macroChinaConsumerGoodsRetail
-	MacroChinaMoneySupply            *macroChinaMoneySupply
-	NewFinancialCredit               *newFinancialCredit
-	PassengerAndFreightTraffic       *passengerAndFreightTraffic
-	PePbPsDvTotalmv                  *pePbPsDvTotalmv
-	PmiCx                            *pmiCx
-	SH300PE                          *sH300PE
-	SocialElectricityConsumption     *socialElectricityConsumption
-	SocialFinancingFlow              *socialFinancingFlow
-	SocialFinancingStock             *socialFinancingStock
-	ValueAddedOfIndustrialProduction *valueAddedOfIndustrialProduction
+	Q                                                = new(Query)
+	BondZhUsRate                                     *bondZhUsRate
+	CentralBankMonetaryAuthorityAssetsAndLiabilities *centralBankMonetaryAuthorityAssetsAndLiabilities
+	ChinaCPI                                         *chinaCPI
+	ChinaGDP                                         *chinaGDP
+	ChinaPMI                                         *chinaPMI
+	ChinaPPI                                         *chinaPPI
+	ForeignReserveAndGold                            *foreignReserveAndGold
+	FturesFoewign                                    *fturesFoewign
+	InvestmentInFixedAssets                          *investmentInFixedAssets
+	MacroChinaConsumerGoodsRetail                    *macroChinaConsumerGoodsRetail
+	MacroChinaMoneySupply                            *macroChinaMoneySupply
+	NewFinancialCredit                               *newFinancialCredit
+	PassengerAndFreightTraffic                       *passengerAndFreightTraffic
+	PePbPsDvTotalmv                                  *pePbPsDvTotalmv
+	PmiCx                                            *pmiCx
+	SH300PE                                          *sH300PE
+	SocialElectricityConsumption                     *socialElectricityConsumption
+	SocialFinancingFlow                              *socialFinancingFlow
+	SocialFinancingStock                             *socialFinancingStock
+	ValueAddedOfIndustrialProduction                 *valueAddedOfIndustrialProduction
 )
 
 func SetDefault(db *gorm.DB, opts ...gen.DOOption) {
 	*Q = *Use(db, opts...)
 	BondZhUsRate = &Q.BondZhUsRate
+	CentralBankMonetaryAuthorityAssetsAndLiabilities = &Q.CentralBankMonetaryAuthorityAssetsAndLiabilities
 	ChinaCPI = &Q.ChinaCPI
 	ChinaGDP = &Q.ChinaGDP
 	ChinaPMI = &Q.ChinaPMI
@@ -63,8 +65,9 @@ func SetDefault(db *gorm.DB, opts ...gen.DOOption) {
 
 func Use(db *gorm.DB, opts ...gen.DOOption) *Query {
 	return &Query{
-		db:                               db,
-		BondZhUsRate:                     newBondZhUsRate(db, opts...),
+		db:           db,
+		BondZhUsRate: newBondZhUsRate(db, opts...),
+		CentralBankMonetaryAuthorityAssetsAndLiabilities: newCentralBankMonetaryAuthorityAssetsAndLiabilities(db, opts...),
 		ChinaCPI:                         newChinaCPI(db, opts...),
 		ChinaGDP:                         newChinaGDP(db, opts...),
 		ChinaPMI:                         newChinaPMI(db, opts...),
@@ -89,33 +92,35 @@ func Use(db *gorm.DB, opts ...gen.DOOption) *Query {
 type Query struct {
 	db *gorm.DB
 
-	BondZhUsRate                     bondZhUsRate
-	ChinaCPI                         chinaCPI
-	ChinaGDP                         chinaGDP
-	ChinaPMI                         chinaPMI
-	ChinaPPI                         chinaPPI
-	ForeignReserveAndGold            foreignReserveAndGold
-	FturesFoewign                    fturesFoewign
-	InvestmentInFixedAssets          investmentInFixedAssets
-	MacroChinaConsumerGoodsRetail    macroChinaConsumerGoodsRetail
-	MacroChinaMoneySupply            macroChinaMoneySupply
-	NewFinancialCredit               newFinancialCredit
-	PassengerAndFreightTraffic       passengerAndFreightTraffic
-	PePbPsDvTotalmv                  pePbPsDvTotalmv
-	PmiCx                            pmiCx
-	SH300PE                          sH300PE
-	SocialElectricityConsumption     socialElectricityConsumption
-	SocialFinancingFlow              socialFinancingFlow
-	SocialFinancingStock             socialFinancingStock
-	ValueAddedOfIndustrialProduction valueAddedOfIndustrialProduction
+	BondZhUsRate                                     bondZhUsRate
+	CentralBankMonetaryAuthorityAssetsAndLiabilities centralBankMonetaryAuthorityAssetsAndLiabilities
+	ChinaCPI                                         chinaCPI
+	ChinaGDP                                         chinaGDP
+	ChinaPMI                                         chinaPMI
+	ChinaPPI                                         chinaPPI
+	ForeignReserveAndGold                            foreignReserveAndGold
+	FturesFoewign                                    fturesFoewign
+	InvestmentInFixedAssets                          investmentInFixedAssets
+	MacroChinaConsumerGoodsRetail                    macroChinaConsumerGoodsRetail
+	MacroChinaMoneySupply                            macroChinaMoneySupply
+	NewFinancialCredit                               newFinancialCredit
+	PassengerAndFreightTraffic                       passengerAndFreightTraffic
+	PePbPsDvTotalmv                                  pePbPsDvTotalmv
+	PmiCx                                            pmiCx
+	SH300PE                                          sH300PE
+	SocialElectricityConsumption                     socialElectricityConsumption
+	SocialFinancingFlow                              socialFinancingFlow
+	SocialFinancingStock                             socialFinancingStock
+	ValueAddedOfIndustrialProduction                 valueAddedOfIndustrialProduction
 }
 
 func (q *Query) Available() bool { return q.db != nil }
 
 func (q *Query) clone(db *gorm.DB) *Query {
 	return &Query{
-		db:                               db,
-		BondZhUsRate:                     q.BondZhUsRate.clone(db),
+		db:           db,
+		BondZhUsRate: q.BondZhUsRate.clone(db),
+		CentralBankMonetaryAuthorityAssetsAndLiabilities: q.CentralBankMonetaryAuthorityAssetsAndLiabilities.clone(db),
 		ChinaCPI:                         q.ChinaCPI.clone(db),
 		ChinaGDP:                         q.ChinaGDP.clone(db),
 		ChinaPMI:                         q.ChinaPMI.clone(db),
@@ -147,8 +152,9 @@ func (q *Query) WriteDB() *Query {
 
 func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 	return &Query{
-		db:                               db,
-		BondZhUsRate:                     q.BondZhUsRate.replaceDB(db),
+		db:           db,
+		BondZhUsRate: q.BondZhUsRate.replaceDB(db),
+		CentralBankMonetaryAuthorityAssetsAndLiabilities: q.CentralBankMonetaryAuthorityAssetsAndLiabilities.replaceDB(db),
 		ChinaCPI:                         q.ChinaCPI.replaceDB(db),
 		ChinaGDP:                         q.ChinaGDP.replaceDB(db),
 		ChinaPMI:                         q.ChinaPMI.replaceDB(db),
@@ -171,30 +177,32 @@ func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 }
 
 type queryCtx struct {
-	BondZhUsRate                     *bondZhUsRateDo
-	ChinaCPI                         *chinaCPIDo
-	ChinaGDP                         *chinaGDPDo
-	ChinaPMI                         *chinaPMIDo
-	ChinaPPI                         *chinaPPIDo
-	ForeignReserveAndGold            *foreignReserveAndGoldDo
-	FturesFoewign                    *fturesFoewignDo
-	InvestmentInFixedAssets          *investmentInFixedAssetsDo
-	MacroChinaConsumerGoodsRetail    *macroChinaConsumerGoodsRetailDo
-	MacroChinaMoneySupply            *macroChinaMoneySupplyDo
-	NewFinancialCredit               *newFinancialCreditDo
-	PassengerAndFreightTraffic       *passengerAndFreightTrafficDo
-	PePbPsDvTotalmv                  *pePbPsDvTotalmvDo
-	PmiCx                            *pmiCxDo
-	SH300PE                          *sH300PEDo
-	SocialElectricityConsumption     *socialElectricityConsumptionDo
-	SocialFinancingFlow              *socialFinancingFlowDo
-	SocialFinancingStock             *socialFinancingStockDo
-	ValueAddedOfIndustrialProduction *valueAddedOfIndustrialProductionDo
+	BondZhUsRate                                     *bondZhUsRateDo
+	CentralBankMonetaryAuthorityAssetsAndLiabilities *centralBankMonetaryAuthorityAssetsAndLiabilitiesDo
+	ChinaCPI                                         *chinaCPIDo
+	ChinaGDP                                         *chinaGDPDo
+	ChinaPMI                                         *chinaPMIDo
+	ChinaPPI                                         *chinaPPIDo
+	ForeignReserveAndGold                            *foreignReserveAndGoldDo
+	FturesFoewign                                    *fturesFoewignDo
+	InvestmentInFixedAssets                          *investmentInFixedAssetsDo
+	MacroChinaConsumerGoodsRetail                    *macroChinaConsumerGoodsRetailDo
+	MacroChinaMoneySupply                            *macroChinaMoneySupplyDo
+	NewFinancialCredit                               *newFinancialCreditDo
+	PassengerAndFreightTraffic                       *passengerAndFreightTrafficDo
+	PePbPsDvTotalmv                                  *pePbPsDvTotalmvDo
+	PmiCx                                            *pmiCxDo
+	SH300PE                                          *sH300PEDo
+	SocialElectricityConsumption                     *socialElectricityConsumptionDo
+	SocialFinancingFlow                              *socialFinancingFlowDo
+	SocialFinancingStock                             *socialFinancingStockDo
+	ValueAddedOfIndustrialProduction                 *valueAddedOfIndustrialProductionDo
 }
 
 func (q *Query) WithContext(ctx context.Context) *queryCtx {
 	return &queryCtx{
-		BondZhUsRate:                     q.BondZhUsRate.WithContext(ctx),
+		BondZhUsRate: q.BondZhUsRate.WithContext(ctx),
+		CentralBankMonetaryAuthorityAssetsAndLiabilities: q.CentralBankMonetaryAuthorityAssetsAndLiabilities.WithContext(ctx),
 		ChinaCPI:                         q.ChinaCPI.WithContext(ctx),
 		ChinaGDP:                         q.ChinaGDP.WithContext(ctx),
 		ChinaPMI:                         q.ChinaPMI.WithContext(ctx),

@@ -33,6 +33,38 @@ var (
 	q      = query.Q
 )
 
+// 央行货币当局资产负债
+func CollyCentralBankMonetaryAuthorityAssetsAndLiabilities() {
+	config.G_LOG.Debug("Start CollyCentralBankMonetaryAuthorityAssetsAndLiabilities ")
+	// 计算如果上月时间对比数据如已入库，则取消请求
+	t := q.CentralBankMonetaryAuthorityAssetsAndLiabilities
+	do := t.WithContext(context.Background())
+	// 查询数据库是否存在最近一个月数据
+	m, err := do.Order(t.Date.Desc()).First()
+	if err != nil {
+		config.G_LOG.Error(err.Error())
+		return
+	}
+	if m.Date == utils.FirstDayOfLastMonth() {
+		config.G_LOG.Error("db is exist", zap.Any("date", m.Date))
+		return
+	}
+	res, err := macroscopic.CentralBankMonetaryAuthorityAssetsAndLiabilities("1")
+	if err != nil {
+		config.G_LOG.Error("CollyCentralBankMonetaryAuthorityAssetsAndLiabilities HTTP get ", zap.Error(err))
+		return
+	}
+
+	if m.Date == res[0].Date {
+		config.G_LOG.Error("CollyCentralBankMonetaryAuthorityAssetsAndLiabilities  Database already exists", zap.Any("date", *res[0]))
+		return
+	}
+	if err := do.Create(res[0]); err != nil {
+		config.G_LOG.Error("CollyCentralBankMonetaryAuthorityAssetsAndLiabilities Create ", zap.Error(err))
+	}
+	config.G_LOG.Debug("End CollyCentralBankMonetaryAuthorityAssetsAndLiabilities ", zap.Any("data", *res[0]))
+}
+
 // 固定资产投资
 func CollyInvestmentInFixedAssets() {
 	config.G_LOG.Debug("Start CollyInvestmentInFixedAssets ")

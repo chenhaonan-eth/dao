@@ -67,6 +67,7 @@ func Init() {
 		initChinaNewFinancialCredit,
 		initForeignReserveAndGold,
 		initInvestmentInFixedAssets,
+		initCentralBankMonetaryAuthorityAssetsAndLiabilities,
 	} {
 		// 加入延迟请求
 		num := rand.Int31n(500)
@@ -79,7 +80,28 @@ func Init() {
 	}
 }
 
-// 外汇储备与黄金
+// 央行货币当局资产负债
+func initCentralBankMonetaryAuthorityAssetsAndLiabilities() error {
+	t := q.CentralBankMonetaryAuthorityAssetsAndLiabilities
+	do := t.WithContext(context.Background())
+
+	_, err := do.First()
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		v, err := macroscopic.CentralBankMonetaryAuthorityAssetsAndLiabilities("500")
+		if err != nil {
+			config.G_LOG.Error("find initCentralBankMonetaryAuthorityAssetsAndLiabilities err", zap.Any("err", err))
+			return err
+		}
+		err = do.CreateInBatches(v, 512)
+		if err != nil {
+			config.G_LOG.Error("CreateInBatches initCentralBankMonetaryAuthorityAssetsAndLiabilities err", zap.Any("err", err))
+			return err
+		}
+	}
+	return err
+}
+
+// 固定资产投资
 func initInvestmentInFixedAssets() error {
 	t := q.InvestmentInFixedAssets
 	do := t.WithContext(context.Background())
