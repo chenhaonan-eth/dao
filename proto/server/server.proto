@@ -94,6 +94,24 @@ message Pmi {
   double nonManufacturingYearOnYear = 6; // 同比增加(%)
 }
 
+message ManufacturingPmiParticularsResponse { repeated ManufacturingPmiParticulars results = 1; }
+// 制造业PMI详情
+message ManufacturingPmiParticulars {
+	string date                              = 1;     
+	string pmi                               = 2;     
+	string productionIndex                   = 3;      //生产指数
+	string indexOfNewOrders                  = 4;      //新订单指数
+	string indexOfNewExportOrders            = 5;      //新出口订单指数
+	string backlogIndex                      = 6;      //积压订单指数
+	string indexOfInventoriesOfFinishedGoods = 7;     //产成品库存指数
+	string purchasingVolumeIndex             = 8;      //采购量指数
+	string importIndex                       = 9;      //进口指数
+	string purchasingPriceIndex              = 10;      //购进价格指数
+	string inventoryIndexOfRawMaterials      = 11;      //原材料库存指数
+	string employeeIndex                     = 12;     //从业人员指数
+	string supplierDeliveryTimeIndex         = 13;     //供应商配送时间指数
+}
+
 message CpiResponse { repeated Cpi results = 1; }
 message Cpi {
   string date = 1;                 // 2022-10-01 00:00:00
@@ -354,6 +372,13 @@ service Greeter {
   rpc GetPmi(google.protobuf.Empty) returns (PmiResponse) {
     option (google.api.http) = {
       get : "/v1/macroscopic/cn/pmi"
+    };
+  }
+
+  // 制造业PMI详情
+  rpc GetManufacturingPmiParticulars(google.protobuf.Empty) returns (ManufacturingPmiParticularsResponse) {
+    option (google.api.http) = {
+      get : "/v1/macroscopic/cn/manufacturing_pmi_particulars"
     };
   }
 

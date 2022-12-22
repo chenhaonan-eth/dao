@@ -535,3 +535,36 @@ func (s *server) GetInvestmentInFixedAssets(ctx context.Context, r *emptypb.Empt
 	config.G_LOG.Debug("End GetInvestmentInFixedAssets ...", zap.Any("len", len(resp.Results)))
 	return resp, nil
 }
+
+func (s *server) GetManufacturingPmiParticulars(ctx context.Context, r *emptypb.Empty) (*pb.ManufacturingPmiParticularsResponse, error) {
+	config.G_LOG.Debug("Start GetManufacturingPmiParticulars ...")
+	t := q.ManufacturingPmiParticulars
+	do := t.WithContext(context.Background())
+	results, err := do.Order(t.Date.Desc()).Find()
+	if err != nil {
+		config.G_LOG.Error("Find err ", zap.Error(err))
+		return nil, err
+	}
+	resp := new(pb.ManufacturingPmiParticularsResponse)
+	resp.Results = make([]*pb.ManufacturingPmiParticulars, 0)
+	for _, v := range results {
+		resp.Results = append(resp.Results, &pb.ManufacturingPmiParticulars{
+			Date:                              v.Date,
+			Pmi:                               v.Pmi,
+			ProductionIndex:                   v.ProductionIndex,                   //生产指数
+			IndexOfNewOrders:                  v.IndexOfNewOrders,                  //新订单指数
+			IndexOfNewExportOrders:            v.IndexOfNewExportOrders,            //新出口订单指数
+			BacklogIndex:                      v.BacklogIndex,                      //积压订单指数
+			IndexOfInventoriesOfFinishedGoods: v.IndexOfInventoriesOfFinishedGoods, //产成品库存指数
+			PurchasingVolumeIndex:             v.PurchasingVolumeIndex,             //采购量指数
+			ImportIndex:                       v.ImportIndex,                       //进口指数
+			PurchasingPriceIndex:              v.PurchasingPriceIndex,              //购进价格指数
+			InventoryIndexOfRawMaterials:      v.InventoryIndexOfRawMaterials,      //原材料库存指数
+			EmployeeIndex:                     v.EmployeeIndex,                     //从业人员指数
+			SupplierDeliveryTimeIndex:         v.SupplierDeliveryTimeIndex,         //供应商配送时间指数
+
+		})
+	}
+	config.G_LOG.Debug("End GetManufacturingPmiParticulars ...", zap.Any("len", len(resp.Results)))
+	return resp, nil
+}

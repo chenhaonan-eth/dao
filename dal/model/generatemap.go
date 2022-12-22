@@ -24,4 +24,5 @@ func init() {
 	OpArgsMap["ForeignReserveAndGold"] = &ForeignReserveAndGold{}
 	OpArgsMap["InvestmentInFixedAssets"] = &InvestmentInFixedAssets{}
 	OpArgsMap["CentralBankMonetaryAuthorityAssetsAndLiabilities"] = &CentralBankMonetaryAuthorityAssetsAndLiabilities{}
+	OpArgsMap["ManufacturingPmiParticulars"] = &ManufacturingPmiParticulars{}
 }

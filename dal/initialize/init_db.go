@@ -68,6 +68,7 @@ func Init() {
 		initForeignReserveAndGold,
 		initInvestmentInFixedAssets,
 		initCentralBankMonetaryAuthorityAssetsAndLiabilities,
+		initManufacturingPmiParticulars,
 	} {
 		// 加入延迟请求
 		num := rand.Int31n(500)
@@ -78,6 +79,27 @@ func Init() {
 			}
 		}
 	}
+}
+
+// 制造业PMI详情
+func initManufacturingPmiParticulars() error {
+	t := q.ManufacturingPmiParticulars
+	do := t.WithContext(context.Background())
+
+	_, err := do.First()
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		v, err := macroscopic.ManufacturingPmiParticulars("500")
+		if err != nil {
+			config.G_LOG.Error("find initManufacturingPmiParticulars err", zap.Any("err", err))
+			return err
+		}
+		err = do.CreateInBatches(v, 512)
+		if err != nil {
+			config.G_LOG.Error("CreateInBatches initManufacturingPmiParticulars err", zap.Any("err", err))
+			return err
+		}
+	}
+	return err
 }
 
 // 央行货币当局资产负债

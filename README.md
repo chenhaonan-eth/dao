@@ -174,6 +174,8 @@ http://0.0.0.0:50053/swagger-ui/
 
 [Akshare](<https://www.akshare.xyz/index.html>)
 
+[Finance Sina](<https://finance.sina.com.cn/>)
+
 数据均来自网络公开数据。
 
 ## License

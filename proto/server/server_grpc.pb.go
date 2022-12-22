@@ -39,6 +39,8 @@ type GreeterClient interface {
 	GetGdp(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*GdpResponse, error)
 	// PMI
 	GetPmi(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*PmiResponse, error)
+	// 制造业PMI详情
+	GetManufacturingPmiParticulars(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*ManufacturingPmiParticularsResponse, error)
 	// CPI
 	GetCpi(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*CpiResponse, error)
 	// 货币供应
@@ -135,6 +137,15 @@ func (c *greeterClient) GetGdp(ctx context.Context, in *emptypb.Empty, opts ...g
 func (c *greeterClient) GetPmi(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*PmiResponse, error) {
 	out := new(PmiResponse)
 	err := c.cc.Invoke(ctx, "/server.Greeter/GetPmi", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *greeterClient) GetManufacturingPmiParticulars(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*ManufacturingPmiParticularsResponse, error) {
+	out := new(ManufacturingPmiParticularsResponse)
+	err := c.cc.Invoke(ctx, "/server.Greeter/GetManufacturingPmiParticulars", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -251,6 +262,8 @@ type GreeterServer interface {
 	GetGdp(context.Context, *emptypb.Empty) (*GdpResponse, error)
 	// PMI
 	GetPmi(context.Context, *emptypb.Empty) (*PmiResponse, error)
+	// 制造业PMI详情
+	GetManufacturingPmiParticulars(context.Context, *emptypb.Empty) (*ManufacturingPmiParticularsResponse, error)
 	// CPI
 	GetCpi(context.Context, *emptypb.Empty) (*CpiResponse, error)
 	// 货币供应
@@ -300,6 +313,9 @@ func (UnimplementedGreeterServer) GetGdp(context.Context, *emptypb.Empty) (*GdpR
 }
 func (UnimplementedGreeterServer) GetPmi(context.Context, *emptypb.Empty) (*PmiResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetPmi not implemented")
+}
+func (UnimplementedGreeterServer) GetManufacturingPmiParticulars(context.Context, *emptypb.Empty) (*ManufacturingPmiParticularsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetManufacturingPmiParticulars not implemented")
 }
 func (UnimplementedGreeterServer) GetCpi(context.Context, *emptypb.Empty) (*CpiResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetCpi not implemented")
@@ -483,6 +499,24 @@ func _Greeter_GetPmi_Handler(srv interface{}, ctx context.Context, dec func(inte
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(GreeterServer).GetPmi(ctx, req.(*emptypb.Empty))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Greeter_GetManufacturingPmiParticulars_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(emptypb.Empty)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GreeterServer).GetManufacturingPmiParticulars(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/server.Greeter/GetManufacturingPmiParticulars",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GreeterServer).GetManufacturingPmiParticulars(ctx, req.(*emptypb.Empty))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -705,6 +739,10 @@ var Greeter_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetPmi",
 			Handler:    _Greeter_GetPmi_Handler,
+		},
+		{
+			MethodName: "GetManufacturingPmiParticulars",
+			Handler:    _Greeter_GetManufacturingPmiParticulars_Handler,
 		},
 		{
 			MethodName: "GetCpi",

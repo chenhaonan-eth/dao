@@ -337,3 +337,20 @@ type CentralBankMonetaryAuthorityAssetsAndLiabilities struct {
 	OtherLiabilities                         string //其他负债 亿元
 	GrossLiability                           string //总负债 亿元
 }
+
+// 制造业PMI
+type ManufacturingPmiParticulars struct {
+	Date                              string `gorm:"index"` //2022-10-01 00:00:00
+	Pmi                               string
+	ProductionIndex                   string //生产指数
+	IndexOfNewOrders                  string //新订单指数
+	IndexOfNewExportOrders            string //新出口订单指数
+	BacklogIndex                      string //积压订单指数
+	IndexOfInventoriesOfFinishedGoods string //产成品库存指数
+	PurchasingVolumeIndex             string //采购量指数
+	ImportIndex                       string //进口指数
+	PurchasingPriceIndex              string //购进价格指数
+	InventoryIndexOfRawMaterials      string //原材料库存指数
+	EmployeeIndex                     string //从业人员指数
+	SupplierDeliveryTimeIndex         string //供应商配送时间指数
+}

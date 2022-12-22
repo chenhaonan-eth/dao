@@ -28,6 +28,7 @@ var (
 	InvestmentInFixedAssets                          *investmentInFixedAssets
 	MacroChinaConsumerGoodsRetail                    *macroChinaConsumerGoodsRetail
 	MacroChinaMoneySupply                            *macroChinaMoneySupply
+	ManufacturingPmiParticulars                      *manufacturingPmiParticulars
 	NewFinancialCredit                               *newFinancialCredit
 	PassengerAndFreightTraffic                       *passengerAndFreightTraffic
 	PePbPsDvTotalmv                                  *pePbPsDvTotalmv
@@ -52,6 +53,7 @@ func SetDefault(db *gorm.DB, opts ...gen.DOOption) {
 	InvestmentInFixedAssets = &Q.InvestmentInFixedAssets
 	MacroChinaConsumerGoodsRetail = &Q.MacroChinaConsumerGoodsRetail
 	MacroChinaMoneySupply = &Q.MacroChinaMoneySupply
+	ManufacturingPmiParticulars = &Q.ManufacturingPmiParticulars
 	NewFinancialCredit = &Q.NewFinancialCredit
 	PassengerAndFreightTraffic = &Q.PassengerAndFreightTraffic
 	PePbPsDvTotalmv = &Q.PePbPsDvTotalmv
@@ -77,6 +79,7 @@ func Use(db *gorm.DB, opts ...gen.DOOption) *Query {
 		InvestmentInFixedAssets:          newInvestmentInFixedAssets(db, opts...),
 		MacroChinaConsumerGoodsRetail:    newMacroChinaConsumerGoodsRetail(db, opts...),
 		MacroChinaMoneySupply:            newMacroChinaMoneySupply(db, opts...),
+		ManufacturingPmiParticulars:      newManufacturingPmiParticulars(db, opts...),
 		NewFinancialCredit:               newNewFinancialCredit(db, opts...),
 		PassengerAndFreightTraffic:       newPassengerAndFreightTraffic(db, opts...),
 		PePbPsDvTotalmv:                  newPePbPsDvTotalmv(db, opts...),
@@ -103,6 +106,7 @@ type Query struct {
 	InvestmentInFixedAssets                          investmentInFixedAssets
 	MacroChinaConsumerGoodsRetail                    macroChinaConsumerGoodsRetail
 	MacroChinaMoneySupply                            macroChinaMoneySupply
+	ManufacturingPmiParticulars                      manufacturingPmiParticulars
 	NewFinancialCredit                               newFinancialCredit
 	PassengerAndFreightTraffic                       passengerAndFreightTraffic
 	PePbPsDvTotalmv                                  pePbPsDvTotalmv
@@ -130,6 +134,7 @@ func (q *Query) clone(db *gorm.DB) *Query {
 		InvestmentInFixedAssets:          q.InvestmentInFixedAssets.clone(db),
 		MacroChinaConsumerGoodsRetail:    q.MacroChinaConsumerGoodsRetail.clone(db),
 		MacroChinaMoneySupply:            q.MacroChinaMoneySupply.clone(db),
+		ManufacturingPmiParticulars:      q.ManufacturingPmiParticulars.clone(db),
 		NewFinancialCredit:               q.NewFinancialCredit.clone(db),
 		PassengerAndFreightTraffic:       q.PassengerAndFreightTraffic.clone(db),
 		PePbPsDvTotalmv:                  q.PePbPsDvTotalmv.clone(db),
@@ -164,6 +169,7 @@ func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 		InvestmentInFixedAssets:          q.InvestmentInFixedAssets.replaceDB(db),
 		MacroChinaConsumerGoodsRetail:    q.MacroChinaConsumerGoodsRetail.replaceDB(db),
 		MacroChinaMoneySupply:            q.MacroChinaMoneySupply.replaceDB(db),
+		ManufacturingPmiParticulars:      q.ManufacturingPmiParticulars.replaceDB(db),
 		NewFinancialCredit:               q.NewFinancialCredit.replaceDB(db),
 		PassengerAndFreightTraffic:       q.PassengerAndFreightTraffic.replaceDB(db),
 		PePbPsDvTotalmv:                  q.PePbPsDvTotalmv.replaceDB(db),
@@ -188,6 +194,7 @@ type queryCtx struct {
 	InvestmentInFixedAssets                          *investmentInFixedAssetsDo
 	MacroChinaConsumerGoodsRetail                    *macroChinaConsumerGoodsRetailDo
 	MacroChinaMoneySupply                            *macroChinaMoneySupplyDo
+	ManufacturingPmiParticulars                      *manufacturingPmiParticularsDo
 	NewFinancialCredit                               *newFinancialCreditDo
 	PassengerAndFreightTraffic                       *passengerAndFreightTrafficDo
 	PePbPsDvTotalmv                                  *pePbPsDvTotalmvDo
@@ -212,6 +219,7 @@ func (q *Query) WithContext(ctx context.Context) *queryCtx {
 		InvestmentInFixedAssets:          q.InvestmentInFixedAssets.WithContext(ctx),
 		MacroChinaConsumerGoodsRetail:    q.MacroChinaConsumerGoodsRetail.WithContext(ctx),
 		MacroChinaMoneySupply:            q.MacroChinaMoneySupply.WithContext(ctx),
+		ManufacturingPmiParticulars:      q.ManufacturingPmiParticulars.WithContext(ctx),
 		NewFinancialCredit:               q.NewFinancialCredit.WithContext(ctx),
 		PassengerAndFreightTraffic:       q.PassengerAndFreightTraffic.WithContext(ctx),
 		PePbPsDvTotalmv:                  q.PePbPsDvTotalmv.WithContext(ctx),

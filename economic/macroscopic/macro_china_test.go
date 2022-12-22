@@ -200,3 +200,12 @@ func TestCentralBankMonetaryAuthorityAssetsAndLiabilities(t *testing.T) {
 		t.Logf("%+v", *v)
 	}
 }
+func TestManufacturingPmiParticulars(t *testing.T) {
+	b, err := ManufacturingPmiParticulars("500")
+	if err != nil {
+		t.Log(err)
+	}
+	for _, v := range b {
+		t.Logf("%+v", *v)
+	}
+}

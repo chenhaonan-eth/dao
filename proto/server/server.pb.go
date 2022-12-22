@@ -973,6 +973,197 @@ func (x *Pmi) GetNonManufacturingYearOnYear() float64 {
 	return 0
 }
 
+type ManufacturingPmiParticularsResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Results []*ManufacturingPmiParticulars `protobuf:"bytes,1,rep,name=results,proto3" json:"results,omitempty"`
+}
+
+func (x *ManufacturingPmiParticularsResponse) Reset() {
+	*x = ManufacturingPmiParticularsResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_server_server_proto_msgTypes[11]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ManufacturingPmiParticularsResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ManufacturingPmiParticularsResponse) ProtoMessage() {}
+
+func (x *ManufacturingPmiParticularsResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_server_server_proto_msgTypes[11]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ManufacturingPmiParticularsResponse.ProtoReflect.Descriptor instead.
+func (*ManufacturingPmiParticularsResponse) Descriptor() ([]byte, []int) {
+	return file_server_server_proto_rawDescGZIP(), []int{11}
+}
+
+func (x *ManufacturingPmiParticularsResponse) GetResults() []*ManufacturingPmiParticulars {
+	if x != nil {
+		return x.Results
+	}
+	return nil
+}
+
+// 制造业PMI详情
+type ManufacturingPmiParticulars struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Date                              string `protobuf:"bytes,1,opt,name=date,proto3" json:"date,omitempty"`
+	Pmi                               string `protobuf:"bytes,2,opt,name=pmi,proto3" json:"pmi,omitempty"`
+	ProductionIndex                   string `protobuf:"bytes,3,opt,name=productionIndex,proto3" json:"productionIndex,omitempty"`                                     //生产指数
+	IndexOfNewOrders                  string `protobuf:"bytes,4,opt,name=indexOfNewOrders,proto3" json:"indexOfNewOrders,omitempty"`                                   //新订单指数
+	IndexOfNewExportOrders            string `protobuf:"bytes,5,opt,name=indexOfNewExportOrders,proto3" json:"indexOfNewExportOrders,omitempty"`                       //新出口订单指数
+	BacklogIndex                      string `protobuf:"bytes,6,opt,name=backlogIndex,proto3" json:"backlogIndex,omitempty"`                                           //积压订单指数
+	IndexOfInventoriesOfFinishedGoods string `protobuf:"bytes,7,opt,name=indexOfInventoriesOfFinishedGoods,proto3" json:"indexOfInventoriesOfFinishedGoods,omitempty"` //产成品库存指数
+	PurchasingVolumeIndex             string `protobuf:"bytes,8,opt,name=purchasingVolumeIndex,proto3" json:"purchasingVolumeIndex,omitempty"`                         //采购量指数
+	ImportIndex                       string `protobuf:"bytes,9,opt,name=importIndex,proto3" json:"importIndex,omitempty"`                                             //进口指数
+	PurchasingPriceIndex              string `protobuf:"bytes,10,opt,name=purchasingPriceIndex,proto3" json:"purchasingPriceIndex,omitempty"`                          //购进价格指数
+	InventoryIndexOfRawMaterials      string `protobuf:"bytes,11,opt,name=inventoryIndexOfRawMaterials,proto3" json:"inventoryIndexOfRawMaterials,omitempty"`          //原材料库存指数
+	EmployeeIndex                     string `protobuf:"bytes,12,opt,name=employeeIndex,proto3" json:"employeeIndex,omitempty"`                                        //从业人员指数
+	SupplierDeliveryTimeIndex         string `protobuf:"bytes,13,opt,name=supplierDeliveryTimeIndex,proto3" json:"supplierDeliveryTimeIndex,omitempty"`                //供应商配送时间指数
+}
+
+func (x *ManufacturingPmiParticulars) Reset() {
+	*x = ManufacturingPmiParticulars{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_server_server_proto_msgTypes[12]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ManufacturingPmiParticulars) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ManufacturingPmiParticulars) ProtoMessage() {}
+
+func (x *ManufacturingPmiParticulars) ProtoReflect() protoreflect.Message {
+	mi := &file_server_server_proto_msgTypes[12]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ManufacturingPmiParticulars.ProtoReflect.Descriptor instead.
+func (*ManufacturingPmiParticulars) Descriptor() ([]byte, []int) {
+	return file_server_server_proto_rawDescGZIP(), []int{12}
+}
+
+func (x *ManufacturingPmiParticulars) GetDate() string {
+	if x != nil {
+		return x.Date
+	}
+	return ""
+}
+
+func (x *ManufacturingPmiParticulars) GetPmi() string {
+	if x != nil {
+		return x.Pmi
+	}
+	return ""
+}
+
+func (x *ManufacturingPmiParticulars) GetProductionIndex() string {
+	if x != nil {
+		return x.ProductionIndex
+	}
+	return ""
+}
+
+func (x *ManufacturingPmiParticulars) GetIndexOfNewOrders() string {
+	if x != nil {
+		return x.IndexOfNewOrders
+	}
+	return ""
+}
+
+func (x *ManufacturingPmiParticulars) GetIndexOfNewExportOrders() string {
+	if x != nil {
+		return x.IndexOfNewExportOrders
+	}
+	return ""
+}
+
+func (x *ManufacturingPmiParticulars) GetBacklogIndex() string {
+	if x != nil {
+		return x.BacklogIndex
+	}
+	return ""
+}
+
+func (x *ManufacturingPmiParticulars) GetIndexOfInventoriesOfFinishedGoods() string {
+	if x != nil {
+		return x.IndexOfInventoriesOfFinishedGoods
+	}
+	return ""
+}
+
+func (x *ManufacturingPmiParticulars) GetPurchasingVolumeIndex() string {
+	if x != nil {
+		return x.PurchasingVolumeIndex
+	}
+	return ""
+}
+
+func (x *ManufacturingPmiParticulars) GetImportIndex() string {
+	if x != nil {
+		return x.ImportIndex
+	}
+	return ""
+}
+
+func (x *ManufacturingPmiParticulars) GetPurchasingPriceIndex() string {
+	if x != nil {
+		return x.PurchasingPriceIndex
+	}
+	return ""
+}
+
+func (x *ManufacturingPmiParticulars) GetInventoryIndexOfRawMaterials() string {
+	if x != nil {
+		return x.InventoryIndexOfRawMaterials
+	}
+	return ""
+}
+
+func (x *ManufacturingPmiParticulars) GetEmployeeIndex() string {
+	if x != nil {
+		return x.EmployeeIndex
+	}
+	return ""
+}
+
+func (x *ManufacturingPmiParticulars) GetSupplierDeliveryTimeIndex() string {
+	if x != nil {
+		return x.SupplierDeliveryTimeIndex
+	}
+	return ""
+}
+
 type CpiResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -984,7 +1175,7 @@ type CpiResponse struct {
 func (x *CpiResponse) Reset() {
 	*x = CpiResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_server_server_proto_msgTypes[11]
+		mi := &file_server_server_proto_msgTypes[13]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -997,7 +1188,7 @@ func (x *CpiResponse) String() string {
 func (*CpiResponse) ProtoMessage() {}
 
 func (x *CpiResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_server_server_proto_msgTypes[11]
+	mi := &file_server_server_proto_msgTypes[13]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1010,7 +1201,7 @@ func (x *CpiResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CpiResponse.ProtoReflect.Descriptor instead.
 func (*CpiResponse) Descriptor() ([]byte, []int) {
-	return file_server_server_proto_rawDescGZIP(), []int{11}
+	return file_server_server_proto_rawDescGZIP(), []int{13}
 }
 
 func (x *CpiResponse) GetResults() []*Cpi {
@@ -1044,7 +1235,7 @@ type Cpi struct {
 func (x *Cpi) Reset() {
 	*x = Cpi{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_server_server_proto_msgTypes[12]
+		mi := &file_server_server_proto_msgTypes[14]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1057,7 +1248,7 @@ func (x *Cpi) String() string {
 func (*Cpi) ProtoMessage() {}
 
 func (x *Cpi) ProtoReflect() protoreflect.Message {
-	mi := &file_server_server_proto_msgTypes[12]
+	mi := &file_server_server_proto_msgTypes[14]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1070,7 +1261,7 @@ func (x *Cpi) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Cpi.ProtoReflect.Descriptor instead.
 func (*Cpi) Descriptor() ([]byte, []int) {
-	return file_server_server_proto_rawDescGZIP(), []int{12}
+	return file_server_server_proto_rawDescGZIP(), []int{14}
 }
 
 func (x *Cpi) GetDate() string {
@@ -1183,7 +1374,7 @@ type BondZhUsRateResponse struct {
 func (x *BondZhUsRateResponse) Reset() {
 	*x = BondZhUsRateResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_server_server_proto_msgTypes[13]
+		mi := &file_server_server_proto_msgTypes[15]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1196,7 +1387,7 @@ func (x *BondZhUsRateResponse) String() string {
 func (*BondZhUsRateResponse) ProtoMessage() {}
 
 func (x *BondZhUsRateResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_server_server_proto_msgTypes[13]
+	mi := &file_server_server_proto_msgTypes[15]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1209,7 +1400,7 @@ func (x *BondZhUsRateResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use BondZhUsRateResponse.ProtoReflect.Descriptor instead.
 func (*BondZhUsRateResponse) Descriptor() ([]byte, []int) {
-	return file_server_server_proto_rawDescGZIP(), []int{13}
+	return file_server_server_proto_rawDescGZIP(), []int{15}
 }
 
 func (x *BondZhUsRateResponse) GetResults() []*BondZhUsRate {
@@ -1240,7 +1431,7 @@ type BondZhUsRate struct {
 func (x *BondZhUsRate) Reset() {
 	*x = BondZhUsRate{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_server_server_proto_msgTypes[14]
+		mi := &file_server_server_proto_msgTypes[16]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1253,7 +1444,7 @@ func (x *BondZhUsRate) String() string {
 func (*BondZhUsRate) ProtoMessage() {}
 
 func (x *BondZhUsRate) ProtoReflect() protoreflect.Message {
-	mi := &file_server_server_proto_msgTypes[14]
+	mi := &file_server_server_proto_msgTypes[16]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1266,7 +1457,7 @@ func (x *BondZhUsRate) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use BondZhUsRate.ProtoReflect.Descriptor instead.
 func (*BondZhUsRate) Descriptor() ([]byte, []int) {
-	return file_server_server_proto_rawDescGZIP(), []int{14}
+	return file_server_server_proto_rawDescGZIP(), []int{16}
 }
 
 func (x *BondZhUsRate) GetDate() string {
@@ -1357,7 +1548,7 @@ type SocialFinancingFlowsResponse struct {
 func (x *SocialFinancingFlowsResponse) Reset() {
 	*x = SocialFinancingFlowsResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_server_server_proto_msgTypes[15]
+		mi := &file_server_server_proto_msgTypes[17]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1370,7 +1561,7 @@ func (x *SocialFinancingFlowsResponse) String() string {
 func (*SocialFinancingFlowsResponse) ProtoMessage() {}
 
 func (x *SocialFinancingFlowsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_server_server_proto_msgTypes[15]
+	mi := &file_server_server_proto_msgTypes[17]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1383,7 +1574,7 @@ func (x *SocialFinancingFlowsResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SocialFinancingFlowsResponse.ProtoReflect.Descriptor instead.
 func (*SocialFinancingFlowsResponse) Descriptor() ([]byte, []int) {
-	return file_server_server_proto_rawDescGZIP(), []int{15}
+	return file_server_server_proto_rawDescGZIP(), []int{17}
 }
 
 func (x *SocialFinancingFlowsResponse) GetResults() []*SocialFinancingFlow {
@@ -1413,7 +1604,7 @@ type SocialFinancingFlow struct {
 func (x *SocialFinancingFlow) Reset() {
 	*x = SocialFinancingFlow{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_server_server_proto_msgTypes[16]
+		mi := &file_server_server_proto_msgTypes[18]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1426,7 +1617,7 @@ func (x *SocialFinancingFlow) String() string {
 func (*SocialFinancingFlow) ProtoMessage() {}
 
 func (x *SocialFinancingFlow) ProtoReflect() protoreflect.Message {
-	mi := &file_server_server_proto_msgTypes[16]
+	mi := &file_server_server_proto_msgTypes[18]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1439,7 +1630,7 @@ func (x *SocialFinancingFlow) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SocialFinancingFlow.ProtoReflect.Descriptor instead.
 func (*SocialFinancingFlow) Descriptor() ([]byte, []int) {
-	return file_server_server_proto_rawDescGZIP(), []int{16}
+	return file_server_server_proto_rawDescGZIP(), []int{18}
 }
 
 func (x *SocialFinancingFlow) GetDate() string {
@@ -1516,7 +1707,7 @@ type SH300PEResponse struct {
 func (x *SH300PEResponse) Reset() {
 	*x = SH300PEResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_server_server_proto_msgTypes[17]
+		mi := &file_server_server_proto_msgTypes[19]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1529,7 +1720,7 @@ func (x *SH300PEResponse) String() string {
 func (*SH300PEResponse) ProtoMessage() {}
 
 func (x *SH300PEResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_server_server_proto_msgTypes[17]
+	mi := &file_server_server_proto_msgTypes[19]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1542,7 +1733,7 @@ func (x *SH300PEResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SH300PEResponse.ProtoReflect.Descriptor instead.
 func (*SH300PEResponse) Descriptor() ([]byte, []int) {
-	return file_server_server_proto_rawDescGZIP(), []int{17}
+	return file_server_server_proto_rawDescGZIP(), []int{19}
 }
 
 func (x *SH300PEResponse) GetResults() []*SH300PE {
@@ -1570,7 +1761,7 @@ type SH300PE struct {
 func (x *SH300PE) Reset() {
 	*x = SH300PE{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_server_server_proto_msgTypes[18]
+		mi := &file_server_server_proto_msgTypes[20]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1583,7 +1774,7 @@ func (x *SH300PE) String() string {
 func (*SH300PE) ProtoMessage() {}
 
 func (x *SH300PE) ProtoReflect() protoreflect.Message {
-	mi := &file_server_server_proto_msgTypes[18]
+	mi := &file_server_server_proto_msgTypes[20]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1596,7 +1787,7 @@ func (x *SH300PE) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SH300PE.ProtoReflect.Descriptor instead.
 func (*SH300PE) Descriptor() ([]byte, []int) {
-	return file_server_server_proto_rawDescGZIP(), []int{18}
+	return file_server_server_proto_rawDescGZIP(), []int{20}
 }
 
 func (x *SH300PE) GetDate() float64 {
@@ -1666,7 +1857,7 @@ type MoneySupplyResponse struct {
 func (x *MoneySupplyResponse) Reset() {
 	*x = MoneySupplyResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_server_server_proto_msgTypes[19]
+		mi := &file_server_server_proto_msgTypes[21]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1679,7 +1870,7 @@ func (x *MoneySupplyResponse) String() string {
 func (*MoneySupplyResponse) ProtoMessage() {}
 
 func (x *MoneySupplyResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_server_server_proto_msgTypes[19]
+	mi := &file_server_server_proto_msgTypes[21]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1692,7 +1883,7 @@ func (x *MoneySupplyResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use MoneySupplyResponse.ProtoReflect.Descriptor instead.
 func (*MoneySupplyResponse) Descriptor() ([]byte, []int) {
-	return file_server_server_proto_rawDescGZIP(), []int{19}
+	return file_server_server_proto_rawDescGZIP(), []int{21}
 }
 
 func (x *MoneySupplyResponse) GetResults() []*MoneySupply {
@@ -1722,7 +1913,7 @@ type MoneySupply struct {
 func (x *MoneySupply) Reset() {
 	*x = MoneySupply{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_server_server_proto_msgTypes[20]
+		mi := &file_server_server_proto_msgTypes[22]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1735,7 +1926,7 @@ func (x *MoneySupply) String() string {
 func (*MoneySupply) ProtoMessage() {}
 
 func (x *MoneySupply) ProtoReflect() protoreflect.Message {
-	mi := &file_server_server_proto_msgTypes[20]
+	mi := &file_server_server_proto_msgTypes[22]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1748,7 +1939,7 @@ func (x *MoneySupply) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use MoneySupply.ProtoReflect.Descriptor instead.
 func (*MoneySupply) Descriptor() ([]byte, []int) {
-	return file_server_server_proto_rawDescGZIP(), []int{20}
+	return file_server_server_proto_rawDescGZIP(), []int{22}
 }
 
 func (x *MoneySupply) GetDate() string {
@@ -1832,7 +2023,7 @@ type ConsumerGoodsRetailResponse struct {
 func (x *ConsumerGoodsRetailResponse) Reset() {
 	*x = ConsumerGoodsRetailResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_server_server_proto_msgTypes[21]
+		mi := &file_server_server_proto_msgTypes[23]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1845,7 +2036,7 @@ func (x *ConsumerGoodsRetailResponse) String() string {
 func (*ConsumerGoodsRetailResponse) ProtoMessage() {}
 
 func (x *ConsumerGoodsRetailResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_server_server_proto_msgTypes[21]
+	mi := &file_server_server_proto_msgTypes[23]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1858,7 +2049,7 @@ func (x *ConsumerGoodsRetailResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ConsumerGoodsRetailResponse.ProtoReflect.Descriptor instead.
 func (*ConsumerGoodsRetailResponse) Descriptor() ([]byte, []int) {
-	return file_server_server_proto_rawDescGZIP(), []int{21}
+	return file_server_server_proto_rawDescGZIP(), []int{23}
 }
 
 func (x *ConsumerGoodsRetailResponse) GetResults() []*ConsumerGoodsRetail {
@@ -1884,7 +2075,7 @@ type ConsumerGoodsRetail struct {
 func (x *ConsumerGoodsRetail) Reset() {
 	*x = ConsumerGoodsRetail{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_server_server_proto_msgTypes[22]
+		mi := &file_server_server_proto_msgTypes[24]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1897,7 +2088,7 @@ func (x *ConsumerGoodsRetail) String() string {
 func (*ConsumerGoodsRetail) ProtoMessage() {}
 
 func (x *ConsumerGoodsRetail) ProtoReflect() protoreflect.Message {
-	mi := &file_server_server_proto_msgTypes[22]
+	mi := &file_server_server_proto_msgTypes[24]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1910,7 +2101,7 @@ func (x *ConsumerGoodsRetail) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ConsumerGoodsRetail.ProtoReflect.Descriptor instead.
 func (*ConsumerGoodsRetail) Descriptor() ([]byte, []int) {
-	return file_server_server_proto_rawDescGZIP(), []int{22}
+	return file_server_server_proto_rawDescGZIP(), []int{24}
 }
 
 func (x *ConsumerGoodsRetail) GetDate() string {
@@ -1966,7 +2157,7 @@ type CxPmiResponse struct {
 func (x *CxPmiResponse) Reset() {
 	*x = CxPmiResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_server_server_proto_msgTypes[23]
+		mi := &file_server_server_proto_msgTypes[25]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1979,7 +2170,7 @@ func (x *CxPmiResponse) String() string {
 func (*CxPmiResponse) ProtoMessage() {}
 
 func (x *CxPmiResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_server_server_proto_msgTypes[23]
+	mi := &file_server_server_proto_msgTypes[25]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1992,7 +2183,7 @@ func (x *CxPmiResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CxPmiResponse.ProtoReflect.Descriptor instead.
 func (*CxPmiResponse) Descriptor() ([]byte, []int) {
-	return file_server_server_proto_rawDescGZIP(), []int{23}
+	return file_server_server_proto_rawDescGZIP(), []int{25}
 }
 
 func (x *CxPmiResponse) GetResults() []*CxPmi {
@@ -2020,7 +2211,7 @@ type CxPmi struct {
 func (x *CxPmi) Reset() {
 	*x = CxPmi{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_server_server_proto_msgTypes[24]
+		mi := &file_server_server_proto_msgTypes[26]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -2033,7 +2224,7 @@ func (x *CxPmi) String() string {
 func (*CxPmi) ProtoMessage() {}
 
 func (x *CxPmi) ProtoReflect() protoreflect.Message {
-	mi := &file_server_server_proto_msgTypes[24]
+	mi := &file_server_server_proto_msgTypes[26]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2046,7 +2237,7 @@ func (x *CxPmi) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CxPmi.ProtoReflect.Descriptor instead.
 func (*CxPmi) Descriptor() ([]byte, []int) {
-	return file_server_server_proto_rawDescGZIP(), []int{24}
+	return file_server_server_proto_rawDescGZIP(), []int{26}
 }
 
 func (x *CxPmi) GetDate() string {
@@ -2116,7 +2307,7 @@ type ValueAddedOfIndustrialProductionResponse struct {
 func (x *ValueAddedOfIndustrialProductionResponse) Reset() {
 	*x = ValueAddedOfIndustrialProductionResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_server_server_proto_msgTypes[25]
+		mi := &file_server_server_proto_msgTypes[27]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -2129,7 +2320,7 @@ func (x *ValueAddedOfIndustrialProductionResponse) String() string {
 func (*ValueAddedOfIndustrialProductionResponse) ProtoMessage() {}
 
 func (x *ValueAddedOfIndustrialProductionResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_server_server_proto_msgTypes[25]
+	mi := &file_server_server_proto_msgTypes[27]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2142,7 +2333,7 @@ func (x *ValueAddedOfIndustrialProductionResponse) ProtoReflect() protoreflect.M
 
 // Deprecated: Use ValueAddedOfIndustrialProductionResponse.ProtoReflect.Descriptor instead.
 func (*ValueAddedOfIndustrialProductionResponse) Descriptor() ([]byte, []int) {
-	return file_server_server_proto_rawDescGZIP(), []int{25}
+	return file_server_server_proto_rawDescGZIP(), []int{27}
 }
 
 func (x *ValueAddedOfIndustrialProductionResponse) GetResults() []*ValueAddedOfIndustrialProduction {
@@ -2166,7 +2357,7 @@ type ValueAddedOfIndustrialProduction struct {
 func (x *ValueAddedOfIndustrialProduction) Reset() {
 	*x = ValueAddedOfIndustrialProduction{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_server_server_proto_msgTypes[26]
+		mi := &file_server_server_proto_msgTypes[28]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -2179,7 +2370,7 @@ func (x *ValueAddedOfIndustrialProduction) String() string {
 func (*ValueAddedOfIndustrialProduction) ProtoMessage() {}
 
 func (x *ValueAddedOfIndustrialProduction) ProtoReflect() protoreflect.Message {
-	mi := &file_server_server_proto_msgTypes[26]
+	mi := &file_server_server_proto_msgTypes[28]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2192,7 +2383,7 @@ func (x *ValueAddedOfIndustrialProduction) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ValueAddedOfIndustrialProduction.ProtoReflect.Descriptor instead.
 func (*ValueAddedOfIndustrialProduction) Descriptor() ([]byte, []int) {
-	return file_server_server_proto_rawDescGZIP(), []int{26}
+	return file_server_server_proto_rawDescGZIP(), []int{28}
 }
 
 func (x *ValueAddedOfIndustrialProduction) GetDate() string {
@@ -2234,7 +2425,7 @@ type SocialElectricityConsumptionResponse struct {
 func (x *SocialElectricityConsumptionResponse) Reset() {
 	*x = SocialElectricityConsumptionResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_server_server_proto_msgTypes[27]
+		mi := &file_server_server_proto_msgTypes[29]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -2247,7 +2438,7 @@ func (x *SocialElectricityConsumptionResponse) String() string {
 func (*SocialElectricityConsumptionResponse) ProtoMessage() {}
 
 func (x *SocialElectricityConsumptionResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_server_server_proto_msgTypes[27]
+	mi := &file_server_server_proto_msgTypes[29]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2260,7 +2451,7 @@ func (x *SocialElectricityConsumptionResponse) ProtoReflect() protoreflect.Messa
 
 // Deprecated: Use SocialElectricityConsumptionResponse.ProtoReflect.Descriptor instead.
 func (*SocialElectricityConsumptionResponse) Descriptor() ([]byte, []int) {
-	return file_server_server_proto_rawDescGZIP(), []int{27}
+	return file_server_server_proto_rawDescGZIP(), []int{29}
 }
 
 func (x *SocialElectricityConsumptionResponse) GetResults() []*SocialElectricityConsumption {
@@ -2297,7 +2488,7 @@ type SocialElectricityConsumption struct {
 func (x *SocialElectricityConsumption) Reset() {
 	*x = SocialElectricityConsumption{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_server_server_proto_msgTypes[28]
+		mi := &file_server_server_proto_msgTypes[30]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -2310,7 +2501,7 @@ func (x *SocialElectricityConsumption) String() string {
 func (*SocialElectricityConsumption) ProtoMessage() {}
 
 func (x *SocialElectricityConsumption) ProtoReflect() protoreflect.Message {
-	mi := &file_server_server_proto_msgTypes[28]
+	mi := &file_server_server_proto_msgTypes[30]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2323,7 +2514,7 @@ func (x *SocialElectricityConsumption) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SocialElectricityConsumption.ProtoReflect.Descriptor instead.
 func (*SocialElectricityConsumption) Descriptor() ([]byte, []int) {
-	return file_server_server_proto_rawDescGZIP(), []int{28}
+	return file_server_server_proto_rawDescGZIP(), []int{30}
 }
 
 func (x *SocialElectricityConsumption) GetDate() string {
@@ -2456,7 +2647,7 @@ type PassengerAndFreightTrafficResponse struct {
 func (x *PassengerAndFreightTrafficResponse) Reset() {
 	*x = PassengerAndFreightTrafficResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_server_server_proto_msgTypes[29]
+		mi := &file_server_server_proto_msgTypes[31]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -2469,7 +2660,7 @@ func (x *PassengerAndFreightTrafficResponse) String() string {
 func (*PassengerAndFreightTrafficResponse) ProtoMessage() {}
 
 func (x *PassengerAndFreightTrafficResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_server_server_proto_msgTypes[29]
+	mi := &file_server_server_proto_msgTypes[31]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2482,7 +2673,7 @@ func (x *PassengerAndFreightTrafficResponse) ProtoReflect() protoreflect.Message
 
 // Deprecated: Use PassengerAndFreightTrafficResponse.ProtoReflect.Descriptor instead.
 func (*PassengerAndFreightTrafficResponse) Descriptor() ([]byte, []int) {
-	return file_server_server_proto_rawDescGZIP(), []int{29}
+	return file_server_server_proto_rawDescGZIP(), []int{31}
 }
 
 func (x *PassengerAndFreightTrafficResponse) GetResults() []*PassengerAndFreightTraffic {
@@ -2518,7 +2709,7 @@ type PassengerAndFreightTraffic struct {
 func (x *PassengerAndFreightTraffic) Reset() {
 	*x = PassengerAndFreightTraffic{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_server_server_proto_msgTypes[30]
+		mi := &file_server_server_proto_msgTypes[32]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -2531,7 +2722,7 @@ func (x *PassengerAndFreightTraffic) String() string {
 func (*PassengerAndFreightTraffic) ProtoMessage() {}
 
 func (x *PassengerAndFreightTraffic) ProtoReflect() protoreflect.Message {
-	mi := &file_server_server_proto_msgTypes[30]
+	mi := &file_server_server_proto_msgTypes[32]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2544,7 +2735,7 @@ func (x *PassengerAndFreightTraffic) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use PassengerAndFreightTraffic.ProtoReflect.Descriptor instead.
 func (*PassengerAndFreightTraffic) Descriptor() ([]byte, []int) {
-	return file_server_server_proto_rawDescGZIP(), []int{30}
+	return file_server_server_proto_rawDescGZIP(), []int{32}
 }
 
 func (x *PassengerAndFreightTraffic) GetDate() string {
@@ -2670,7 +2861,7 @@ type NewFinancialCreditResponse struct {
 func (x *NewFinancialCreditResponse) Reset() {
 	*x = NewFinancialCreditResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_server_server_proto_msgTypes[31]
+		mi := &file_server_server_proto_msgTypes[33]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -2683,7 +2874,7 @@ func (x *NewFinancialCreditResponse) String() string {
 func (*NewFinancialCreditResponse) ProtoMessage() {}
 
 func (x *NewFinancialCreditResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_server_server_proto_msgTypes[31]
+	mi := &file_server_server_proto_msgTypes[33]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2696,7 +2887,7 @@ func (x *NewFinancialCreditResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use NewFinancialCreditResponse.ProtoReflect.Descriptor instead.
 func (*NewFinancialCreditResponse) Descriptor() ([]byte, []int) {
-	return file_server_server_proto_rawDescGZIP(), []int{31}
+	return file_server_server_proto_rawDescGZIP(), []int{33}
 }
 
 func (x *NewFinancialCreditResponse) GetResults() []*NewFinancialCredit {
@@ -2724,7 +2915,7 @@ type NewFinancialCredit struct {
 func (x *NewFinancialCredit) Reset() {
 	*x = NewFinancialCredit{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_server_server_proto_msgTypes[32]
+		mi := &file_server_server_proto_msgTypes[34]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -2737,7 +2928,7 @@ func (x *NewFinancialCredit) String() string {
 func (*NewFinancialCredit) ProtoMessage() {}
 
 func (x *NewFinancialCredit) ProtoReflect() protoreflect.Message {
-	mi := &file_server_server_proto_msgTypes[32]
+	mi := &file_server_server_proto_msgTypes[34]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2750,7 +2941,7 @@ func (x *NewFinancialCredit) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use NewFinancialCredit.ProtoReflect.Descriptor instead.
 func (*NewFinancialCredit) Descriptor() ([]byte, []int) {
-	return file_server_server_proto_rawDescGZIP(), []int{32}
+	return file_server_server_proto_rawDescGZIP(), []int{34}
 }
 
 func (x *NewFinancialCredit) GetDate() string {
@@ -2813,7 +3004,7 @@ type ForeignReserveAndGoldResponse struct {
 func (x *ForeignReserveAndGoldResponse) Reset() {
 	*x = ForeignReserveAndGoldResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_server_server_proto_msgTypes[33]
+		mi := &file_server_server_proto_msgTypes[35]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -2826,7 +3017,7 @@ func (x *ForeignReserveAndGoldResponse) String() string {
 func (*ForeignReserveAndGoldResponse) ProtoMessage() {}
 
 func (x *ForeignReserveAndGoldResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_server_server_proto_msgTypes[33]
+	mi := &file_server_server_proto_msgTypes[35]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2839,7 +3030,7 @@ func (x *ForeignReserveAndGoldResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ForeignReserveAndGoldResponse.ProtoReflect.Descriptor instead.
 func (*ForeignReserveAndGoldResponse) Descriptor() ([]byte, []int) {
-	return file_server_server_proto_rawDescGZIP(), []int{33}
+	return file_server_server_proto_rawDescGZIP(), []int{35}
 }
 
 func (x *ForeignReserveAndGoldResponse) GetResults() []*ForeignReserveAndGold {
@@ -2863,7 +3054,7 @@ type ForeignReserveAndGold struct {
 func (x *ForeignReserveAndGold) Reset() {
 	*x = ForeignReserveAndGold{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_server_server_proto_msgTypes[34]
+		mi := &file_server_server_proto_msgTypes[36]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -2876,7 +3067,7 @@ func (x *ForeignReserveAndGold) String() string {
 func (*ForeignReserveAndGold) ProtoMessage() {}
 
 func (x *ForeignReserveAndGold) ProtoReflect() protoreflect.Message {
-	mi := &file_server_server_proto_msgTypes[34]
+	mi := &file_server_server_proto_msgTypes[36]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2889,7 +3080,7 @@ func (x *ForeignReserveAndGold) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ForeignReserveAndGold.ProtoReflect.Descriptor instead.
 func (*ForeignReserveAndGold) Descriptor() ([]byte, []int) {
-	return file_server_server_proto_rawDescGZIP(), []int{34}
+	return file_server_server_proto_rawDescGZIP(), []int{36}
 }
 
 func (x *ForeignReserveAndGold) GetDate() string {
@@ -2925,7 +3116,7 @@ type InvestmentInFixedAssetsResponse struct {
 func (x *InvestmentInFixedAssetsResponse) Reset() {
 	*x = InvestmentInFixedAssetsResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_server_server_proto_msgTypes[35]
+		mi := &file_server_server_proto_msgTypes[37]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -2938,7 +3129,7 @@ func (x *InvestmentInFixedAssetsResponse) String() string {
 func (*InvestmentInFixedAssetsResponse) ProtoMessage() {}
 
 func (x *InvestmentInFixedAssetsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_server_server_proto_msgTypes[35]
+	mi := &file_server_server_proto_msgTypes[37]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2951,7 +3142,7 @@ func (x *InvestmentInFixedAssetsResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use InvestmentInFixedAssetsResponse.ProtoReflect.Descriptor instead.
 func (*InvestmentInFixedAssetsResponse) Descriptor() ([]byte, []int) {
-	return file_server_server_proto_rawDescGZIP(), []int{35}
+	return file_server_server_proto_rawDescGZIP(), []int{37}
 }
 
 func (x *InvestmentInFixedAssetsResponse) GetResults() []*InvestmentInFixedAssets {
@@ -2982,7 +3173,7 @@ type InvestmentInFixedAssets struct {
 func (x *InvestmentInFixedAssets) Reset() {
 	*x = InvestmentInFixedAssets{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_server_server_proto_msgTypes[36]
+		mi := &file_server_server_proto_msgTypes[38]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -2995,7 +3186,7 @@ func (x *InvestmentInFixedAssets) String() string {
 func (*InvestmentInFixedAssets) ProtoMessage() {}
 
 func (x *InvestmentInFixedAssets) ProtoReflect() protoreflect.Message {
-	mi := &file_server_server_proto_msgTypes[36]
+	mi := &file_server_server_proto_msgTypes[38]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3008,7 +3199,7 @@ func (x *InvestmentInFixedAssets) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use InvestmentInFixedAssets.ProtoReflect.Descriptor instead.
 func (*InvestmentInFixedAssets) Descriptor() ([]byte, []int) {
-	return file_server_server_proto_rawDescGZIP(), []int{36}
+	return file_server_server_proto_rawDescGZIP(), []int{38}
 }
 
 func (x *InvestmentInFixedAssets) GetDate() string {
@@ -3245,7 +3436,53 @@ var file_server_server_proto_rawDesc = []byte{
 	0x75, 0x72, 0x69, 0x6e, 0x67, 0x59, 0x65, 0x61, 0x72, 0x4f, 0x6e, 0x59, 0x65, 0x61, 0x72, 0x18,
 	0x06, 0x20, 0x01, 0x28, 0x01, 0x52, 0x1a, 0x6e, 0x6f, 0x6e, 0x4d, 0x61, 0x6e, 0x75, 0x66, 0x61,
 	0x63, 0x74, 0x75, 0x72, 0x69, 0x6e, 0x67, 0x59, 0x65, 0x61, 0x72, 0x4f, 0x6e, 0x59, 0x65, 0x61,
-	0x72, 0x22, 0x34, 0x0a, 0x0b, 0x43, 0x70, 0x69, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
+	0x72, 0x22, 0x64, 0x0a, 0x23, 0x4d, 0x61, 0x6e, 0x75, 0x66, 0x61, 0x63, 0x74, 0x75, 0x72, 0x69,
+	0x6e, 0x67, 0x50, 0x6d, 0x69, 0x50, 0x61, 0x72, 0x74, 0x69, 0x63, 0x75, 0x6c, 0x61, 0x72, 0x73,
+	0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x3d, 0x0a, 0x07, 0x72, 0x65, 0x73, 0x75,
+	0x6c, 0x74, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x23, 0x2e, 0x73, 0x65, 0x72, 0x76,
+	0x65, 0x72, 0x2e, 0x4d, 0x61, 0x6e, 0x75, 0x66, 0x61, 0x63, 0x74, 0x75, 0x72, 0x69, 0x6e, 0x67,
+	0x50, 0x6d, 0x69, 0x50, 0x61, 0x72, 0x74, 0x69, 0x63, 0x75, 0x6c, 0x61, 0x72, 0x73, 0x52, 0x07,
+	0x72, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x73, 0x22, 0xf7, 0x04, 0x0a, 0x1b, 0x4d, 0x61, 0x6e, 0x75,
+	0x66, 0x61, 0x63, 0x74, 0x75, 0x72, 0x69, 0x6e, 0x67, 0x50, 0x6d, 0x69, 0x50, 0x61, 0x72, 0x74,
+	0x69, 0x63, 0x75, 0x6c, 0x61, 0x72, 0x73, 0x12, 0x12, 0x0a, 0x04, 0x64, 0x61, 0x74, 0x65, 0x18,
+	0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x64, 0x61, 0x74, 0x65, 0x12, 0x10, 0x0a, 0x03, 0x70,
+	0x6d, 0x69, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x70, 0x6d, 0x69, 0x12, 0x28, 0x0a,
+	0x0f, 0x70, 0x72, 0x6f, 0x64, 0x75, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x49, 0x6e, 0x64, 0x65, 0x78,
+	0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0f, 0x70, 0x72, 0x6f, 0x64, 0x75, 0x63, 0x74, 0x69,
+	0x6f, 0x6e, 0x49, 0x6e, 0x64, 0x65, 0x78, 0x12, 0x2a, 0x0a, 0x10, 0x69, 0x6e, 0x64, 0x65, 0x78,
+	0x4f, 0x66, 0x4e, 0x65, 0x77, 0x4f, 0x72, 0x64, 0x65, 0x72, 0x73, 0x18, 0x04, 0x20, 0x01, 0x28,
+	0x09, 0x52, 0x10, 0x69, 0x6e, 0x64, 0x65, 0x78, 0x4f, 0x66, 0x4e, 0x65, 0x77, 0x4f, 0x72, 0x64,
+	0x65, 0x72, 0x73, 0x12, 0x36, 0x0a, 0x16, 0x69, 0x6e, 0x64, 0x65, 0x78, 0x4f, 0x66, 0x4e, 0x65,
+	0x77, 0x45, 0x78, 0x70, 0x6f, 0x72, 0x74, 0x4f, 0x72, 0x64, 0x65, 0x72, 0x73, 0x18, 0x05, 0x20,
+	0x01, 0x28, 0x09, 0x52, 0x16, 0x69, 0x6e, 0x64, 0x65, 0x78, 0x4f, 0x66, 0x4e, 0x65, 0x77, 0x45,
+	0x78, 0x70, 0x6f, 0x72, 0x74, 0x4f, 0x72, 0x64, 0x65, 0x72, 0x73, 0x12, 0x22, 0x0a, 0x0c, 0x62,
+	0x61, 0x63, 0x6b, 0x6c, 0x6f, 0x67, 0x49, 0x6e, 0x64, 0x65, 0x78, 0x18, 0x06, 0x20, 0x01, 0x28,
+	0x09, 0x52, 0x0c, 0x62, 0x61, 0x63, 0x6b, 0x6c, 0x6f, 0x67, 0x49, 0x6e, 0x64, 0x65, 0x78, 0x12,
+	0x4c, 0x0a, 0x21, 0x69, 0x6e, 0x64, 0x65, 0x78, 0x4f, 0x66, 0x49, 0x6e, 0x76, 0x65, 0x6e, 0x74,
+	0x6f, 0x72, 0x69, 0x65, 0x73, 0x4f, 0x66, 0x46, 0x69, 0x6e, 0x69, 0x73, 0x68, 0x65, 0x64, 0x47,
+	0x6f, 0x6f, 0x64, 0x73, 0x18, 0x07, 0x20, 0x01, 0x28, 0x09, 0x52, 0x21, 0x69, 0x6e, 0x64, 0x65,
+	0x78, 0x4f, 0x66, 0x49, 0x6e, 0x76, 0x65, 0x6e, 0x74, 0x6f, 0x72, 0x69, 0x65, 0x73, 0x4f, 0x66,
+	0x46, 0x69, 0x6e, 0x69, 0x73, 0x68, 0x65, 0x64, 0x47, 0x6f, 0x6f, 0x64, 0x73, 0x12, 0x34, 0x0a,
+	0x15, 0x70, 0x75, 0x72, 0x63, 0x68, 0x61, 0x73, 0x69, 0x6e, 0x67, 0x56, 0x6f, 0x6c, 0x75, 0x6d,
+	0x65, 0x49, 0x6e, 0x64, 0x65, 0x78, 0x18, 0x08, 0x20, 0x01, 0x28, 0x09, 0x52, 0x15, 0x70, 0x75,
+	0x72, 0x63, 0x68, 0x61, 0x73, 0x69, 0x6e, 0x67, 0x56, 0x6f, 0x6c, 0x75, 0x6d, 0x65, 0x49, 0x6e,
+	0x64, 0x65, 0x78, 0x12, 0x20, 0x0a, 0x0b, 0x69, 0x6d, 0x70, 0x6f, 0x72, 0x74, 0x49, 0x6e, 0x64,
+	0x65, 0x78, 0x18, 0x09, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0b, 0x69, 0x6d, 0x70, 0x6f, 0x72, 0x74,
+	0x49, 0x6e, 0x64, 0x65, 0x78, 0x12, 0x32, 0x0a, 0x14, 0x70, 0x75, 0x72, 0x63, 0x68, 0x61, 0x73,
+	0x69, 0x6e, 0x67, 0x50, 0x72, 0x69, 0x63, 0x65, 0x49, 0x6e, 0x64, 0x65, 0x78, 0x18, 0x0a, 0x20,
+	0x01, 0x28, 0x09, 0x52, 0x14, 0x70, 0x75, 0x72, 0x63, 0x68, 0x61, 0x73, 0x69, 0x6e, 0x67, 0x50,
+	0x72, 0x69, 0x63, 0x65, 0x49, 0x6e, 0x64, 0x65, 0x78, 0x12, 0x42, 0x0a, 0x1c, 0x69, 0x6e, 0x76,
+	0x65, 0x6e, 0x74, 0x6f, 0x72, 0x79, 0x49, 0x6e, 0x64, 0x65, 0x78, 0x4f, 0x66, 0x52, 0x61, 0x77,
+	0x4d, 0x61, 0x74, 0x65, 0x72, 0x69, 0x61, 0x6c, 0x73, 0x18, 0x0b, 0x20, 0x01, 0x28, 0x09, 0x52,
+	0x1c, 0x69, 0x6e, 0x76, 0x65, 0x6e, 0x74, 0x6f, 0x72, 0x79, 0x49, 0x6e, 0x64, 0x65, 0x78, 0x4f,
+	0x66, 0x52, 0x61, 0x77, 0x4d, 0x61, 0x74, 0x65, 0x72, 0x69, 0x61, 0x6c, 0x73, 0x12, 0x24, 0x0a,
+	0x0d, 0x65, 0x6d, 0x70, 0x6c, 0x6f, 0x79, 0x65, 0x65, 0x49, 0x6e, 0x64, 0x65, 0x78, 0x18, 0x0c,
+	0x20, 0x01, 0x28, 0x09, 0x52, 0x0d, 0x65, 0x6d, 0x70, 0x6c, 0x6f, 0x79, 0x65, 0x65, 0x49, 0x6e,
+	0x64, 0x65, 0x78, 0x12, 0x3c, 0x0a, 0x19, 0x73, 0x75, 0x70, 0x70, 0x6c, 0x69, 0x65, 0x72, 0x44,
+	0x65, 0x6c, 0x69, 0x76, 0x65, 0x72, 0x79, 0x54, 0x69, 0x6d, 0x65, 0x49, 0x6e, 0x64, 0x65, 0x78,
+	0x18, 0x0d, 0x20, 0x01, 0x28, 0x09, 0x52, 0x19, 0x73, 0x75, 0x70, 0x70, 0x6c, 0x69, 0x65, 0x72,
+	0x44, 0x65, 0x6c, 0x69, 0x76, 0x65, 0x72, 0x79, 0x54, 0x69, 0x6d, 0x65, 0x49, 0x6e, 0x64, 0x65,
+	0x78, 0x22, 0x34, 0x0a, 0x0b, 0x43, 0x70, 0x69, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
 	0x12, 0x25, 0x0a, 0x07, 0x72, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28,
 	0x0b, 0x32, 0x0b, 0x2e, 0x73, 0x65, 0x72, 0x76, 0x65, 0x72, 0x2e, 0x43, 0x70, 0x69, 0x52, 0x07,
 	0x72, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x73, 0x22, 0x91, 0x04, 0x0a, 0x03, 0x43, 0x70, 0x69, 0x12,
@@ -3647,7 +3884,7 @@ var file_server_server_proto_rawDesc = []byte{
 	0x12, 0x0a, 0x0e, 0x57, 0x61, 0x74, 0x65, 0x72, 0x54, 0x72, 0x61, 0x6e, 0x73, 0x70, 0x6f, 0x72,
 	0x74, 0x10, 0x04, 0x12, 0x0b, 0x0a, 0x07, 0x48, 0x69, 0x67, 0x68, 0x77, 0x61, 0x79, 0x10, 0x05,
 	0x12, 0x0b, 0x0a, 0x07, 0x52, 0x61, 0x69, 0x6c, 0x77, 0x61, 0x79, 0x10, 0x06, 0x12, 0x09, 0x0a,
-	0x05, 0x54, 0x6f, 0x74, 0x61, 0x6c, 0x10, 0x07, 0x32, 0xbc, 0x11, 0x0a, 0x07, 0x47, 0x72, 0x65,
+	0x05, 0x54, 0x6f, 0x74, 0x61, 0x6c, 0x10, 0x07, 0x32, 0xde, 0x12, 0x0a, 0x07, 0x47, 0x72, 0x65,
 	0x65, 0x74, 0x65, 0x72, 0x12, 0x5e, 0x0a, 0x0a, 0x47, 0x65, 0x74, 0x53, 0x48, 0x33, 0x30, 0x30,
 	0x50, 0x45, 0x12, 0x16, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74,
 	0x6f, 0x62, 0x75, 0x66, 0x2e, 0x45, 0x6d, 0x70, 0x74, 0x79, 0x1a, 0x17, 0x2e, 0x73, 0x65, 0x72,
@@ -3703,96 +3940,106 @@ var file_server_server_proto_rawDesc = []byte{
 	0x6d, 0x70, 0x74, 0x79, 0x1a, 0x13, 0x2e, 0x73, 0x65, 0x72, 0x76, 0x65, 0x72, 0x2e, 0x50, 0x6d,
 	0x69, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x1e, 0x82, 0xd3, 0xe4, 0x93, 0x02,
 	0x18, 0x12, 0x16, 0x2f, 0x76, 0x31, 0x2f, 0x6d, 0x61, 0x63, 0x72, 0x6f, 0x73, 0x63, 0x6f, 0x70,
-	0x69, 0x63, 0x2f, 0x63, 0x6e, 0x2f, 0x70, 0x6d, 0x69, 0x12, 0x55, 0x0a, 0x06, 0x47, 0x65, 0x74,
-	0x43, 0x70, 0x69, 0x12, 0x16, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f,
-	0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x45, 0x6d, 0x70, 0x74, 0x79, 0x1a, 0x13, 0x2e, 0x73, 0x65,
-	0x72, 0x76, 0x65, 0x72, 0x2e, 0x43, 0x70, 0x69, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
-	0x22, 0x1e, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x18, 0x12, 0x16, 0x2f, 0x76, 0x31, 0x2f, 0x6d, 0x61,
-	0x63, 0x72, 0x6f, 0x73, 0x63, 0x6f, 0x70, 0x69, 0x63, 0x2f, 0x63, 0x6e, 0x2f, 0x63, 0x70, 0x69,
-	0x12, 0x6e, 0x0a, 0x0e, 0x47, 0x65, 0x74, 0x4d, 0x6f, 0x6e, 0x65, 0x79, 0x53, 0x75, 0x70, 0x70,
-	0x6c, 0x79, 0x12, 0x16, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74,
-	0x6f, 0x62, 0x75, 0x66, 0x2e, 0x45, 0x6d, 0x70, 0x74, 0x79, 0x1a, 0x1b, 0x2e, 0x73, 0x65, 0x72,
-	0x76, 0x65, 0x72, 0x2e, 0x4d, 0x6f, 0x6e, 0x65, 0x79, 0x53, 0x75, 0x70, 0x70, 0x6c, 0x79, 0x52,
-	0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x27, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x21, 0x12,
-	0x1f, 0x2f, 0x76, 0x31, 0x2f, 0x6d, 0x61, 0x63, 0x72, 0x6f, 0x73, 0x63, 0x6f, 0x70, 0x69, 0x63,
-	0x2f, 0x63, 0x6e, 0x2f, 0x6d, 0x6f, 0x6e, 0x65, 0x79, 0x5f, 0x73, 0x75, 0x70, 0x70, 0x6c, 0x79,
-	0x12, 0x84, 0x01, 0x0a, 0x16, 0x47, 0x65, 0x74, 0x43, 0x6f, 0x6e, 0x73, 0x75, 0x6d, 0x65, 0x72,
-	0x47, 0x6f, 0x6f, 0x64, 0x73, 0x52, 0x65, 0x74, 0x61, 0x69, 0x6c, 0x12, 0x16, 0x2e, 0x67, 0x6f,
-	0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x45, 0x6d,
-	0x70, 0x74, 0x79, 0x1a, 0x23, 0x2e, 0x73, 0x65, 0x72, 0x76, 0x65, 0x72, 0x2e, 0x43, 0x6f, 0x6e,
-	0x73, 0x75, 0x6d, 0x65, 0x72, 0x47, 0x6f, 0x6f, 0x64, 0x73, 0x52, 0x65, 0x74, 0x61, 0x69, 0x6c,
-	0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x2d, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x27,
-	0x12, 0x25, 0x2f, 0x76, 0x31, 0x2f, 0x6d, 0x61, 0x63, 0x72, 0x6f, 0x73, 0x63, 0x6f, 0x70, 0x69,
-	0x63, 0x2f, 0x63, 0x6f, 0x6e, 0x73, 0x75, 0x6d, 0x65, 0x72, 0x5f, 0x67, 0x6f, 0x6f, 0x64, 0x73,
-	0x5f, 0x72, 0x65, 0x74, 0x61, 0x69, 0x6c, 0x12, 0x59, 0x0a, 0x08, 0x47, 0x65, 0x74, 0x43, 0x78,
-	0x50, 0x6d, 0x69, 0x12, 0x16, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f,
-	0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x45, 0x6d, 0x70, 0x74, 0x79, 0x1a, 0x15, 0x2e, 0x73, 0x65,
-	0x72, 0x76, 0x65, 0x72, 0x2e, 0x43, 0x78, 0x50, 0x6d, 0x69, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e,
+	0x69, 0x63, 0x2f, 0x63, 0x6e, 0x2f, 0x70, 0x6d, 0x69, 0x12, 0x9f, 0x01, 0x0a, 0x1e, 0x47, 0x65,
+	0x74, 0x4d, 0x61, 0x6e, 0x75, 0x66, 0x61, 0x63, 0x74, 0x75, 0x72, 0x69, 0x6e, 0x67, 0x50, 0x6d,
+	0x69, 0x50, 0x61, 0x72, 0x74, 0x69, 0x63, 0x75, 0x6c, 0x61, 0x72, 0x73, 0x12, 0x16, 0x2e, 0x67,
+	0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x45,
+	0x6d, 0x70, 0x74, 0x79, 0x1a, 0x2b, 0x2e, 0x73, 0x65, 0x72, 0x76, 0x65, 0x72, 0x2e, 0x4d, 0x61,
+	0x6e, 0x75, 0x66, 0x61, 0x63, 0x74, 0x75, 0x72, 0x69, 0x6e, 0x67, 0x50, 0x6d, 0x69, 0x50, 0x61,
+	0x72, 0x74, 0x69, 0x63, 0x75, 0x6c, 0x61, 0x72, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73,
+	0x65, 0x22, 0x38, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x32, 0x12, 0x30, 0x2f, 0x76, 0x31, 0x2f, 0x6d,
+	0x61, 0x63, 0x72, 0x6f, 0x73, 0x63, 0x6f, 0x70, 0x69, 0x63, 0x2f, 0x63, 0x6e, 0x2f, 0x6d, 0x61,
+	0x6e, 0x75, 0x66, 0x61, 0x63, 0x74, 0x75, 0x72, 0x69, 0x6e, 0x67, 0x5f, 0x70, 0x6d, 0x69, 0x5f,
+	0x70, 0x61, 0x72, 0x74, 0x69, 0x63, 0x75, 0x6c, 0x61, 0x72, 0x73, 0x12, 0x55, 0x0a, 0x06, 0x47,
+	0x65, 0x74, 0x43, 0x70, 0x69, 0x12, 0x16, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70,
+	0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x45, 0x6d, 0x70, 0x74, 0x79, 0x1a, 0x13, 0x2e,
+	0x73, 0x65, 0x72, 0x76, 0x65, 0x72, 0x2e, 0x43, 0x70, 0x69, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e,
 	0x73, 0x65, 0x22, 0x1e, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x18, 0x12, 0x16, 0x2f, 0x76, 0x31, 0x2f,
-	0x6d, 0x61, 0x63, 0x72, 0x6f, 0x73, 0x63, 0x6f, 0x70, 0x69, 0x63, 0x2f, 0x63, 0x78, 0x5f, 0x70,
-	0x6d, 0x69, 0x12, 0xad, 0x01, 0x0a, 0x23, 0x47, 0x65, 0x74, 0x56, 0x61, 0x6c, 0x75, 0x65, 0x41,
-	0x64, 0x64, 0x65, 0x64, 0x4f, 0x66, 0x49, 0x6e, 0x64, 0x75, 0x73, 0x74, 0x72, 0x69, 0x61, 0x6c,
-	0x50, 0x72, 0x6f, 0x64, 0x75, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x16, 0x2e, 0x67, 0x6f, 0x6f,
-	0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x45, 0x6d, 0x70,
-	0x74, 0x79, 0x1a, 0x30, 0x2e, 0x73, 0x65, 0x72, 0x76, 0x65, 0x72, 0x2e, 0x56, 0x61, 0x6c, 0x75,
+	0x6d, 0x61, 0x63, 0x72, 0x6f, 0x73, 0x63, 0x6f, 0x70, 0x69, 0x63, 0x2f, 0x63, 0x6e, 0x2f, 0x63,
+	0x70, 0x69, 0x12, 0x6e, 0x0a, 0x0e, 0x47, 0x65, 0x74, 0x4d, 0x6f, 0x6e, 0x65, 0x79, 0x53, 0x75,
+	0x70, 0x70, 0x6c, 0x79, 0x12, 0x16, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72,
+	0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x45, 0x6d, 0x70, 0x74, 0x79, 0x1a, 0x1b, 0x2e, 0x73,
+	0x65, 0x72, 0x76, 0x65, 0x72, 0x2e, 0x4d, 0x6f, 0x6e, 0x65, 0x79, 0x53, 0x75, 0x70, 0x70, 0x6c,
+	0x79, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x27, 0x82, 0xd3, 0xe4, 0x93, 0x02,
+	0x21, 0x12, 0x1f, 0x2f, 0x76, 0x31, 0x2f, 0x6d, 0x61, 0x63, 0x72, 0x6f, 0x73, 0x63, 0x6f, 0x70,
+	0x69, 0x63, 0x2f, 0x63, 0x6e, 0x2f, 0x6d, 0x6f, 0x6e, 0x65, 0x79, 0x5f, 0x73, 0x75, 0x70, 0x70,
+	0x6c, 0x79, 0x12, 0x84, 0x01, 0x0a, 0x16, 0x47, 0x65, 0x74, 0x43, 0x6f, 0x6e, 0x73, 0x75, 0x6d,
+	0x65, 0x72, 0x47, 0x6f, 0x6f, 0x64, 0x73, 0x52, 0x65, 0x74, 0x61, 0x69, 0x6c, 0x12, 0x16, 0x2e,
+	0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e,
+	0x45, 0x6d, 0x70, 0x74, 0x79, 0x1a, 0x23, 0x2e, 0x73, 0x65, 0x72, 0x76, 0x65, 0x72, 0x2e, 0x43,
+	0x6f, 0x6e, 0x73, 0x75, 0x6d, 0x65, 0x72, 0x47, 0x6f, 0x6f, 0x64, 0x73, 0x52, 0x65, 0x74, 0x61,
+	0x69, 0x6c, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x2d, 0x82, 0xd3, 0xe4, 0x93,
+	0x02, 0x27, 0x12, 0x25, 0x2f, 0x76, 0x31, 0x2f, 0x6d, 0x61, 0x63, 0x72, 0x6f, 0x73, 0x63, 0x6f,
+	0x70, 0x69, 0x63, 0x2f, 0x63, 0x6f, 0x6e, 0x73, 0x75, 0x6d, 0x65, 0x72, 0x5f, 0x67, 0x6f, 0x6f,
+	0x64, 0x73, 0x5f, 0x72, 0x65, 0x74, 0x61, 0x69, 0x6c, 0x12, 0x59, 0x0a, 0x08, 0x47, 0x65, 0x74,
+	0x43, 0x78, 0x50, 0x6d, 0x69, 0x12, 0x16, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70,
+	0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x45, 0x6d, 0x70, 0x74, 0x79, 0x1a, 0x15, 0x2e,
+	0x73, 0x65, 0x72, 0x76, 0x65, 0x72, 0x2e, 0x43, 0x78, 0x50, 0x6d, 0x69, 0x52, 0x65, 0x73, 0x70,
+	0x6f, 0x6e, 0x73, 0x65, 0x22, 0x1e, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x18, 0x12, 0x16, 0x2f, 0x76,
+	0x31, 0x2f, 0x6d, 0x61, 0x63, 0x72, 0x6f, 0x73, 0x63, 0x6f, 0x70, 0x69, 0x63, 0x2f, 0x63, 0x78,
+	0x5f, 0x70, 0x6d, 0x69, 0x12, 0xad, 0x01, 0x0a, 0x23, 0x47, 0x65, 0x74, 0x56, 0x61, 0x6c, 0x75,
 	0x65, 0x41, 0x64, 0x64, 0x65, 0x64, 0x4f, 0x66, 0x49, 0x6e, 0x64, 0x75, 0x73, 0x74, 0x72, 0x69,
-	0x61, 0x6c, 0x50, 0x72, 0x6f, 0x64, 0x75, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x73, 0x70,
-	0x6f, 0x6e, 0x73, 0x65, 0x22, 0x3c, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x36, 0x12, 0x34, 0x2f, 0x76,
-	0x31, 0x2f, 0x6d, 0x61, 0x63, 0x72, 0x6f, 0x73, 0x63, 0x6f, 0x70, 0x69, 0x63, 0x2f, 0x76, 0x61,
-	0x6c, 0x75, 0x65, 0x5f, 0x61, 0x64, 0x64, 0x65, 0x64, 0x5f, 0x6f, 0x66, 0x5f, 0x69, 0x6e, 0x64,
-	0x75, 0x73, 0x74, 0x72, 0x69, 0x61, 0x6c, 0x5f, 0x70, 0x72, 0x6f, 0x64, 0x75, 0x63, 0x74, 0x69,
-	0x6f, 0x6e, 0x12, 0x9f, 0x01, 0x0a, 0x1f, 0x47, 0x65, 0x74, 0x53, 0x6f, 0x63, 0x69, 0x61, 0x6c,
+	0x61, 0x6c, 0x50, 0x72, 0x6f, 0x64, 0x75, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x16, 0x2e, 0x67,
+	0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x45,
+	0x6d, 0x70, 0x74, 0x79, 0x1a, 0x30, 0x2e, 0x73, 0x65, 0x72, 0x76, 0x65, 0x72, 0x2e, 0x56, 0x61,
+	0x6c, 0x75, 0x65, 0x41, 0x64, 0x64, 0x65, 0x64, 0x4f, 0x66, 0x49, 0x6e, 0x64, 0x75, 0x73, 0x74,
+	0x72, 0x69, 0x61, 0x6c, 0x50, 0x72, 0x6f, 0x64, 0x75, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65,
+	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x3c, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x36, 0x12, 0x34,
+	0x2f, 0x76, 0x31, 0x2f, 0x6d, 0x61, 0x63, 0x72, 0x6f, 0x73, 0x63, 0x6f, 0x70, 0x69, 0x63, 0x2f,
+	0x76, 0x61, 0x6c, 0x75, 0x65, 0x5f, 0x61, 0x64, 0x64, 0x65, 0x64, 0x5f, 0x6f, 0x66, 0x5f, 0x69,
+	0x6e, 0x64, 0x75, 0x73, 0x74, 0x72, 0x69, 0x61, 0x6c, 0x5f, 0x70, 0x72, 0x6f, 0x64, 0x75, 0x63,
+	0x74, 0x69, 0x6f, 0x6e, 0x12, 0x9f, 0x01, 0x0a, 0x1f, 0x47, 0x65, 0x74, 0x53, 0x6f, 0x63, 0x69,
+	0x61, 0x6c, 0x45, 0x6c, 0x65, 0x63, 0x74, 0x72, 0x69, 0x63, 0x69, 0x74, 0x79, 0x43, 0x6f, 0x6e,
+	0x73, 0x75, 0x6d, 0x70, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x16, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c,
+	0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x45, 0x6d, 0x70, 0x74, 0x79,
+	0x1a, 0x2c, 0x2e, 0x73, 0x65, 0x72, 0x76, 0x65, 0x72, 0x2e, 0x53, 0x6f, 0x63, 0x69, 0x61, 0x6c,
 	0x45, 0x6c, 0x65, 0x63, 0x74, 0x72, 0x69, 0x63, 0x69, 0x74, 0x79, 0x43, 0x6f, 0x6e, 0x73, 0x75,
-	0x6d, 0x70, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x16, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e,
-	0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x45, 0x6d, 0x70, 0x74, 0x79, 0x1a, 0x2c,
-	0x2e, 0x73, 0x65, 0x72, 0x76, 0x65, 0x72, 0x2e, 0x53, 0x6f, 0x63, 0x69, 0x61, 0x6c, 0x45, 0x6c,
-	0x65, 0x63, 0x74, 0x72, 0x69, 0x63, 0x69, 0x74, 0x79, 0x43, 0x6f, 0x6e, 0x73, 0x75, 0x6d, 0x70,
-	0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x36, 0x82, 0xd3,
-	0xe4, 0x93, 0x02, 0x30, 0x12, 0x2e, 0x2f, 0x76, 0x31, 0x2f, 0x6d, 0x61, 0x63, 0x72, 0x6f, 0x73,
-	0x63, 0x6f, 0x70, 0x69, 0x63, 0x2f, 0x73, 0x6f, 0x63, 0x69, 0x61, 0x6c, 0x5f, 0x65, 0x6c, 0x65,
-	0x63, 0x74, 0x72, 0x69, 0x63, 0x69, 0x74, 0x79, 0x5f, 0x63, 0x6f, 0x6e, 0x73, 0x75, 0x6d, 0x70,
-	0x74, 0x69, 0x6f, 0x6e, 0x12, 0x9a, 0x01, 0x0a, 0x1d, 0x47, 0x65, 0x74, 0x50, 0x61, 0x73, 0x73,
-	0x65, 0x6e, 0x67, 0x65, 0x72, 0x41, 0x6e, 0x64, 0x46, 0x72, 0x65, 0x69, 0x67, 0x68, 0x74, 0x54,
-	0x72, 0x61, 0x66, 0x66, 0x69, 0x63, 0x12, 0x16, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e,
-	0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x45, 0x6d, 0x70, 0x74, 0x79, 0x1a, 0x2a,
-	0x2e, 0x73, 0x65, 0x72, 0x76, 0x65, 0x72, 0x2e, 0x50, 0x61, 0x73, 0x73, 0x65, 0x6e, 0x67, 0x65,
-	0x72, 0x41, 0x6e, 0x64, 0x46, 0x72, 0x65, 0x69, 0x67, 0x68, 0x74, 0x54, 0x72, 0x61, 0x66, 0x66,
-	0x69, 0x63, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x35, 0x82, 0xd3, 0xe4, 0x93,
-	0x02, 0x2f, 0x12, 0x2d, 0x2f, 0x76, 0x31, 0x2f, 0x6d, 0x61, 0x63, 0x72, 0x6f, 0x73, 0x63, 0x6f,
-	0x70, 0x69, 0x63, 0x2f, 0x70, 0x61, 0x73, 0x73, 0x65, 0x6e, 0x67, 0x65, 0x72, 0x5f, 0x61, 0x6e,
-	0x64, 0x5f, 0x66, 0x72, 0x65, 0x69, 0x67, 0x68, 0x74, 0x5f, 0x74, 0x72, 0x61, 0x66, 0x66, 0x69,
-	0x63, 0x12, 0x81, 0x01, 0x0a, 0x15, 0x47, 0x65, 0x74, 0x4e, 0x65, 0x77, 0x46, 0x69, 0x6e, 0x61,
-	0x6e, 0x63, 0x69, 0x61, 0x6c, 0x43, 0x72, 0x65, 0x64, 0x69, 0x74, 0x12, 0x16, 0x2e, 0x67, 0x6f,
-	0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x45, 0x6d,
-	0x70, 0x74, 0x79, 0x1a, 0x22, 0x2e, 0x73, 0x65, 0x72, 0x76, 0x65, 0x72, 0x2e, 0x4e, 0x65, 0x77,
-	0x46, 0x69, 0x6e, 0x61, 0x6e, 0x63, 0x69, 0x61, 0x6c, 0x43, 0x72, 0x65, 0x64, 0x69, 0x74, 0x52,
-	0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x2c, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x26, 0x12,
-	0x24, 0x2f, 0x76, 0x31, 0x2f, 0x6d, 0x61, 0x63, 0x72, 0x6f, 0x73, 0x63, 0x6f, 0x70, 0x69, 0x63,
-	0x2f, 0x6e, 0x65, 0x77, 0x5f, 0x66, 0x69, 0x6e, 0x61, 0x6e, 0x63, 0x69, 0x61, 0x6c, 0x5f, 0x63,
-	0x72, 0x65, 0x64, 0x69, 0x74, 0x12, 0x8b, 0x01, 0x0a, 0x18, 0x47, 0x65, 0x74, 0x46, 0x6f, 0x72,
-	0x65, 0x69, 0x67, 0x6e, 0x52, 0x65, 0x73, 0x65, 0x72, 0x76, 0x65, 0x41, 0x6e, 0x64, 0x47, 0x6f,
-	0x6c, 0x64, 0x12, 0x16, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74,
-	0x6f, 0x62, 0x75, 0x66, 0x2e, 0x45, 0x6d, 0x70, 0x74, 0x79, 0x1a, 0x25, 0x2e, 0x73, 0x65, 0x72,
-	0x76, 0x65, 0x72, 0x2e, 0x46, 0x6f, 0x72, 0x65, 0x69, 0x67, 0x6e, 0x52, 0x65, 0x73, 0x65, 0x72,
-	0x76, 0x65, 0x41, 0x6e, 0x64, 0x47, 0x6f, 0x6c, 0x64, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73,
-	0x65, 0x22, 0x30, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x2a, 0x12, 0x28, 0x2f, 0x76, 0x31, 0x2f, 0x6d,
-	0x61, 0x63, 0x72, 0x6f, 0x73, 0x63, 0x6f, 0x70, 0x69, 0x63, 0x2f, 0x66, 0x6f, 0x72, 0x65, 0x69,
-	0x67, 0x6e, 0x5f, 0x72, 0x65, 0x73, 0x65, 0x72, 0x76, 0x65, 0x5f, 0x61, 0x6e, 0x64, 0x5f, 0x67,
-	0x6f, 0x6c, 0x64, 0x12, 0x91, 0x01, 0x0a, 0x1a, 0x47, 0x65, 0x74, 0x49, 0x6e, 0x76, 0x65, 0x73,
-	0x74, 0x6d, 0x65, 0x6e, 0x74, 0x49, 0x6e, 0x46, 0x69, 0x78, 0x65, 0x64, 0x41, 0x73, 0x73, 0x65,
-	0x74, 0x73, 0x12, 0x16, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74,
-	0x6f, 0x62, 0x75, 0x66, 0x2e, 0x45, 0x6d, 0x70, 0x74, 0x79, 0x1a, 0x27, 0x2e, 0x73, 0x65, 0x72,
-	0x76, 0x65, 0x72, 0x2e, 0x49, 0x6e, 0x76, 0x65, 0x73, 0x74, 0x6d, 0x65, 0x6e, 0x74, 0x49, 0x6e,
-	0x46, 0x69, 0x78, 0x65, 0x64, 0x41, 0x73, 0x73, 0x65, 0x74, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f,
-	0x6e, 0x73, 0x65, 0x22, 0x32, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x2c, 0x12, 0x2a, 0x2f, 0x76, 0x31,
-	0x2f, 0x6d, 0x61, 0x63, 0x72, 0x6f, 0x73, 0x63, 0x6f, 0x70, 0x69, 0x63, 0x2f, 0x69, 0x6e, 0x76,
-	0x65, 0x73, 0x74, 0x6d, 0x65, 0x6e, 0x74, 0x5f, 0x69, 0x6e, 0x5f, 0x66, 0x69, 0x78, 0x65, 0x64,
-	0x5f, 0x61, 0x73, 0x73, 0x65, 0x74, 0x73, 0x42, 0x47, 0x5a, 0x2a, 0x67, 0x69, 0x74, 0x68, 0x75,
-	0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x63, 0x68, 0x65, 0x6e, 0x68, 0x61, 0x6f, 0x6e, 0x61, 0x6e,
-	0x2d, 0x65, 0x74, 0x68, 0x2f, 0x64, 0x61, 0x6f, 0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x3b, 0x73,
-	0x65, 0x72, 0x76, 0x65, 0x72, 0x92, 0x41, 0x18, 0x12, 0x13, 0x0a, 0x0b, 0x44, 0x61, 0x6f, 0x20,
-	0x73, 0x77, 0x61, 0x67, 0x67, 0x65, 0x72, 0x32, 0x04, 0x56, 0x31, 0x2e, 0x30, 0x2a, 0x01, 0x01,
-	0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x6d, 0x70, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x36,
+	0x82, 0xd3, 0xe4, 0x93, 0x02, 0x30, 0x12, 0x2e, 0x2f, 0x76, 0x31, 0x2f, 0x6d, 0x61, 0x63, 0x72,
+	0x6f, 0x73, 0x63, 0x6f, 0x70, 0x69, 0x63, 0x2f, 0x73, 0x6f, 0x63, 0x69, 0x61, 0x6c, 0x5f, 0x65,
+	0x6c, 0x65, 0x63, 0x74, 0x72, 0x69, 0x63, 0x69, 0x74, 0x79, 0x5f, 0x63, 0x6f, 0x6e, 0x73, 0x75,
+	0x6d, 0x70, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x9a, 0x01, 0x0a, 0x1d, 0x47, 0x65, 0x74, 0x50, 0x61,
+	0x73, 0x73, 0x65, 0x6e, 0x67, 0x65, 0x72, 0x41, 0x6e, 0x64, 0x46, 0x72, 0x65, 0x69, 0x67, 0x68,
+	0x74, 0x54, 0x72, 0x61, 0x66, 0x66, 0x69, 0x63, 0x12, 0x16, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c,
+	0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x45, 0x6d, 0x70, 0x74, 0x79,
+	0x1a, 0x2a, 0x2e, 0x73, 0x65, 0x72, 0x76, 0x65, 0x72, 0x2e, 0x50, 0x61, 0x73, 0x73, 0x65, 0x6e,
+	0x67, 0x65, 0x72, 0x41, 0x6e, 0x64, 0x46, 0x72, 0x65, 0x69, 0x67, 0x68, 0x74, 0x54, 0x72, 0x61,
+	0x66, 0x66, 0x69, 0x63, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x35, 0x82, 0xd3,
+	0xe4, 0x93, 0x02, 0x2f, 0x12, 0x2d, 0x2f, 0x76, 0x31, 0x2f, 0x6d, 0x61, 0x63, 0x72, 0x6f, 0x73,
+	0x63, 0x6f, 0x70, 0x69, 0x63, 0x2f, 0x70, 0x61, 0x73, 0x73, 0x65, 0x6e, 0x67, 0x65, 0x72, 0x5f,
+	0x61, 0x6e, 0x64, 0x5f, 0x66, 0x72, 0x65, 0x69, 0x67, 0x68, 0x74, 0x5f, 0x74, 0x72, 0x61, 0x66,
+	0x66, 0x69, 0x63, 0x12, 0x81, 0x01, 0x0a, 0x15, 0x47, 0x65, 0x74, 0x4e, 0x65, 0x77, 0x46, 0x69,
+	0x6e, 0x61, 0x6e, 0x63, 0x69, 0x61, 0x6c, 0x43, 0x72, 0x65, 0x64, 0x69, 0x74, 0x12, 0x16, 0x2e,
+	0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e,
+	0x45, 0x6d, 0x70, 0x74, 0x79, 0x1a, 0x22, 0x2e, 0x73, 0x65, 0x72, 0x76, 0x65, 0x72, 0x2e, 0x4e,
+	0x65, 0x77, 0x46, 0x69, 0x6e, 0x61, 0x6e, 0x63, 0x69, 0x61, 0x6c, 0x43, 0x72, 0x65, 0x64, 0x69,
+	0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x2c, 0x82, 0xd3, 0xe4, 0x93, 0x02,
+	0x26, 0x12, 0x24, 0x2f, 0x76, 0x31, 0x2f, 0x6d, 0x61, 0x63, 0x72, 0x6f, 0x73, 0x63, 0x6f, 0x70,
+	0x69, 0x63, 0x2f, 0x6e, 0x65, 0x77, 0x5f, 0x66, 0x69, 0x6e, 0x61, 0x6e, 0x63, 0x69, 0x61, 0x6c,
+	0x5f, 0x63, 0x72, 0x65, 0x64, 0x69, 0x74, 0x12, 0x8b, 0x01, 0x0a, 0x18, 0x47, 0x65, 0x74, 0x46,
+	0x6f, 0x72, 0x65, 0x69, 0x67, 0x6e, 0x52, 0x65, 0x73, 0x65, 0x72, 0x76, 0x65, 0x41, 0x6e, 0x64,
+	0x47, 0x6f, 0x6c, 0x64, 0x12, 0x16, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72,
+	0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x45, 0x6d, 0x70, 0x74, 0x79, 0x1a, 0x25, 0x2e, 0x73,
+	0x65, 0x72, 0x76, 0x65, 0x72, 0x2e, 0x46, 0x6f, 0x72, 0x65, 0x69, 0x67, 0x6e, 0x52, 0x65, 0x73,
+	0x65, 0x72, 0x76, 0x65, 0x41, 0x6e, 0x64, 0x47, 0x6f, 0x6c, 0x64, 0x52, 0x65, 0x73, 0x70, 0x6f,
+	0x6e, 0x73, 0x65, 0x22, 0x30, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x2a, 0x12, 0x28, 0x2f, 0x76, 0x31,
+	0x2f, 0x6d, 0x61, 0x63, 0x72, 0x6f, 0x73, 0x63, 0x6f, 0x70, 0x69, 0x63, 0x2f, 0x66, 0x6f, 0x72,
+	0x65, 0x69, 0x67, 0x6e, 0x5f, 0x72, 0x65, 0x73, 0x65, 0x72, 0x76, 0x65, 0x5f, 0x61, 0x6e, 0x64,
+	0x5f, 0x67, 0x6f, 0x6c, 0x64, 0x12, 0x91, 0x01, 0x0a, 0x1a, 0x47, 0x65, 0x74, 0x49, 0x6e, 0x76,
+	0x65, 0x73, 0x74, 0x6d, 0x65, 0x6e, 0x74, 0x49, 0x6e, 0x46, 0x69, 0x78, 0x65, 0x64, 0x41, 0x73,
+	0x73, 0x65, 0x74, 0x73, 0x12, 0x16, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72,
+	0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x45, 0x6d, 0x70, 0x74, 0x79, 0x1a, 0x27, 0x2e, 0x73,
+	0x65, 0x72, 0x76, 0x65, 0x72, 0x2e, 0x49, 0x6e, 0x76, 0x65, 0x73, 0x74, 0x6d, 0x65, 0x6e, 0x74,
+	0x49, 0x6e, 0x46, 0x69, 0x78, 0x65, 0x64, 0x41, 0x73, 0x73, 0x65, 0x74, 0x73, 0x52, 0x65, 0x73,
+	0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x32, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x2c, 0x12, 0x2a, 0x2f,
+	0x76, 0x31, 0x2f, 0x6d, 0x61, 0x63, 0x72, 0x6f, 0x73, 0x63, 0x6f, 0x70, 0x69, 0x63, 0x2f, 0x69,
+	0x6e, 0x76, 0x65, 0x73, 0x74, 0x6d, 0x65, 0x6e, 0x74, 0x5f, 0x69, 0x6e, 0x5f, 0x66, 0x69, 0x78,
+	0x65, 0x64, 0x5f, 0x61, 0x73, 0x73, 0x65, 0x74, 0x73, 0x42, 0x47, 0x5a, 0x2a, 0x67, 0x69, 0x74,
+	0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x63, 0x68, 0x65, 0x6e, 0x68, 0x61, 0x6f, 0x6e,
+	0x61, 0x6e, 0x2d, 0x65, 0x74, 0x68, 0x2f, 0x64, 0x61, 0x6f, 0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f,
+	0x3b, 0x73, 0x65, 0x72, 0x76, 0x65, 0x72, 0x92, 0x41, 0x18, 0x12, 0x13, 0x0a, 0x0b, 0x44, 0x61,
+	0x6f, 0x20, 0x73, 0x77, 0x61, 0x67, 0x67, 0x65, 0x72, 0x32, 0x04, 0x56, 0x31, 0x2e, 0x30, 0x2a,
+	0x01, 0x01, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -3808,7 +4055,7 @@ func file_server_server_proto_rawDescGZIP() []byte {
 }
 
 var file_server_server_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_server_server_proto_msgTypes = make([]protoimpl.MessageInfo, 37)
+var file_server_server_proto_msgTypes = make([]protoimpl.MessageInfo, 39)
 var file_server_server_proto_goTypes = []interface{}{
 	(CategoryOfTraffic)(0),                           // 0: server.CategoryOfTraffic
 	(*FturesFoewignRequest)(nil),                     // 1: server.FturesFoewignRequest
@@ -3822,33 +4069,35 @@ var file_server_server_proto_goTypes = []interface{}{
 	(*Gdp)(nil),                                      // 9: server.Gdp
 	(*PmiResponse)(nil),                              // 10: server.PmiResponse
 	(*Pmi)(nil),                                      // 11: server.Pmi
-	(*CpiResponse)(nil),                              // 12: server.CpiResponse
-	(*Cpi)(nil),                                      // 13: server.Cpi
-	(*BondZhUsRateResponse)(nil),                     // 14: server.BondZhUsRateResponse
-	(*BondZhUsRate)(nil),                             // 15: server.BondZhUsRate
-	(*SocialFinancingFlowsResponse)(nil),             // 16: server.SocialFinancingFlowsResponse
-	(*SocialFinancingFlow)(nil),                      // 17: server.SocialFinancingFlow
-	(*SH300PEResponse)(nil),                          // 18: server.SH300PEResponse
-	(*SH300PE)(nil),                                  // 19: server.SH300PE
-	(*MoneySupplyResponse)(nil),                      // 20: server.MoneySupplyResponse
-	(*MoneySupply)(nil),                              // 21: server.MoneySupply
-	(*ConsumerGoodsRetailResponse)(nil),              // 22: server.ConsumerGoodsRetailResponse
-	(*ConsumerGoodsRetail)(nil),                      // 23: server.ConsumerGoodsRetail
-	(*CxPmiResponse)(nil),                            // 24: server.CxPmiResponse
-	(*CxPmi)(nil),                                    // 25: server.CxPmi
-	(*ValueAddedOfIndustrialProductionResponse)(nil), // 26: server.ValueAddedOfIndustrialProductionResponse
-	(*ValueAddedOfIndustrialProduction)(nil),         // 27: server.ValueAddedOfIndustrialProduction
-	(*SocialElectricityConsumptionResponse)(nil),     // 28: server.SocialElectricityConsumptionResponse
-	(*SocialElectricityConsumption)(nil),             // 29: server.SocialElectricityConsumption
-	(*PassengerAndFreightTrafficResponse)(nil),       // 30: server.PassengerAndFreightTrafficResponse
-	(*PassengerAndFreightTraffic)(nil),               // 31: server.PassengerAndFreightTraffic
-	(*NewFinancialCreditResponse)(nil),               // 32: server.NewFinancialCreditResponse
-	(*NewFinancialCredit)(nil),                       // 33: server.NewFinancialCredit
-	(*ForeignReserveAndGoldResponse)(nil),            // 34: server.ForeignReserveAndGoldResponse
-	(*ForeignReserveAndGold)(nil),                    // 35: server.ForeignReserveAndGold
-	(*InvestmentInFixedAssetsResponse)(nil),          // 36: server.InvestmentInFixedAssetsResponse
-	(*InvestmentInFixedAssets)(nil),                  // 37: server.InvestmentInFixedAssets
-	(*emptypb.Empty)(nil),                            // 38: google.protobuf.Empty
+	(*ManufacturingPmiParticularsResponse)(nil),      // 12: server.ManufacturingPmiParticularsResponse
+	(*ManufacturingPmiParticulars)(nil),              // 13: server.ManufacturingPmiParticulars
+	(*CpiResponse)(nil),                              // 14: server.CpiResponse
+	(*Cpi)(nil),                                      // 15: server.Cpi
+	(*BondZhUsRateResponse)(nil),                     // 16: server.BondZhUsRateResponse
+	(*BondZhUsRate)(nil),                             // 17: server.BondZhUsRate
+	(*SocialFinancingFlowsResponse)(nil),             // 18: server.SocialFinancingFlowsResponse
+	(*SocialFinancingFlow)(nil),                      // 19: server.SocialFinancingFlow
+	(*SH300PEResponse)(nil),                          // 20: server.SH300PEResponse
+	(*SH300PE)(nil),                                  // 21: server.SH300PE
+	(*MoneySupplyResponse)(nil),                      // 22: server.MoneySupplyResponse
+	(*MoneySupply)(nil),                              // 23: server.MoneySupply
+	(*ConsumerGoodsRetailResponse)(nil),              // 24: server.ConsumerGoodsRetailResponse
+	(*ConsumerGoodsRetail)(nil),                      // 25: server.ConsumerGoodsRetail
+	(*CxPmiResponse)(nil),                            // 26: server.CxPmiResponse
+	(*CxPmi)(nil),                                    // 27: server.CxPmi
+	(*ValueAddedOfIndustrialProductionResponse)(nil), // 28: server.ValueAddedOfIndustrialProductionResponse
+	(*ValueAddedOfIndustrialProduction)(nil),         // 29: server.ValueAddedOfIndustrialProduction
+	(*SocialElectricityConsumptionResponse)(nil),     // 30: server.SocialElectricityConsumptionResponse
+	(*SocialElectricityConsumption)(nil),             // 31: server.SocialElectricityConsumption
+	(*PassengerAndFreightTrafficResponse)(nil),       // 32: server.PassengerAndFreightTrafficResponse
+	(*PassengerAndFreightTraffic)(nil),               // 33: server.PassengerAndFreightTraffic
+	(*NewFinancialCreditResponse)(nil),               // 34: server.NewFinancialCreditResponse
+	(*NewFinancialCredit)(nil),                       // 35: server.NewFinancialCredit
+	(*ForeignReserveAndGoldResponse)(nil),            // 36: server.ForeignReserveAndGoldResponse
+	(*ForeignReserveAndGold)(nil),                    // 37: server.ForeignReserveAndGold
+	(*InvestmentInFixedAssetsResponse)(nil),          // 38: server.InvestmentInFixedAssetsResponse
+	(*InvestmentInFixedAssets)(nil),                  // 39: server.InvestmentInFixedAssets
+	(*emptypb.Empty)(nil),                            // 40: google.protobuf.Empty
 }
 var file_server_server_proto_depIdxs = []int32{
 	3,  // 0: server.SocialFinancingStockResponse.results:type_name -> server.SocialFinancingStock
@@ -3856,61 +4105,64 @@ var file_server_server_proto_depIdxs = []int32{
 	7,  // 2: server.PpiResponse.results:type_name -> server.Ppi
 	9,  // 3: server.GdpResponse.results:type_name -> server.Gdp
 	11, // 4: server.PmiResponse.results:type_name -> server.Pmi
-	13, // 5: server.CpiResponse.results:type_name -> server.Cpi
-	15, // 6: server.BondZhUsRateResponse.results:type_name -> server.BondZhUsRate
-	17, // 7: server.SocialFinancingFlowsResponse.results:type_name -> server.SocialFinancingFlow
-	19, // 8: server.SH300PEResponse.results:type_name -> server.SH300PE
-	21, // 9: server.MoneySupplyResponse.results:type_name -> server.MoneySupply
-	23, // 10: server.ConsumerGoodsRetailResponse.results:type_name -> server.ConsumerGoodsRetail
-	25, // 11: server.CxPmiResponse.results:type_name -> server.CxPmi
-	27, // 12: server.ValueAddedOfIndustrialProductionResponse.results:type_name -> server.ValueAddedOfIndustrialProduction
-	29, // 13: server.SocialElectricityConsumptionResponse.results:type_name -> server.SocialElectricityConsumption
-	31, // 14: server.PassengerAndFreightTrafficResponse.results:type_name -> server.PassengerAndFreightTraffic
-	0,  // 15: server.PassengerAndFreightTraffic.class:type_name -> server.CategoryOfTraffic
-	33, // 16: server.NewFinancialCreditResponse.results:type_name -> server.NewFinancialCredit
-	35, // 17: server.ForeignReserveAndGoldResponse.results:type_name -> server.ForeignReserveAndGold
-	37, // 18: server.InvestmentInFixedAssetsResponse.results:type_name -> server.InvestmentInFixedAssets
-	38, // 19: server.Greeter.GetSH300PE:input_type -> google.protobuf.Empty
-	38, // 20: server.Greeter.GetBondZhUsRate:input_type -> google.protobuf.Empty
-	38, // 21: server.Greeter.GetTotalSocialFlows:input_type -> google.protobuf.Empty
-	38, // 22: server.Greeter.GetSocialFinancingStock:input_type -> google.protobuf.Empty
-	1,  // 23: server.Greeter.GetFuturesForeignHist:input_type -> server.FturesFoewignRequest
-	38, // 24: server.Greeter.GetPpi:input_type -> google.protobuf.Empty
-	38, // 25: server.Greeter.GetGdp:input_type -> google.protobuf.Empty
-	38, // 26: server.Greeter.GetPmi:input_type -> google.protobuf.Empty
-	38, // 27: server.Greeter.GetCpi:input_type -> google.protobuf.Empty
-	38, // 28: server.Greeter.GetMoneySupply:input_type -> google.protobuf.Empty
-	38, // 29: server.Greeter.GetConsumerGoodsRetail:input_type -> google.protobuf.Empty
-	38, // 30: server.Greeter.GetCxPmi:input_type -> google.protobuf.Empty
-	38, // 31: server.Greeter.GetValueAddedOfIndustrialProduction:input_type -> google.protobuf.Empty
-	38, // 32: server.Greeter.GetSocialElectricityConsumption:input_type -> google.protobuf.Empty
-	38, // 33: server.Greeter.GetPassengerAndFreightTraffic:input_type -> google.protobuf.Empty
-	38, // 34: server.Greeter.GetNewFinancialCredit:input_type -> google.protobuf.Empty
-	38, // 35: server.Greeter.GetForeignReserveAndGold:input_type -> google.protobuf.Empty
-	38, // 36: server.Greeter.GetInvestmentInFixedAssets:input_type -> google.protobuf.Empty
-	18, // 37: server.Greeter.GetSH300PE:output_type -> server.SH300PEResponse
-	14, // 38: server.Greeter.GetBondZhUsRate:output_type -> server.BondZhUsRateResponse
-	16, // 39: server.Greeter.GetTotalSocialFlows:output_type -> server.SocialFinancingFlowsResponse
-	2,  // 40: server.Greeter.GetSocialFinancingStock:output_type -> server.SocialFinancingStockResponse
-	4,  // 41: server.Greeter.GetFuturesForeignHist:output_type -> server.FturesFoewignResponse
-	6,  // 42: server.Greeter.GetPpi:output_type -> server.PpiResponse
-	8,  // 43: server.Greeter.GetGdp:output_type -> server.GdpResponse
-	10, // 44: server.Greeter.GetPmi:output_type -> server.PmiResponse
-	12, // 45: server.Greeter.GetCpi:output_type -> server.CpiResponse
-	20, // 46: server.Greeter.GetMoneySupply:output_type -> server.MoneySupplyResponse
-	22, // 47: server.Greeter.GetConsumerGoodsRetail:output_type -> server.ConsumerGoodsRetailResponse
-	24, // 48: server.Greeter.GetCxPmi:output_type -> server.CxPmiResponse
-	26, // 49: server.Greeter.GetValueAddedOfIndustrialProduction:output_type -> server.ValueAddedOfIndustrialProductionResponse
-	28, // 50: server.Greeter.GetSocialElectricityConsumption:output_type -> server.SocialElectricityConsumptionResponse
-	30, // 51: server.Greeter.GetPassengerAndFreightTraffic:output_type -> server.PassengerAndFreightTrafficResponse
-	32, // 52: server.Greeter.GetNewFinancialCredit:output_type -> server.NewFinancialCreditResponse
-	34, // 53: server.Greeter.GetForeignReserveAndGold:output_type -> server.ForeignReserveAndGoldResponse
-	36, // 54: server.Greeter.GetInvestmentInFixedAssets:output_type -> server.InvestmentInFixedAssetsResponse
-	37, // [37:55] is the sub-list for method output_type
-	19, // [19:37] is the sub-list for method input_type
-	19, // [19:19] is the sub-list for extension type_name
-	19, // [19:19] is the sub-list for extension extendee
-	0,  // [0:19] is the sub-list for field type_name
+	13, // 5: server.ManufacturingPmiParticularsResponse.results:type_name -> server.ManufacturingPmiParticulars
+	15, // 6: server.CpiResponse.results:type_name -> server.Cpi
+	17, // 7: server.BondZhUsRateResponse.results:type_name -> server.BondZhUsRate
+	19, // 8: server.SocialFinancingFlowsResponse.results:type_name -> server.SocialFinancingFlow
+	21, // 9: server.SH300PEResponse.results:type_name -> server.SH300PE
+	23, // 10: server.MoneySupplyResponse.results:type_name -> server.MoneySupply
+	25, // 11: server.ConsumerGoodsRetailResponse.results:type_name -> server.ConsumerGoodsRetail
+	27, // 12: server.CxPmiResponse.results:type_name -> server.CxPmi
+	29, // 13: server.ValueAddedOfIndustrialProductionResponse.results:type_name -> server.ValueAddedOfIndustrialProduction
+	31, // 14: server.SocialElectricityConsumptionResponse.results:type_name -> server.SocialElectricityConsumption
+	33, // 15: server.PassengerAndFreightTrafficResponse.results:type_name -> server.PassengerAndFreightTraffic
+	0,  // 16: server.PassengerAndFreightTraffic.class:type_name -> server.CategoryOfTraffic
+	35, // 17: server.NewFinancialCreditResponse.results:type_name -> server.NewFinancialCredit
+	37, // 18: server.ForeignReserveAndGoldResponse.results:type_name -> server.ForeignReserveAndGold
+	39, // 19: server.InvestmentInFixedAssetsResponse.results:type_name -> server.InvestmentInFixedAssets
+	40, // 20: server.Greeter.GetSH300PE:input_type -> google.protobuf.Empty
+	40, // 21: server.Greeter.GetBondZhUsRate:input_type -> google.protobuf.Empty
+	40, // 22: server.Greeter.GetTotalSocialFlows:input_type -> google.protobuf.Empty
+	40, // 23: server.Greeter.GetSocialFinancingStock:input_type -> google.protobuf.Empty
+	1,  // 24: server.Greeter.GetFuturesForeignHist:input_type -> server.FturesFoewignRequest
+	40, // 25: server.Greeter.GetPpi:input_type -> google.protobuf.Empty
+	40, // 26: server.Greeter.GetGdp:input_type -> google.protobuf.Empty
+	40, // 27: server.Greeter.GetPmi:input_type -> google.protobuf.Empty
+	40, // 28: server.Greeter.GetManufacturingPmiParticulars:input_type -> google.protobuf.Empty
+	40, // 29: server.Greeter.GetCpi:input_type -> google.protobuf.Empty
+	40, // 30: server.Greeter.GetMoneySupply:input_type -> google.protobuf.Empty
+	40, // 31: server.Greeter.GetConsumerGoodsRetail:input_type -> google.protobuf.Empty
+	40, // 32: server.Greeter.GetCxPmi:input_type -> google.protobuf.Empty
+	40, // 33: server.Greeter.GetValueAddedOfIndustrialProduction:input_type -> google.protobuf.Empty
+	40, // 34: server.Greeter.GetSocialElectricityConsumption:input_type -> google.protobuf.Empty
+	40, // 35: server.Greeter.GetPassengerAndFreightTraffic:input_type -> google.protobuf.Empty
+	40, // 36: server.Greeter.GetNewFinancialCredit:input_type -> google.protobuf.Empty
+	40, // 37: server.Greeter.GetForeignReserveAndGold:input_type -> google.protobuf.Empty
+	40, // 38: server.Greeter.GetInvestmentInFixedAssets:input_type -> google.protobuf.Empty
+	20, // 39: server.Greeter.GetSH300PE:output_type -> server.SH300PEResponse
+	16, // 40: server.Greeter.GetBondZhUsRate:output_type -> server.BondZhUsRateResponse
+	18, // 41: server.Greeter.GetTotalSocialFlows:output_type -> server.SocialFinancingFlowsResponse
+	2,  // 42: server.Greeter.GetSocialFinancingStock:output_type -> server.SocialFinancingStockResponse
+	4,  // 43: server.Greeter.GetFuturesForeignHist:output_type -> server.FturesFoewignResponse
+	6,  // 44: server.Greeter.GetPpi:output_type -> server.PpiResponse
+	8,  // 45: server.Greeter.GetGdp:output_type -> server.GdpResponse
+	10, // 46: server.Greeter.GetPmi:output_type -> server.PmiResponse
+	12, // 47: server.Greeter.GetManufacturingPmiParticulars:output_type -> server.ManufacturingPmiParticularsResponse
+	14, // 48: server.Greeter.GetCpi:output_type -> server.CpiResponse
+	22, // 49: server.Greeter.GetMoneySupply:output_type -> server.MoneySupplyResponse
+	24, // 50: server.Greeter.GetConsumerGoodsRetail:output_type -> server.ConsumerGoodsRetailResponse
+	26, // 51: server.Greeter.GetCxPmi:output_type -> server.CxPmiResponse
+	28, // 52: server.Greeter.GetValueAddedOfIndustrialProduction:output_type -> server.ValueAddedOfIndustrialProductionResponse
+	30, // 53: server.Greeter.GetSocialElectricityConsumption:output_type -> server.SocialElectricityConsumptionResponse
+	32, // 54: server.Greeter.GetPassengerAndFreightTraffic:output_type -> server.PassengerAndFreightTrafficResponse
+	34, // 55: server.Greeter.GetNewFinancialCredit:output_type -> server.NewFinancialCreditResponse
+	36, // 56: server.Greeter.GetForeignReserveAndGold:output_type -> server.ForeignReserveAndGoldResponse
+	38, // 57: server.Greeter.GetInvestmentInFixedAssets:output_type -> server.InvestmentInFixedAssetsResponse
+	39, // [39:58] is the sub-list for method output_type
+	20, // [20:39] is the sub-list for method input_type
+	20, // [20:20] is the sub-list for extension type_name
+	20, // [20:20] is the sub-list for extension extendee
+	0,  // [0:20] is the sub-list for field type_name
 }
 
 func init() { file_server_server_proto_init() }
@@ -4052,7 +4304,7 @@ func file_server_server_proto_init() {
 			}
 		}
 		file_server_server_proto_msgTypes[11].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*CpiResponse); i {
+			switch v := v.(*ManufacturingPmiParticularsResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -4064,7 +4316,7 @@ func file_server_server_proto_init() {
 			}
 		}
 		file_server_server_proto_msgTypes[12].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*Cpi); i {
+			switch v := v.(*ManufacturingPmiParticulars); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -4076,7 +4328,7 @@ func file_server_server_proto_init() {
 			}
 		}
 		file_server_server_proto_msgTypes[13].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*BondZhUsRateResponse); i {
+			switch v := v.(*CpiResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -4088,7 +4340,7 @@ func file_server_server_proto_init() {
 			}
 		}
 		file_server_server_proto_msgTypes[14].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*BondZhUsRate); i {
+			switch v := v.(*Cpi); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -4100,7 +4352,7 @@ func file_server_server_proto_init() {
 			}
 		}
 		file_server_server_proto_msgTypes[15].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*SocialFinancingFlowsResponse); i {
+			switch v := v.(*BondZhUsRateResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -4112,7 +4364,7 @@ func file_server_server_proto_init() {
 			}
 		}
 		file_server_server_proto_msgTypes[16].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*SocialFinancingFlow); i {
+			switch v := v.(*BondZhUsRate); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -4124,7 +4376,7 @@ func file_server_server_proto_init() {
 			}
 		}
 		file_server_server_proto_msgTypes[17].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*SH300PEResponse); i {
+			switch v := v.(*SocialFinancingFlowsResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -4136,7 +4388,7 @@ func file_server_server_proto_init() {
 			}
 		}
 		file_server_server_proto_msgTypes[18].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*SH300PE); i {
+			switch v := v.(*SocialFinancingFlow); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -4148,7 +4400,7 @@ func file_server_server_proto_init() {
 			}
 		}
 		file_server_server_proto_msgTypes[19].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*MoneySupplyResponse); i {
+			switch v := v.(*SH300PEResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -4160,7 +4412,7 @@ func file_server_server_proto_init() {
 			}
 		}
 		file_server_server_proto_msgTypes[20].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*MoneySupply); i {
+			switch v := v.(*SH300PE); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -4172,7 +4424,7 @@ func file_server_server_proto_init() {
 			}
 		}
 		file_server_server_proto_msgTypes[21].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*ConsumerGoodsRetailResponse); i {
+			switch v := v.(*MoneySupplyResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -4184,7 +4436,7 @@ func file_server_server_proto_init() {
 			}
 		}
 		file_server_server_proto_msgTypes[22].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*ConsumerGoodsRetail); i {
+			switch v := v.(*MoneySupply); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -4196,7 +4448,7 @@ func file_server_server_proto_init() {
 			}
 		}
 		file_server_server_proto_msgTypes[23].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*CxPmiResponse); i {
+			switch v := v.(*ConsumerGoodsRetailResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -4208,7 +4460,7 @@ func file_server_server_proto_init() {
 			}
 		}
 		file_server_server_proto_msgTypes[24].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*CxPmi); i {
+			switch v := v.(*ConsumerGoodsRetail); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -4220,7 +4472,7 @@ func file_server_server_proto_init() {
 			}
 		}
 		file_server_server_proto_msgTypes[25].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*ValueAddedOfIndustrialProductionResponse); i {
+			switch v := v.(*CxPmiResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -4232,7 +4484,7 @@ func file_server_server_proto_init() {
 			}
 		}
 		file_server_server_proto_msgTypes[26].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*ValueAddedOfIndustrialProduction); i {
+			switch v := v.(*CxPmi); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -4244,7 +4496,7 @@ func file_server_server_proto_init() {
 			}
 		}
 		file_server_server_proto_msgTypes[27].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*SocialElectricityConsumptionResponse); i {
+			switch v := v.(*ValueAddedOfIndustrialProductionResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -4256,7 +4508,7 @@ func file_server_server_proto_init() {
 			}
 		}
 		file_server_server_proto_msgTypes[28].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*SocialElectricityConsumption); i {
+			switch v := v.(*ValueAddedOfIndustrialProduction); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -4268,7 +4520,7 @@ func file_server_server_proto_init() {
 			}
 		}
 		file_server_server_proto_msgTypes[29].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*PassengerAndFreightTrafficResponse); i {
+			switch v := v.(*SocialElectricityConsumptionResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -4280,7 +4532,7 @@ func file_server_server_proto_init() {
 			}
 		}
 		file_server_server_proto_msgTypes[30].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*PassengerAndFreightTraffic); i {
+			switch v := v.(*SocialElectricityConsumption); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -4292,7 +4544,7 @@ func file_server_server_proto_init() {
 			}
 		}
 		file_server_server_proto_msgTypes[31].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*NewFinancialCreditResponse); i {
+			switch v := v.(*PassengerAndFreightTrafficResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -4304,7 +4556,7 @@ func file_server_server_proto_init() {
 			}
 		}
 		file_server_server_proto_msgTypes[32].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*NewFinancialCredit); i {
+			switch v := v.(*PassengerAndFreightTraffic); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -4316,7 +4568,7 @@ func file_server_server_proto_init() {
 			}
 		}
 		file_server_server_proto_msgTypes[33].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*ForeignReserveAndGoldResponse); i {
+			switch v := v.(*NewFinancialCreditResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -4328,7 +4580,7 @@ func file_server_server_proto_init() {
 			}
 		}
 		file_server_server_proto_msgTypes[34].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*ForeignReserveAndGold); i {
+			switch v := v.(*NewFinancialCredit); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -4340,7 +4592,7 @@ func file_server_server_proto_init() {
 			}
 		}
 		file_server_server_proto_msgTypes[35].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*InvestmentInFixedAssetsResponse); i {
+			switch v := v.(*ForeignReserveAndGoldResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -4352,6 +4604,30 @@ func file_server_server_proto_init() {
 			}
 		}
 		file_server_server_proto_msgTypes[36].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ForeignReserveAndGold); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_server_server_proto_msgTypes[37].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*InvestmentInFixedAssetsResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_server_server_proto_msgTypes[38].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*InvestmentInFixedAssets); i {
 			case 0:
 				return &v.state
@@ -4370,7 +4646,7 @@ func file_server_server_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_server_server_proto_rawDesc,
 			NumEnums:      1,
-			NumMessages:   37,
+			NumMessages:   39,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

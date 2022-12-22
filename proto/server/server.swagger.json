@@ -88,6 +88,29 @@
         ]
       }
     },
+    "/v1/macroscopic/cn/manufacturing_pmi_particulars": {
+      "get": {
+        "summary": "制造业PMI详情",
+        "operationId": "Greeter_GetManufacturingPmiParticulars",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/serverManufacturingPmiParticularsResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "tags": [
+          "Greeter"
+        ]
+      }
+    },
     "/v1/macroscopic/cn/money_supply": {
       "get": {
         "summary": "货币供应",
@@ -932,6 +955,73 @@
         }
       },
       "title": "固定资产投资"
+    },
+    "serverManufacturingPmiParticulars": {
+      "type": "object",
+      "properties": {
+        "date": {
+          "type": "string"
+        },
+        "pmi": {
+          "type": "string"
+        },
+        "productionIndex": {
+          "type": "string",
+          "title": "生产指数"
+        },
+        "indexOfNewOrders": {
+          "type": "string",
+          "title": "新订单指数"
+        },
+        "indexOfNewExportOrders": {
+          "type": "string",
+          "title": "新出口订单指数"
+        },
+        "backlogIndex": {
+          "type": "string",
+          "title": "积压订单指数"
+        },
+        "indexOfInventoriesOfFinishedGoods": {
+          "type": "string",
+          "title": "产成品库存指数"
+        },
+        "purchasingVolumeIndex": {
+          "type": "string",
+          "title": "采购量指数"
+        },
+        "importIndex": {
+          "type": "string",
+          "title": "进口指数"
+        },
+        "purchasingPriceIndex": {
+          "type": "string",
+          "title": "购进价格指数"
+        },
+        "inventoryIndexOfRawMaterials": {
+          "type": "string",
+          "title": "原材料库存指数"
+        },
+        "employeeIndex": {
+          "type": "string",
+          "title": "从业人员指数"
+        },
+        "supplierDeliveryTimeIndex": {
+          "type": "string",
+          "title": "供应商配送时间指数"
+        }
+      },
+      "title": "制造业PMI详情"
+    },
+    "serverManufacturingPmiParticularsResponse": {
+      "type": "object",
+      "properties": {
+        "results": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/serverManufacturingPmiParticulars"
+          }
+        }
+      }
     },
     "serverMoneySupply": {
       "type": "object",

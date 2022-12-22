@@ -1120,3 +1120,57 @@ func CentralBankMonetaryAuthorityAssetsAndLiabilities(num string) ([]*model.Cent
 	}
 	return result, nil
 }
+
+// 制造业PMI详情
+func ManufacturingPmiParticulars(num string) ([]*model.ManufacturingPmiParticulars, error) {
+	result := []*model.ManufacturingPmiParticulars{}
+	t := time.Now().UnixMilli()
+	st := strconv.FormatInt(t, 10)
+	resp, err := Client.R().
+		SetQueryParams(map[string]string{
+			"cate":      "boom",
+			"event":     "5",
+			"from":      "0",
+			"num":       num,
+			"condition": "",
+			"_":         st,
+		}).
+		Get("https://quotes.sina.cn/mac/api/jsonp_v3.php/SINAREMOTECALLCALLBACK1671711744769/MacPage_Service.get_pagedata")
+	if err != nil {
+		return result, err
+	}
+	byBody := resp.Body()
+	b := byBody[bytes.LastIndexAny(byBody, "data:")+1 : bytes.LastIndexAny(byBody, "}")]
+	strList := make([][]string, 0)
+	err = json.Unmarshal([]byte(b), &strList)
+	if err != nil {
+		return result, nil
+	}
+	for _, v := range strList {
+		m := model.ManufacturingPmiParticulars{}
+		ivalue := reflect.ValueOf(&m).Elem()
+		for i, v := range v {
+			if i == 0 {
+				elem := ivalue.Field(0)
+				var ti time.Time
+				if len(v) == 7 {
+					ti, err = time.Parse("2006.01", v)
+					if err != nil {
+						log.Println(err)
+					}
+				} else {
+					ti, err = time.Parse("2006.1", v)
+					if err != nil {
+						log.Println(err)
+					}
+				}
+				elem.SetString(ti.Format(utils.DATE_FORMAT))
+				continue
+			}
+			elem := ivalue.Field(i)
+			elem.SetString(strings.TrimSpace(v))
+		}
+		result = append(result, &m)
+	}
+	return result, nil
+}

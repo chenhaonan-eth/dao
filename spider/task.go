@@ -27,6 +27,7 @@ func StartTask() {
 		CollyForeignReserveAndGold()
 		CollyInvestmentInFixedAssets()
 		CollyCentralBankMonetaryAuthorityAssetsAndLiabilities()
+		CollyManufacturingPmiParticulars()
 	}
 
 	FuturesForeignTask := func() {
@@ -51,9 +52,9 @@ func StartTask() {
 		CollyCXPMI()
 	})
 	//每月15-30日上午10:00触发
-	crontab.AddFunc("0 10 15-30 * *", task)
+	crontab.AddFunc("45 14 15-30 * *", task)
 	// 每日9点
-	crontab.AddFunc("0 9 * * *", FuturesForeignTask)
+	crontab.AddFunc("42 14 * * *", FuturesForeignTask)
 	//1月、4月、7月、10月17日-19 9点半
 	crontab.AddFunc("0 9 17-19 1,4,7,10 *", func() {
 		defer func() {
